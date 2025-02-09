@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Tag Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            background-color: #fff;
+        }
+        .success-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: #fff;
+            box-shadow: none;
+        }
+        .success-icon {
+            color: #83A764;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .success-message {
+            font-family: Verdana, sans-serif;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h1 class="success-message">Payment Successful!</h1>
+        <p>Thank you for your order. A tax receipt will be emailed to you shortly. We'll also reach out to you soon to discuss your artwork.</p>
+    </div>
+
+    <script>
+        // Get the session ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+
+        // No need to verify the payment status anymore since we're not showing it
+        if (sessionId) {
+            console.log('Payment completed with session ID:', sessionId);
+        }
+    </script>
+</body>
+</html> 
