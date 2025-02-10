@@ -23,26 +23,26 @@ const transporter = nodemailer.createTransport({
 async function sendEmailWithTemplate(options) {
     const apiUrl = 'https://api.smtp2go.com/v3/email/send';
     
+    // Ensure recipients is an array and not empty
+    const recipients = Array.isArray(options.recipients) ? options.recipients : [options.recipients];
+    if (recipients.length === 0) {
+        throw new Error('No recipients specified');
+    }
+
     const payload = {
         api_key: process.env.SMTP2GO_API_KEY,
         template_id: options.template_id,
         template_data: options.template_data,
-        to: options.recipients.map(email => ({ email: email })),
+        to: recipients.map(email => email),
         sender: `${process.env.SMTP2GO_FROM_NAME} <${process.env.SMTP2GO_FROM_EMAIL}>`,
-        subject: options.template_id.includes('QUOTE') ? 'Your Terra Tag Quote' : 'Your Terra Tag Order Confirmation',
-        custom_headers: [
-            {
-                header: "Content-Type",
-                value: "application/json"
-            }
-        ]
+        subject: options.template_id.includes('QUOTE') ? 'Your Terra Tag Quote' : 'Your Terra Tag Order Confirmation'
     };
 
     // Log the full payload for debugging
     console.log('Full SMTP2GO payload:', JSON.stringify(payload, null, 2));
 
     if (options.bcc && options.bcc.length > 0) {
-        payload.bcc = options.bcc.map(email => ({ email: email }));
+        payload.bcc = options.bcc;
     }
 
     if (options.attachments && options.attachments.length > 0) {
@@ -61,14 +61,17 @@ async function sendEmailWithTemplate(options) {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(payload)
         });
 
+        const responseData = await response.json();
+        console.log('SMTP2GO API Raw Response:', responseData);
+
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('SMTP2GO API Response:', errorData);
+            console.error('SMTP2GO API Response:', responseData);
             console.error('Environment variables:', {
                 SMTP2GO_API_KEY: process.env.SMTP2GO_API_KEY ? 'Present' : 'Missing',
                 SMTP2GO_ORDER_TEMPLATE_ID: process.env.SMTP2GO_ORDER_TEMPLATE_ID,
@@ -76,12 +79,11 @@ async function sendEmailWithTemplate(options) {
                 SMTP2GO_FROM_NAME: process.env.SMTP2GO_FROM_NAME,
                 SMTP2GO_FROM_EMAIL: process.env.SMTP2GO_FROM_EMAIL
             });
-            throw new Error(`SMTP2GO API error: ${JSON.stringify(errorData)}`);
+            throw new Error(`SMTP2GO API error: ${JSON.stringify(responseData)}`);
         }
 
-        const result = await response.json();
-        console.log('SMTP2GO API Success Response:', result);
-        return result;
+        console.log('SMTP2GO API Success Response:', responseData);
+        return responseData;
     } catch (error) {
         console.error('Error sending email via SMTP2GO API:', error);
         throw error;
