@@ -28,10 +28,7 @@ async function sendEmailWithTemplate(options) {
         template_id: options.template_id,
         template_data: options.template_data,
         to: options.recipients.map(email => ({ email: email })),
-        sender: {
-            name: process.env.SMTP2GO_FROM_NAME,
-            email: process.env.SMTP2GO_FROM_EMAIL
-        },
+        sender: `${process.env.SMTP2GO_FROM_NAME} <${process.env.SMTP2GO_FROM_EMAIL}>`,
         subject: options.template_id.includes('QUOTE') ? 'Your Terra Tag Quote' : 'Your Terra Tag Order Confirmation',
         custom_headers: [
             {
@@ -40,6 +37,9 @@ async function sendEmailWithTemplate(options) {
             }
         ]
     };
+
+    // Log the full payload for debugging
+    console.log('Full SMTP2GO payload:', JSON.stringify(payload, null, 2));
 
     if (options.bcc && options.bcc.length > 0) {
         payload.bcc = options.bcc.map(email => ({ email: email }));
