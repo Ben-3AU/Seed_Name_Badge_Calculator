@@ -63,7 +63,7 @@ app.post('/submit-quote', async (req, res) => {
         
         // Try to find existing quote
         const { data: existingQuotes, error: fetchError } = await supabase
-            .from('quotes')
+            .from('seed_name_badge_quotes')
             .select('*')
             .eq('email', quoteData.email)
             .eq('first_name', quoteData.first_name)
@@ -80,7 +80,7 @@ app.post('/submit-quote', async (req, res) => {
             // Update existing quote
             console.log('Updating existing quote');
             const { data, error: updateError } = await supabase
-                .from('quotes')
+                .from('seed_name_badge_quotes')
                 .update({
                     ...quoteData,
                     email_sent: false
@@ -95,7 +95,7 @@ app.post('/submit-quote', async (req, res) => {
             // Insert new quote
             console.log('Creating new quote');
             const { data, error: insertError } = await supabase
-                .from('quotes')
+                .from('seed_name_badge_quotes')
                 .insert([{
                     ...quoteData,
                     email_sent: false
@@ -117,7 +117,7 @@ app.post('/submit-quote', async (req, res) => {
 
             // Update quote record to mark email as sent
             const { error: updateError } = await supabase
-                .from('quotes')
+                .from('seed_name_badge_quotes')
                 .update({ email_sent: true })
                 .eq('id', savedQuote.id);
 
@@ -161,7 +161,7 @@ app.post('/create-payment-intent', async (req, res) => {
 
         // First create the order in Supabase
         const { data: order, error: orderError } = await supabase
-            .from('orders')
+            .from('seed_name_badge_orders')
             .insert([{
                 quantity_with_guests: orderData.quantity_with_guests,
                 quantity_without_guests: orderData.quantity_without_guests,
@@ -233,7 +233,7 @@ app.post('/verify-payment', async (req, res) => {
                 // Step 1: First verify the order exists
                 console.log('Verifying order exists...');
                 const { data: existingOrder, error: fetchError } = await supabase
-                    .from('orders')
+                    .from('seed_name_badge_orders')
                     .select('*')
                     .eq('id', orderId)
                     .single();
@@ -256,7 +256,7 @@ app.post('/verify-payment', async (req, res) => {
 
                 // Perform simple update
                 const { data: updateResult, error: updateError } = await supabase
-                    .from('orders')
+                    .from('seed_name_badge_orders')
                     .update(updateData)
                     .eq('id', orderId)
                     .eq('payment_status', 'pending')  // Only update if status is pending
@@ -278,7 +278,7 @@ app.post('/verify-payment', async (req, res) => {
                     
                     // Double check if order exists and its current state
                     const { data: checkOrder, error: checkError } = await supabase
-                        .from('orders')
+                        .from('seed_name_badge_orders')
                         .select('*')
                         .eq('id', orderId)
                         .single();
@@ -290,7 +290,7 @@ app.post('/verify-payment', async (req, res) => {
                         console.log('Current order state:', checkOrder);
                         // Try one more time with a different approach
                         const { data: retryResult, error: retryError } = await supabase
-                            .from('orders')
+                            .from('seed_name_badge_orders')
                             .update(updateData)
                             .match({ id: orderId })
                             .select();
@@ -317,7 +317,7 @@ app.post('/verify-payment', async (req, res) => {
                 // Step 5: Update email and PDF status
                 console.log('Updating email status...');
                 await supabase
-                    .from('orders')
+                    .from('seed_name_badge_orders')
                     .update({
                         email_sent: true,
                         pdf_url: `${orderId}.pdf`
@@ -354,7 +354,7 @@ app.get('/get-order/:orderId', async (req, res) => {
         const { orderId } = req.params;
         
         const { data: order, error } = await supabase
-            .from('orders')
+            .from('seed_name_badge_orders')
             .select('*')
             .eq('id', orderId)
             .single();

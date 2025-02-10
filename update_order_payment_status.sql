@@ -8,7 +8,7 @@ DECLARE
     rows_affected INTEGER;
 BEGIN
     -- Try to update the order with minimal conditions
-    UPDATE "orders"
+    UPDATE "seed_name_badge_orders"
     SET 
         payment_status = 'paid',
         stripe_payment_id = payment_id,

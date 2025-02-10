@@ -213,7 +213,7 @@ async function saveQuote(quoteData) {
         const { created_at, ...quoteDataWithoutTimestamp } = quoteData;
         
         const { data, error } = await supabase
-            .from('quotes')
+            .from('seed_name_badge_quotes')
             .insert([quoteDataWithoutTimestamp]);
 
         if (error) {
@@ -294,7 +294,7 @@ async function handleQuoteSubmission(event) {
         
         // Try to insert the quote without created_at
         let { data: savedQuote, error: insertError } = await supabase
-            .from('quotes')
+            .from('seed_name_badge_quotes')
             .insert([quoteDataWithoutTimestamp])
             .select()
             .single();
@@ -303,7 +303,7 @@ async function handleQuoteSubmission(event) {
         if (insertError && insertError.code === '23505') {
             console.log('Quote exists, attempting update...');
             const { data: existingQuotes, error: fetchError } = await supabase
-                .from('quotes')
+                .from('seed_name_badge_quotes')
                 .select('id')
                 .eq('email', quoteData.email)
                 .eq('first_name', quoteData.first_name)
@@ -314,7 +314,7 @@ async function handleQuoteSubmission(event) {
             
             if (existingQuotes && existingQuotes.length > 0) {
                 const { data: updatedQuote, error: updateError } = await supabase
-                    .from('quotes')
+                    .from('seed_name_badge_quotes')
                     .update(quoteDataWithoutTimestamp)
                     .eq('id', existingQuotes[0].id)
                     .select()
