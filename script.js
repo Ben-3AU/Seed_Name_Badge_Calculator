@@ -334,7 +334,7 @@ async function handleQuoteSubmission(event) {
         console.log('Quote saved to Supabase:', savedQuote);
 
         // Submit for email processing
-        const response = await fetch('http://localhost:3000/submit-quote', {
+        const response = await fetch('/api/submit-quote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -395,7 +395,7 @@ async function handleOrderSubmission(event) {
         payNowBtn.disabled = true;
         
         // Create a payment intent
-        const response = await fetch('http://localhost:3000/create-payment-intent', {
+        const response = await fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -411,8 +411,8 @@ async function handleOrderSubmission(event) {
         const result = await response.json();
         console.log('Payment intent created:', result);
 
-        // Redirect to custom payment page
-        window.location.href = `http://localhost:3000${result.url}`;
+        // Redirect to payment page
+        window.location.href = result.url;
     } catch (error) {
         console.error('Error processing order:', error);
         const payNowBtn = document.getElementById('payNowBtn');

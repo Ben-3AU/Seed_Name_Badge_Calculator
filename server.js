@@ -34,7 +34,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://localhost:3000'],
+    origin: ['https://seed-name-badge-calculator.vercel.app', process.env.CLIENT_URL].filter(Boolean),
     credentials: true
 }));
 
@@ -56,7 +56,7 @@ app.get('/test-stripe', async (req, res) => {
 });
 
 // Handle quote email submission
-app.post('/submit-quote', async (req, res) => {
+app.post('/api/submit-quote', async (req, res) => {
     try {
         const quoteData = req.body;
         console.log('Received quote data:', quoteData);
@@ -150,7 +150,7 @@ app.post('/submit-quote', async (req, res) => {
 });
 
 // Create a Payment Intent
-app.post('/create-payment-intent', async (req, res) => {
+app.post('/api/create-payment-intent', async (req, res) => {
     try {
         const { orderData } = req.body;
         console.log('Received order data:', orderData);
@@ -217,7 +217,7 @@ app.post('/create-payment-intent', async (req, res) => {
 });
 
 // Verify the payment status and send confirmation
-app.post('/verify-payment', async (req, res) => {
+app.post('/api/verify-payment', async (req, res) => {
     try {
         const { paymentIntentId, orderId } = req.body;
         console.log('Verifying payment for order:', orderId, 'with payment intent:', paymentIntentId);
@@ -349,7 +349,7 @@ app.post('/verify-payment', async (req, res) => {
 });
 
 // Get order details
-app.get('/get-order/:orderId', async (req, res) => {
+app.get('/api/get-order/:orderId', async (req, res) => {
     try {
         const { orderId } = req.params;
         
@@ -437,4 +437,7 @@ app.get('/test-pdf', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-}); 
+});
+
+// Export the Express API
+module.exports = app; 

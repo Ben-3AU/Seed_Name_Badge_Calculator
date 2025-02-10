@@ -4,12 +4,56 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "assets/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "server.js"
+    },
+    {
+      "src": "^/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "^/payment.html",
+      "dest": "/payment.html"
+    },
+    {
+      "src": "^/success.html",
+      "dest": "/success.html"
+    },
+    {
+      "src": "^/script.js",
+      "dest": "/script.js"
+    },
+    {
+      "src": "^/styles.css",
+      "dest": "/styles.css"
+    },
+    {
+      "src": "^/emailService.js",
+      "dest": "/emailService.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 } 

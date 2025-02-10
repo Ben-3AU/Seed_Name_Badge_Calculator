@@ -170,7 +170,7 @@
         // Fetch order details
         async function fetchOrderDetails() {
             try {
-                const response = await fetch(`/get-order/${orderId}`);
+                const response = await fetch(`/api/get-order/${orderId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch order details');
                 }
@@ -292,7 +292,7 @@
 
             if (paymentIntent.status === 'succeeded') {
                 // Verify payment and trigger confirmation email
-                const response = await fetch('/verify-payment', {
+                const response = await fetch('/api/verify-payment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
