@@ -27,18 +27,34 @@ async function sendEmailWithTemplate(options) {
         api_key: process.env.SMTP2GO_API_KEY,
         template_id: options.template_id,
         template_data: options.template_data,
-        sender: options.sender,
-        to: options.recipients,
-        bcc: options.bcc || [],
-        attachments: options.attachments || []
+        to: options.recipients.map(email => ({ email: email })),
+        sender: {
+            name: process.env.SMTP2GO_FROM_NAME,
+            email: process.env.SMTP2GO_FROM_EMAIL
+        },
+        subject: options.template_id.includes('QUOTE') ? 'Your Terra Tag Quote' : 'Your Terra Tag Order Confirmation',
+        custom_headers: [
+            {
+                header: "Content-Type",
+                value: "application/json"
+            }
+        ]
     };
+
+    if (options.bcc && options.bcc.length > 0) {
+        payload.bcc = options.bcc.map(email => ({ email: email }));
+    }
+
+    if (options.attachments && options.attachments.length > 0) {
+        payload.attachments = options.attachments;
+    }
 
     console.log('SMTP2GO Request payload:', {
         template_id: payload.template_id,
         sender: payload.sender,
         to: payload.to,
         template_data_keys: Object.keys(payload.template_data),
-        has_attachments: payload.attachments.length > 0
+        has_attachments: payload.attachments ? payload.attachments.length > 0 : false
     });
 
     try {
@@ -63,7 +79,9 @@ async function sendEmailWithTemplate(options) {
             throw new Error(`SMTP2GO API error: ${JSON.stringify(errorData)}`);
         }
 
-        return await response.json();
+        const result = await response.json();
+        console.log('SMTP2GO API Success Response:', result);
+        return result;
     } catch (error) {
         console.error('Error sending email via SMTP2GO API:', error);
         throw error;
@@ -78,7 +96,7 @@ async function sendQuoteEmail(quoteData) {
 
         const templateData = {
             id: String(quoteData.id),
-            created_at: new Date(quoteData.created_at).toLocaleString('en-AU', {
+            created_at: new Date(quoteData.created_at || Date.now()).toLocaleString('en-AU', {
                 timeZone: 'Australia/Brisbane',
                 year: 'numeric',
                 month: 'long',
@@ -104,7 +122,6 @@ async function sendQuoteEmail(quoteData) {
         const response = await sendEmailWithTemplate({
             template_id: process.env.SMTP2GO_QUOTE_TEMPLATE_ID,
             template_data: templateData,
-            sender: `${process.env.SMTP2GO_FROM_NAME} <${process.env.SMTP2GO_FROM_EMAIL}>`,
             recipients: [quoteData.email],
             bcc: ['hello@terratag.com.au']
         });
@@ -347,7 +364,6 @@ async function sendOrderConfirmationEmail(orderData) {
         const response = await sendEmailWithTemplate({
             template_id: process.env.SMTP2GO_ORDER_TEMPLATE_ID,
             template_data: templateData,
-            sender: `${process.env.SMTP2GO_FROM_NAME} <${process.env.SMTP2GO_FROM_EMAIL}>`,
             recipients: [orderData.email],
             bcc: ['hello@terratag.com.au'],
             attachments: [{
