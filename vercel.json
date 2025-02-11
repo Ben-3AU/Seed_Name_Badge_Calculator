@@ -24,40 +24,24 @@
   ],
   "routes": [
     {
-      "src": "/config",
-      "dest": "server.js"
+      "src": "/webhook",
+      "methods": ["POST"],
+      "dest": "server.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
     },
     {
       "src": "/api/(.*)",
       "dest": "server.js"
     },
     {
-      "src": "^/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "^/payment.html",
-      "dest": "/payment.html"
-    },
-    {
-      "src": "^/success.html",
-      "dest": "/success.html"
-    },
-    {
-      "src": "^/script.js",
-      "dest": "/script.js"
-    },
-    {
-      "src": "^/styles.css",
-      "dest": "/styles.css"
-    },
-    {
-      "src": "^/emailService.js",
-      "dest": "/emailService.js"
+      "src": "/config",
+      "dest": "server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/$1"
     }
   ]
 } 

@@ -91,18 +91,47 @@
         }
 
         .order-summary li {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 8px;
             color: #1b4c57;
         }
 
-        .order-summary li strong {
-            display: inline-block;
-            min-width: 120px;
+        .order-summary li span:first-child {
+            font-weight: normal;
+        }
+
+        .order-summary li span:last-child {
+            text-align: left;
+            flex: 1;
+            margin-left: 24px;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            color: #1b4c57;
+            text-decoration: none;
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .back-arrow {
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="/" class="back-link">
+            <span class="back-arrow">←</span>
+            Cancel
+        </a>
+        
         <div class="order-details">
             <h2>Order Summary</h2>
             <ul id="order-summary" class="order-summary">
@@ -173,18 +202,18 @@
                 // Create order summary
                 const orderSummary = document.querySelector('#order-summary');
                 orderSummary.innerHTML = `
-                    <li><strong>Name:</strong> ${orderData.order_details.first_name} ${orderData.order_details.last_name}</li>
-                    <li><strong>Company:</strong> ${orderData.order_details.company}</li>
-                    <li><strong>Email:</strong> ${orderData.order_details.email}</li>
-                    <li><strong>Quantity with guest details printed:</strong> ${orderData.order_details.quantity_with_guests}</li>
-                    <li><strong>Quantity without guest details printed:</strong> ${orderData.order_details.quantity_without_guests}</li>
-                    <li><strong>Total quantity:</strong> ${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</li>
-                    <li><strong>Size:</strong> ${orderData.order_details.size}</li>
-                    <li><strong>Printed sides:</strong> ${orderData.order_details.printed_sides}</li>
-                    <li><strong>Ink coverage:</strong> ${orderData.order_details.ink_coverage}</li>
-                    <li><strong>Lanyards:</strong> ${orderData.order_details.lanyards ? 'Yes' : 'No'}</li>
-                    <li><strong>Shipping:</strong> ${orderData.order_details.shipping}</li>
-                    <li><strong>Paper type:</strong> ${orderData.order_details.paper_type}</li>
+                    <li><span>Name</span><span>${orderData.order_details.first_name} ${orderData.order_details.last_name}</span></li>
+                    <li><span>Company</span><span>${orderData.order_details.company}</span></li>
+                    <li><span>Email</span><span>${orderData.order_details.email}</span></li>
+                    <li><span>Quantity with guest details printed</span><span>${orderData.order_details.quantity_with_guests}</span></li>
+                    <li><span>Quantity without guest details printed</span><span>${orderData.order_details.quantity_without_guests}</span></li>
+                    <li><span>Total quantity</span><span>${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</span></li>
+                    <li><span>Size</span><span>${orderData.order_details.size}</span></li>
+                    <li><span>Printed sides</span><span>${orderData.order_details.printed_sides}</span></li>
+                    <li><span>Ink coverage</span><span>${orderData.order_details.ink_coverage}</span></li>
+                    <li><span>Lanyards</span><span>${orderData.order_details.lanyards ? 'Yes' : 'No'}</span></li>
+                    <li><span>Shipping</span><span>${orderData.order_details.shipping}</span></li>
+                    <li><span>Paper type</span><span>${orderData.order_details.paper_type}</span></li>
                 `;
                 
                 // Initialize Stripe Elements
@@ -204,7 +233,14 @@
                     }
                 });
                 
-                paymentElement = elements.create('payment');
+                // Create and mount the Payment Element with billing details
+                paymentElement = elements.create('payment', {
+                    fields: {
+                        billingDetails: {
+                            name: 'required'
+                        }
+                    }
+                });
                 paymentElement.mount('#payment-element');
                 
                 // Handle loading errors

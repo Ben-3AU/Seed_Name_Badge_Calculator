@@ -522,6 +522,91 @@ app.get('/api/order/:orderId', async (req, res) => {
     }
 });
 
+// Stripe webhook endpoint
+app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+    let event;
+    
+    try {
+        const signature = req.headers['stripe-signature'];
+        
+        try {
+            event = stripe.webhooks.constructEvent(
+                req.body,
+                signature,
+                process.env.STRIPE_WEBHOOK_SECRET
+            );
+        } catch (err) {
+            console.error('Webhook signature verification failed:', err.message);
+            return res.status(400).send(`Webhook Error: ${err.message}`);
+        }
+        
+        console.log('Received Stripe webhook event:', event.type);
+        
+        if (event.type === 'payment_intent.succeeded') {
+            const paymentIntent = event.data.object;
+            console.log('Payment succeeded:', paymentIntent.id);
+            
+            try {
+                // Get the order ID from the payment intent metadata
+                const orderId = paymentIntent.metadata.order_id;
+                if (!orderId) {
+                    throw new Error('No order ID in payment intent metadata');
+                }
+                
+                console.log('Updating order status for order:', orderId);
+                
+                // Update the order status
+                const { data: order, error: updateError } = await supabase
+                    .from('seed_name_badge_orders')
+                    .update({
+                        payment_status: 'completed',
+                        stripe_payment_id: paymentIntent.id
+                    })
+                    .eq('id', orderId)
+                    .select()
+                    .single();
+                
+                if (updateError) {
+                    throw new Error(`Failed to update order status: ${updateError.message}`);
+                }
+                
+                console.log('Order status updated:', order);
+                
+                // Generate and send confirmation email
+                try {
+                    console.log('Sending confirmation email...');
+                    await sendOrderConfirmationEmail(order);
+                    
+                    // Update email sent status
+                    const { error: emailUpdateError } = await supabase
+                        .from('seed_name_badge_orders')
+                        .update({
+                            email_sent: true,
+                            pdf_url: `${orderId}.pdf`
+                        })
+                        .eq('id', orderId);
+                    
+                    if (emailUpdateError) {
+                        console.error('Failed to update email status:', emailUpdateError);
+                    }
+                    
+                    console.log('Confirmation email sent and status updated');
+                } catch (emailError) {
+                    console.error('Error sending confirmation email:', emailError);
+                }
+            } catch (error) {
+                console.error('Error processing payment success:', error);
+                return res.status(500).send(`Webhook processing error: ${error.message}`);
+            }
+        }
+        
+        res.json({received: true});
+    } catch (err) {
+        console.error('Webhook error:', err);
+        res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
