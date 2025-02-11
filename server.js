@@ -206,8 +206,23 @@ app.post('/api/create-payment-intent', async (req, res) => {
             },
         });
 
+        console.log('Payment intent created:', {
+            id: paymentIntent.id,
+            client_secret: paymentIntent.client_secret ? 'present' : 'missing'
+        });
+
+        // Update order with payment intent ID
+        const { error: updateError } = await supabase
+            .from('seed_name_badge_orders')
+            .update({ stripe_payment_id: paymentIntent.id })
+            .eq('id', order.id);
+
+        if (updateError) {
+            console.error('Error updating order with payment intent:', updateError);
+        }
+
         // Redirect URL with payment intent client secret and order ID
-        const redirectUrl = `/payment.html?payment_intent=${paymentIntent.client_secret}&order_id=${order.id}`;
+        const redirectUrl = `/payment.html?payment_intent_client_secret=${paymentIntent.client_secret}&order_id=${order.id}`;
         
         res.json({ url: redirectUrl });
     } catch (error) {

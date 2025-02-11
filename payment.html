@@ -164,15 +164,18 @@
     <script>
         // Get order details from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const clientSecret = urlParams.get('payment_intent');
+        const clientSecret = urlParams.get('payment_intent_client_secret');
         const orderId = urlParams.get('order_id');
 
         if (!clientSecret) {
             const errorMessage = document.getElementById('error-message');
             errorMessage.textContent = 'Missing payment information. Please try again or contact support.';
             document.getElementById('payment-form').style.display = 'none';
+            console.error('No client secret found in URL parameters:', urlParams.toString());
             throw new Error('No client secret provided');
         }
+
+        console.log('Initializing payment form with client secret present');
 
         // Fetch order details
         async function fetchOrderDetails() {
@@ -222,9 +225,12 @@
         }
 
         // Initialize Stripe and fetch order details
-        const stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb');
+        const stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb', {
+            betas: ['elements_enable_deferred_intent_beta_1']
+        });
+
         const elements = stripe.elements({
-            clientSecret: clientSecret,
+            clientSecret,
             appearance: {
                 theme: 'stripe',
                 variables: {
@@ -236,7 +242,6 @@
         // Create and mount the Payment Element
         const paymentElement = elements.create('payment', {
             layout: 'tabs',
-            paymentMethodOrder: ['card', 'apple_pay', 'google_pay'],
             defaultValues: {
                 billingDetails: {
                     name: '',
@@ -248,7 +253,11 @@
         paymentElement.on('loaderror', function(event) {
             console.error('Payment Element loading error:', event);
             const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = 'There was an error loading the payment form. Please refresh the page or try again later.';
+            if (event.error && event.error.message) {
+                errorMessage.textContent = event.error.message;
+            } else {
+                errorMessage.textContent = 'There was an error loading the payment form. Please refresh the page or try again later.';
+            }
         });
 
         paymentElement.mount('#payment-element');
