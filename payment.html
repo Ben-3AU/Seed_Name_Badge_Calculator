@@ -3,321 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay for Order - TerraTags</title>
-    <link rel="icon" href="data:,">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Payment - Terra Tag</title>
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         body {
-            font-family: Verdana, sans-serif;
-            line-height: 1.5;
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             padding: 20px;
-            background-color: #fff;
-        }
-        .container {
             max-width: 600px;
             margin: 0 auto;
-            background: #fff;
-            padding: 2rem;
+            background-color: #f7f7f7;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .header {
-            margin-bottom: 2rem;
-        }
-        .order-details {
-            margin: 1rem 0 2rem;
-            padding: 1.25rem;
-            background: #f8f9fa;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        .amount {
-            font-size: 2rem;
-            font-weight: 600;
+        
+        h1 {
             color: #1b4c57;
-            margin: 0;
+            margin-bottom: 20px;
         }
-        .description {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        .order-specs {
-            color: #666;
-            margin: 0;
-            list-style-type: disc;
-            padding-left: 1.5rem;
-        }
-        .order-specs li {
-            margin-bottom: 0.5rem;
-        }
-        .order-specs li:last-child {
-            margin-bottom: 0;
-        }
-        .customer-details {
-            font-size: 0.9rem;
-            color: #666;
-            border-top: 1px solid #ddd;
-            margin: 0;
-            padding-top: 0.75rem;
-        }
-        .detail-row {
-            margin-bottom: 0.25rem;
-        }
+        
         #payment-form {
-            margin-top: 2rem;
+            display: none;
         }
-        .cardholder-field {
-            margin-bottom: 1rem;
-            padding: 0 1px;  /* Match Stripe's padding */
-        }
-        .cardholder-field label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #1b4c57;
-            font-size: 0.9375rem;
-            font-weight: 500;
-        }
-        .cardholder-field input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 1rem;
-            color: #1b4c57;
-            box-sizing: border-box;
-        }
-        .cardholder-field input:focus {
-            outline: none;
-            border-color: #1b4c57;
-            box-shadow: 0 0 0 3px rgba(27, 76, 87, 0.1);
-        }
+        
         #payment-element {
             margin-bottom: 24px;
         }
-        #submit-button {
-            background: #1b4c57;
+        
+        #submit {
+            background-color: #1b4c57;
             color: white;
             border: none;
-            padding: 12px 16px;
+            padding: 12px 24px;
             border-radius: 4px;
-            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
             width: 100%;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.2s;
         }
-        #submit-button:hover {
-            background: #2a6f7f;
+        
+        #submit:hover {
+            background-color: #2c6d7c;
         }
-        #submit-button:disabled {
-            opacity: 0.5;
+        
+        #submit:disabled {
+            background-color: #cccccc;
             cursor: not-allowed;
         }
-        .error-message {
-            color: #dc3545;
-            margin-top: 1rem;
+        
+        #error-message {
+            color: #df1b41;
+            margin-top: 16px;
+            text-align: center;
         }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 1rem;
+        
+        #loading {
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
+        }
+        
+        .order-details {
+            margin-bottom: 24px;
+            padding: 16px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .order-details h2 {
+            margin-top: 0;
             color: #1b4c57;
-            text-decoration: none;
         }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        #order-title {
+        
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
             color: #1b4c57;
-            margin: 0;
-            margin-bottom: 0.75rem;
+            text-align: center;
+            margin: 16px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="/" class="back-link">← Cancel</a>
-        <div class="header">
-            <div class="order-details">
-                <h1 id="order-title">Order Details</h1>
-                <ul class="order-specs" id="order-specs"></ul>
-                <div class="customer-details" id="customer-details"></div>
-                <div class="amount" id="amount"></div>
-            </div>
+        <h1>Complete Your Payment</h1>
+        
+        <div class="order-details">
+            <h2>Order Summary</h2>
+            <div id="order-amount" class="amount"></div>
+            <div id="order-description"></div>
         </div>
+        
+        <div id="loading">
+            Loading payment form...
+        </div>
+        
         <form id="payment-form">
-            <div class="cardholder-field">
-                <label for="cardholder-name">Name on card</label>
-                <input id="cardholder-name" type="text" required />
-            </div>
             <div id="payment-element"></div>
-            <button id="submit-button" type="submit">
-                <span id="button-text">Pay now</span>
-            </button>
-            <div id="error-message" class="error-message"></div>
+            <button id="submit" type="submit">Pay now</button>
+            <div id="error-message"></div>
         </form>
     </div>
-
+    
     <script>
-        // Get order details from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientSecret = urlParams.get('payment_intent_client_secret');
-        const orderId = urlParams.get('order_id');
-
-        if (!clientSecret) {
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = 'Missing payment information. Please try again or contact support.';
-            document.getElementById('payment-form').style.display = 'none';
-            console.error('No client secret found in URL parameters:', urlParams.toString());
-            throw new Error('No client secret provided');
-        }
-
-        console.log('Initializing payment form with client secret present');
-
-        // Fetch order details
-        async function fetchOrderDetails() {
+        let stripe;
+        let elements;
+        let paymentElement;
+        
+        async function initializeStripe() {
             try {
-                const response = await fetch(`/api/get-order/${orderId}`);
+                // Fetch Stripe configuration
+                const response = await fetch('/config');
                 if (!response.ok) {
+                    throw new Error('Failed to load Stripe configuration');
+                }
+                
+                const { publishableKey } = await response.json();
+                console.log('Using Stripe publishable key with prefix:', publishableKey.substring(0, 8));
+                
+                stripe = Stripe(publishableKey);
+                
+                // Get URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const clientSecret = urlParams.get('payment_intent_client_secret');
+                const orderId = urlParams.get('order_id');
+                
+                console.log('Payment Intent ID:', clientSecret ? clientSecret.split('_secret_')[0] : 'none');
+                
+                if (!clientSecret) {
+                    document.querySelector('#payment-form').style.display = 'none';
+                    document.querySelector('#error-message').textContent = 'Missing payment information. Please try again.';
+                    throw new Error('No client secret provided');
+                }
+                
+                if (!orderId) {
+                    document.querySelector('#payment-form').style.display = 'none';
+                    document.querySelector('#error-message').textContent = 'Missing order information. Please try again.';
+                    throw new Error('No order ID provided');
+                }
+                
+                // Fetch order details
+                const orderResponse = await fetch(`/api/order/${orderId}`);
+                if (!orderResponse.ok) {
                     throw new Error('Failed to fetch order details');
                 }
-                const orderDetails = await response.json();
                 
-                // Update page with order details
-                document.getElementById('order-title').textContent = 'Order Details';
+                const orderData = await orderResponse.json();
                 
-                // Format the amount with thousands separator
-                const formattedAmount = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(orderDetails.total_cost);
-                document.getElementById('amount').textContent = `$${formattedAmount}`;
+                // Update the page with order details
+                document.querySelector('#order-amount').textContent = orderData.amount;
+                document.querySelector('#order-description').textContent = orderData.description;
                 
-                // Format specifications as bullet points
-                const specs = [
-                    `Quantity with guest details printed: ${orderDetails.quantity_with_guests}`,
-                    `Quantity without guest details printed: ${orderDetails.quantity_without_guests}`,
-                    `Size: ${orderDetails.size}`,
-                    `Printed sides: ${orderDetails.printed_sides === 'double' ? 'Double sided' : 'Single sided'}`,
-                    `Ink coverage: ${orderDetails.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%'}`,
-                    `Lanyards included: ${orderDetails.lanyards === true ? 'Yes' : 'No'}`,
-                    `Shipping: ${orderDetails.shipping.charAt(0).toUpperCase() + orderDetails.shipping.slice(1)}`,
-                    `Paper type: ${orderDetails.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase()}`
-                ];
-                
-                const orderSpecs = document.getElementById('order-specs');
-                orderSpecs.innerHTML = specs.map(spec => `<li>${spec}</li>`).join('');
-
-                // Format customer details
-                const customerDetails = document.getElementById('customer-details');
-                customerDetails.innerHTML = `
-                    <div class="detail-row"><strong>Name:</strong> ${orderDetails.first_name} ${orderDetails.last_name}</div>
-                    <div class="detail-row"><strong>Company:</strong> ${orderDetails.company}</div>
-                    <div class="detail-row"><strong>Email:</strong> ${orderDetails.email}</div>
-                `;
-            } catch (error) {
-                console.error('Error fetching order details:', error);
-                errorMessage.textContent = 'Error loading order details. Please refresh the page or contact support.';
-            }
-        }
-
-        // Initialize Stripe and fetch order details
-        const stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb', {
-            betas: ['elements_enable_deferred_intent_beta_1']
-        });
-
-        const elements = stripe.elements({
-            clientSecret,
-            appearance: {
-                theme: 'stripe',
-                variables: {
-                    colorPrimary: '#1b4c57',
-                }
-            }
-        });
-
-        // Create and mount the Payment Element
-        const paymentElement = elements.create('payment', {
-            layout: 'tabs',
-            defaultValues: {
-                billingDetails: {
-                    name: '',
-                    email: ''
-                }
-            }
-        });
-
-        paymentElement.on('loaderror', function(event) {
-            console.error('Payment Element loading error:', event);
-            const errorMessage = document.getElementById('error-message');
-            if (event.error && event.error.message) {
-                errorMessage.textContent = event.error.message;
-            } else {
-                errorMessage.textContent = 'There was an error loading the payment form. Please refresh the page or try again later.';
-            }
-        });
-
-        paymentElement.mount('#payment-element');
-
-        // Fetch order details when page loads
-        fetchOrderDetails();
-
-        // Handle form submission
-        const form = document.getElementById('payment-form');
-        const submitButton = document.getElementById('submit-button');
-        const errorMessage = document.getElementById('error-message');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            submitButton.disabled = true;
-
-            const cardholderName = document.getElementById('cardholder-name').value;
-            
-            // Get email from customer details
-            const customerEmail = document.querySelector('.detail-row:last-child').textContent.split(':')[1].trim();
-
-            const {error, paymentIntent} = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    payment_method_data: {
-                        billing_details: {
-                            name: cardholderName,
-                            email: customerEmail
+                // Initialize Stripe Elements
+                elements = stripe.elements({
+                    clientSecret,
+                    appearance: {
+                        theme: 'stripe',
+                        variables: {
+                            colorPrimary: '#1b4c57',
+                            colorBackground: '#ffffff',
+                            colorText: '#30313d',
+                            colorDanger: '#df1b41',
+                            fontFamily: 'Ideal Sans, system-ui, sans-serif',
+                            spacingUnit: '2px',
+                            borderRadius: '4px',
                         }
                     }
-                },
-                redirect: 'if_required'
-            });
-
-            if (error) {
-                errorMessage.textContent = error.message;
-                submitButton.disabled = false;
-                return;
-            }
-
-            if (paymentIntent.status === 'succeeded') {
-                // Verify payment and trigger confirmation email
-                const response = await fetch('/api/verify-payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        paymentIntentId: paymentIntent.id,
-                        orderId: orderId
-                    })
                 });
-
-                const result = await response.json();
-                if (result.success) {
-                    window.location.href = '/success.html';
-                } else {
-                    errorMessage.textContent = 'Payment verification failed. Please contact support.';
+                
+                paymentElement = elements.create('payment');
+                paymentElement.mount('#payment-element');
+                
+                // Handle loading errors
+                paymentElement.on('loaderror', function(event) {
+                    console.error('Payment Element loading error:', event);
+                    document.querySelector('#error-message').textContent = 'There was a problem loading the payment form. Please refresh the page or try again later.';
+                });
+                
+                // Show the payment form once everything is loaded
+                document.querySelector('#payment-form').style.display = 'block';
+                document.querySelector('#loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Stripe initialization error:', error);
+                document.querySelector('#error-message').textContent = 'Failed to initialize payment form. Please try again later.';
+                document.querySelector('#loading').style.display = 'none';
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeStripe);
+        
+        // Handle form submission
+        const form = document.querySelector('#payment-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const submitButton = document.querySelector('#submit');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            
+            try {
+                const { error } = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: window.location.origin + '/success.html',
+                    },
+                });
+                
+                if (error) {
+                    console.error('Payment confirmation error:', error);
+                    document.querySelector('#error-message').textContent = error.message;
                     submitButton.disabled = false;
+                    submitButton.textContent = 'Pay now';
                 }
+            } catch (e) {
+                console.error('Payment submission error:', e);
+                document.querySelector('#error-message').textContent = 'An unexpected error occurred. Please try again.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay now';
             }
         });
     </script>

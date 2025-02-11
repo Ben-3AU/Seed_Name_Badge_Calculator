@@ -164,6 +164,10 @@ app.post('/api/create-payment-intent', async (req, res) => {
             throw new Error('Invalid order data: missing total_cost');
         }
 
+        // Log the Stripe key being used (first 8 characters only for security)
+        const keyPrefix = process.env.STRIPE_SECRET_KEY.substring(0, 8);
+        console.log('Using Stripe key with prefix:', keyPrefix);
+
         // First create the order in Supabase
         const { data: order, error: orderError } = await supabase
             .from('seed_name_badge_orders')
@@ -213,7 +217,9 @@ app.post('/api/create-payment-intent', async (req, res) => {
 
         console.log('Payment intent created:', {
             id: paymentIntent.id,
-            client_secret: paymentIntent.client_secret ? 'present' : 'missing'
+            client_secret: 'present',
+            livemode: paymentIntent.livemode,
+            account: paymentIntent.account
         });
 
         // Update order with payment intent ID
