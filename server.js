@@ -501,7 +501,20 @@ app.get('/api/order/:orderId', async (req, res) => {
         
         res.json({
             amount: formattedAmount,
-            description: `${order.total_quantity} Seed Name Badges for ${order.company || 'your organization'}`
+            order_details: {
+                first_name: order.first_name,
+                last_name: order.last_name,
+                company: order.company,
+                email: order.email,
+                quantity_with_guests: order.quantity_with_guests,
+                quantity_without_guests: order.quantity_without_guests,
+                size: order.size,
+                printed_sides: order.printed_sides === 'double' ? 'Double sided' : 'Single sided',
+                ink_coverage: order.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%',
+                lanyards: order.lanyards,
+                shipping: order.shipping.charAt(0).toUpperCase() + order.shipping.slice(1),
+                paper_type: order.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())
+            }
         });
     } catch (error) {
         console.error('Error fetching order:', error);
