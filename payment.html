@@ -105,10 +105,10 @@
     <div class="container">
         <div class="order-details">
             <h2>Order Summary</h2>
-            <div id="order-amount" class="amount"></div>
             <ul id="order-summary" class="order-summary">
                 <!-- Order details will be populated here -->
             </ul>
+            <div id="order-amount" class="amount"></div>
         </div>
         
         <div id="loading">
@@ -176,13 +176,15 @@
                     <li><strong>Name:</strong> ${orderData.order_details.first_name} ${orderData.order_details.last_name}</li>
                     <li><strong>Company:</strong> ${orderData.order_details.company}</li>
                     <li><strong>Email:</strong> ${orderData.order_details.email}</li>
-                    <li><strong>Quantity:</strong> ${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</li>
+                    <li><strong>Quantity with guest details printed:</strong> ${orderData.order_details.quantity_with_guests}</li>
+                    <li><strong>Quantity without guest details printed:</strong> ${orderData.order_details.quantity_without_guests}</li>
+                    <li><strong>Total quantity:</strong> ${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</li>
                     <li><strong>Size:</strong> ${orderData.order_details.size}</li>
-                    <li><strong>Printed Sides:</strong> ${orderData.order_details.printed_sides}</li>
-                    <li><strong>Ink Coverage:</strong> ${orderData.order_details.ink_coverage}</li>
+                    <li><strong>Printed sides:</strong> ${orderData.order_details.printed_sides}</li>
+                    <li><strong>Ink coverage:</strong> ${orderData.order_details.ink_coverage}</li>
                     <li><strong>Lanyards:</strong> ${orderData.order_details.lanyards ? 'Yes' : 'No'}</li>
                     <li><strong>Shipping:</strong> ${orderData.order_details.shipping}</li>
-                    <li><strong>Paper Type:</strong> ${orderData.order_details.paper_type}</li>
+                    <li><strong>Paper type:</strong> ${orderData.order_details.paper_type}</li>
                 `;
                 
                 // Initialize Stripe Elements
