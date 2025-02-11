@@ -39,7 +39,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://seed-name-badge-calculator.vercel.app', process.env.CLIENT_URL].filter(Boolean),
+    origin: [
+        'https://seed-name-badge-calculator-bens-projects-4af3578a.vercel.app',
+        'https://seed-name-badge-calculator-git-master-bens-projects-4af3578a.vercel.app',
+        'https://seed-name-badge-calculator.vercel.app',
+        process.env.CLIENT_URL
+    ].filter(Boolean).map(url => url.startsWith('http') ? url : `https://${url}`),
     credentials: true
 }));
 
