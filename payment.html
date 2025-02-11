@@ -167,6 +167,13 @@
         const clientSecret = urlParams.get('payment_intent');
         const orderId = urlParams.get('order_id');
 
+        if (!clientSecret) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = 'Missing payment information. Please try again or contact support.';
+            document.getElementById('payment-form').style.display = 'none';
+            throw new Error('No client secret provided');
+        }
+
         // Fetch order details
         async function fetchOrderDetails() {
             try {
@@ -226,32 +233,24 @@
             }
         });
 
-        // Create and mount the Payment Element with payment method options
+        // Create and mount the Payment Element
         const paymentElement = elements.create('payment', {
-            layout: {
-                type: 'tabs',
-                defaultCollapsed: false
-            },
-            fields: {
+            layout: 'tabs',
+            paymentMethodOrder: ['card', 'apple_pay', 'google_pay'],
+            defaultValues: {
                 billingDetails: {
-                    name: 'never',
-                    email: 'never',
-                    phone: 'auto',
-                    address: {
-                        country: 'auto',
-                        line1: 'auto',
-                        line2: 'auto',
-                        city: 'auto',
-                        state: 'auto',
-                        postalCode: 'auto'
-                    }
+                    name: '',
+                    email: ''
                 }
-            },
-            wallets: {
-                applePay: 'auto',
-                googlePay: 'auto'
             }
         });
+
+        paymentElement.on('loaderror', function(event) {
+            console.error('Payment Element loading error:', event);
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = 'There was an error loading the payment form. Please refresh the page or try again later.';
+        });
+
         paymentElement.mount('#payment-element');
 
         // Fetch order details when page loads

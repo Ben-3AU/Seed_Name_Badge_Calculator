@@ -116,8 +116,8 @@ async function sendQuoteEmail(quoteData) {
             ink_coverage: quoteData.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%',
             lanyards: quoteData.lanyards ? 'Yes' : 'No',
             shipping: quoteData.shipping,
-            total_cost: quoteData.total_cost.toFixed(2),
-            gst_amount: quoteData.gst_amount.toFixed(2),
+            total_cost: new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(quoteData.total_cost),
+            gst_amount: new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(quoteData.gst_amount),
             co2_savings: quoteData.co2_savings.toFixed(2)
         };
 
