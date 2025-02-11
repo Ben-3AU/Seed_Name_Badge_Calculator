@@ -11,14 +11,13 @@
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
-            background-color: #f7f7f7;
+            background-color: #ffffff;
         }
         
         .container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         #payment-form {
@@ -99,12 +98,13 @@
 
         .order-summary li span:first-child {
             font-weight: normal;
+            min-width: 300px;
         }
 
         .order-summary li span:last-child {
             text-align: left;
-            flex: 1;
-            margin-left: 24px;
+            margin-left: auto;
+            padding-left: 24px;
         }
 
         .back-link {
@@ -199,23 +199,6 @@
                 // Update the page with order details
                 document.querySelector('#order-amount').textContent = orderData.amount;
                 
-                // Create order summary
-                const orderSummary = document.querySelector('#order-summary');
-                orderSummary.innerHTML = `
-                    <li><span>Name</span><span>${orderData.order_details.first_name} ${orderData.order_details.last_name}</span></li>
-                    <li><span>Company</span><span>${orderData.order_details.company}</span></li>
-                    <li><span>Email</span><span>${orderData.order_details.email}</span></li>
-                    <li><span>Quantity with guest details printed</span><span>${orderData.order_details.quantity_with_guests}</span></li>
-                    <li><span>Quantity without guest details printed</span><span>${orderData.order_details.quantity_without_guests}</span></li>
-                    <li><span>Total quantity</span><span>${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</span></li>
-                    <li><span>Size</span><span>${orderData.order_details.size}</span></li>
-                    <li><span>Printed sides</span><span>${orderData.order_details.printed_sides}</span></li>
-                    <li><span>Ink coverage</span><span>${orderData.order_details.ink_coverage}</span></li>
-                    <li><span>Lanyards</span><span>${orderData.order_details.lanyards ? 'Yes' : 'No'}</span></li>
-                    <li><span>Shipping</span><span>${orderData.order_details.shipping}</span></li>
-                    <li><span>Paper type</span><span>${orderData.order_details.paper_type}</span></li>
-                `;
-                
                 // Initialize Stripe Elements
                 elements = stripe.elements({
                     clientSecret,
@@ -233,15 +216,36 @@
                     }
                 });
                 
-                // Create and mount the Payment Element with billing details
-                paymentElement = elements.create('payment', {
-                    fields: {
-                        billingDetails: {
-                            name: 'required'
-                        }
-                    }
-                });
+                // Add custom name field
+                const nameInput = document.createElement('div');
+                nameInput.className = 'name-field';
+                nameInput.style.marginBottom = '20px';
+                nameInput.innerHTML = `
+                    <label style="display: block; margin-bottom: 8px; color: #1b4c57;">Name on card</label>
+                    <input type="text" id="card-name" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                `;
+                document.getElementById('payment-element').appendChild(nameInput);
+                
+                // Create the payment element
+                paymentElement = elements.create('payment');
                 paymentElement.mount('#payment-element');
+                
+                // Create order summary
+                const orderSummary = document.querySelector('#order-summary');
+                orderSummary.innerHTML = `
+                    <li><span>Name:</span><span>${orderData.order_details.first_name} ${orderData.order_details.last_name}</span></li>
+                    <li><span>Company:</span><span>${orderData.order_details.company}</span></li>
+                    <li><span>Email:</span><span>${orderData.order_details.email}</span></li>
+                    <li><span>Quantity with guest details printed:</span><span>${orderData.order_details.quantity_with_guests}</span></li>
+                    <li><span>Quantity without guest details printed:</span><span>${orderData.order_details.quantity_without_guests}</span></li>
+                    <li><span>Total quantity:</span><span>${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</span></li>
+                    <li><span>Size:</span><span>${orderData.order_details.size}</span></li>
+                    <li><span>Printed sides:</span><span>${orderData.order_details.printed_sides}</span></li>
+                    <li><span>Ink coverage:</span><span>${orderData.order_details.ink_coverage}</span></li>
+                    <li><span>Lanyards:</span><span>${orderData.order_details.lanyards ? 'Yes' : 'No'}</span></li>
+                    <li><span>Shipping:</span><span>${orderData.order_details.shipping}</span></li>
+                    <li><span>Paper type:</span><span>${orderData.order_details.paper_type}</span></li>
+                `;
                 
                 // Handle loading errors
                 paymentElement.on('loaderror', function(event) {
@@ -277,6 +281,11 @@
                     elements,
                     confirmParams: {
                         return_url: window.location.origin + '/success.html',
+                        payment_method_data: {
+                            billing_details: {
+                                name: document.getElementById('card-name').value
+                            }
+                        }
                     },
                 });
                 
