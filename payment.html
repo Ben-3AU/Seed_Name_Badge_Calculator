@@ -126,11 +126,17 @@
 
         #card-name-container {
             margin-bottom: 20px;
-            width: 100%;
+        }
+
+        #card-name-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1b4c57;
+            font-weight: 500;
         }
 
         #card-name {
-            width: 100%;
+            width: calc(100% - 20px);  /* Account for padding */
             padding: 10px;
             border: 1px solid #e0e0e0;
             border-radius: 4px;
@@ -158,6 +164,10 @@
         </div>
         
         <form id="payment-form">
+            <div id="card-name-container">
+                <label for="card-name" id="card-name-label">Name on card</label>
+                <input type="text" id="card-name" required>
+            </div>
             <div id="payment-element"></div>
             <button id="submit" type="submit">Pay now</button>
             <div id="error-message"></div>
@@ -228,17 +238,6 @@
                         }
                     }
                 });
-                
-                // Create the name input field
-                const nameField = document.createElement('div');
-                nameField.style.marginBottom = '20px';
-                nameField.innerHTML = `
-                    <div style="padding: 10px 0;">
-                        <label style="display: block; margin-bottom: 8px; color: #1b4c57;">Name on card</label>
-                        <input type="text" id="card-name" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
-                    </div>
-                `;
-                document.getElementById('payment-form').insertBefore(nameField, document.getElementById('payment-element'));
                 
                 // Create the payment element
                 paymentElement = elements.create('payment');
