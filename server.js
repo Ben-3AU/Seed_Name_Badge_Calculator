@@ -46,6 +46,17 @@ app.use(cors({
 // Serve static files
 app.use(express.static(path.join(__dirname)));
 
+// Stripe configuration endpoint
+app.get('/config', (req, res) => {
+    if (!process.env.STRIPE_PUBLISHABLE_KEY) {
+        console.error('Missing Stripe publishable key');
+        return res.status(500).json({ error: 'Missing Stripe configuration' });
+    }
+    res.json({
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+    });
+});
+
 // Test endpoint to verify Stripe connection
 app.get('/test-stripe', async (req, res) => {
     try {
@@ -460,59 +471,36 @@ app.get('/test-pdf', async (req, res) => {
     }
 });
 
-// Endpoint to get Stripe configuration
-app.get('/config', (req, res) => {
-    if (!process.env.STRIPE_PUBLISHABLE_KEY) {
-        console.error('Missing Stripe publishable key');
-        return res.status(500).json({ error: 'Missing Stripe configuration' });
-    }
-    
-    res.json({
-        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
-    });
-});
-
 // Add endpoint to get order details
 app.get('/api/order/:orderId', async (req, res) => {
     try {
         const { orderId } = req.params;
         console.log('Fetching order details for:', orderId);
         
-        // Fetch order from Supabase
         const { data: order, error } = await supabase
             .from('seed_name_badge_orders')
             .select('*')
             .eq('id', orderId)
             .single();
             
-        if (error) {
-            console.error('Error fetching order:', error);
-            throw error;
-        }
-        
+        if (error) throw error;
         if (!order) {
             return res.status(404).json({ error: 'Order not found' });
         }
         
-        // Format the amount with thousands separator
+        // Format the amount with currency symbol and thousands separators
         const formattedAmount = new Intl.NumberFormat('en-AU', {
             style: 'currency',
-            currency: 'AUD',
-            minimumFractionDigits: 2
+            currency: 'AUD'
         }).format(order.total_cost);
-        
-        // Create a description of the order
-        const description = `${order.quantity_with_guests + order.quantity_without_guests} name tags`;
         
         res.json({
             amount: formattedAmount,
-            description: description,
-            order_details: order
+            description: `${order.total_quantity} Seed Name Badges for ${order.company || 'your organization'}`
         });
-        
     } catch (error) {
-        console.error('Error fetching order details:', error);
-        res.status(500).json({ error: 'Failed to fetch order details' });
+        console.error('Error fetching order:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 
