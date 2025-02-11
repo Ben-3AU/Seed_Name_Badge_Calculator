@@ -152,18 +152,12 @@ async function generateOrderPDF(orderData) {
             // Use Helvetica as it's a built-in font
             doc.font('Helvetica');
             
-            // Create temp directory path
-            const tempDir = path.join(__dirname, 'temp');
+            // Create temp directory path using OS temp directory
+            const tempDir = require('os').tmpdir();
             const pdfPath = path.join(tempDir, `order-${orderData.id}.pdf`);
             
-            console.log('Temp directory path:', tempDir);
+            console.log('Using OS temp directory:', tempDir);
             console.log('PDF path:', pdfPath);
-            
-            // Ensure temp directory exists
-            if (!fs.existsSync(tempDir)) {
-                console.log('Creating temp directory...');
-                fs.mkdirSync(tempDir, { recursive: true });
-            }
 
             // Create write stream
             const writeStream = fs.createWriteStream(pdfPath);
@@ -327,10 +321,14 @@ async function generateOrderPDF(orderData) {
 async function sendOrderConfirmationEmail(orderData) {
     try {
         console.log('Starting email send process for order:', orderData.id);
+        console.log('Order data:', JSON.stringify(orderData, null, 2));
         
         // Generate PDF
+        console.log('Generating PDF...');
         const pdfPath = await generateOrderPDF(orderData);
+        console.log('PDF generated successfully at:', pdfPath);
 
+        console.log('Preparing email template data...');
         const templateData = {
             id: String(orderData.id),
             first_name: orderData.first_name,
@@ -358,11 +356,15 @@ async function sendOrderConfirmationEmail(orderData) {
                 hour12: true
             })
         };
+        console.log('Template data prepared:', JSON.stringify(templateData, null, 2));
 
         // Read the PDF file and convert to base64
+        console.log('Reading PDF file...');
         const pdfContent = fs.readFileSync(pdfPath);
         const base64Content = pdfContent.toString('base64');
+        console.log('PDF file read and converted to base64');
 
+        console.log('Sending email via SMTP2GO...');
         const response = await sendEmailWithTemplate({
             template_id: process.env.SMTP2GO_ORDER_TEMPLATE_ID,
             template_data: templateData,
@@ -378,11 +380,19 @@ async function sendOrderConfirmationEmail(orderData) {
         console.log('Order confirmation email sent successfully via SMTP2GO API:', response);
 
         // Clean up: delete the temporary PDF file
+        console.log('Cleaning up temporary PDF file...');
         fs.unlinkSync(pdfPath);
+        console.log('Temporary PDF file deleted');
 
         return response;
     } catch (error) {
         console.error('Error sending order confirmation email:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code,
+            details: error.details || null
+        });
         throw error;
     }
 }
