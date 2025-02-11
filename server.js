@@ -19,15 +19,20 @@ if (!supabaseUrl || !supabaseKey) {
     process.exit(1);
 }
 
+// Initialize Stripe
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('Missing Stripe secret key');
+    process.exit(1);
+}
+
 // Log environment variables (without exposing full keys)
 console.log('Environment variables loaded:', {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ? 'Present' : 'Missing',
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY ? 'Present' : 'Missing',
     CLIENT_URL: process.env.CLIENT_URL
 });
-
-// Initialize Stripe with the secret key
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
@@ -446,6 +451,62 @@ app.get('/test-pdf', async (req, res) => {
             error: error.message,
             stack: error.stack
         });
+    }
+});
+
+// Endpoint to get Stripe configuration
+app.get('/config', (req, res) => {
+    if (!process.env.STRIPE_PUBLISHABLE_KEY) {
+        console.error('Missing Stripe publishable key');
+        return res.status(500).json({ error: 'Missing Stripe configuration' });
+    }
+    
+    res.json({
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+    });
+});
+
+// Add endpoint to get order details
+app.get('/api/order/:orderId', async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        console.log('Fetching order details for:', orderId);
+        
+        // Fetch order from Supabase
+        const { data: order, error } = await supabase
+            .from('seed_name_badge_orders')
+            .select('*')
+            .eq('id', orderId)
+            .single();
+            
+        if (error) {
+            console.error('Error fetching order:', error);
+            throw error;
+        }
+        
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        
+        // Format the amount with thousands separator
+        const formattedAmount = new Intl.NumberFormat('en-AU', {
+            style: 'currency',
+            currency: 'AUD',
+            minimumFractionDigits: 2
+        }).format(order.total_cost);
+        
+        // Create a description of the order
+        const description = `${order.quantity_with_guests + order.quantity_without_guests} name tags`;
+        
+        res.json({
+            amount: formattedAmount,
+            description: description,
+            order_details: order
+        });
+        
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ error: 'Failed to fetch order details' });
     }
 });
 
