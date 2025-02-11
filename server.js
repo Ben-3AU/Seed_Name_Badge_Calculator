@@ -37,7 +37,13 @@ console.log('Environment variables loaded:', {
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(express.json({
+    verify: (req, res, buf) => {
+        if (req.originalUrl === '/webhook') {
+            req.rawBody = buf.toString();
+        }
+    }
+}));
 app.use(cors({
     origin: [
         'https://seed-name-badge-calculator-bens-projects-4af3578a.vercel.app',
@@ -523,23 +529,17 @@ app.get('/api/order/:orderId', async (req, res) => {
 });
 
 // Stripe webhook endpoint
-app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
-    let event;
-    
+app.post('/webhook', async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const rawBody = req.rawBody;
+
     try {
-        const signature = req.headers['stripe-signature'];
-        
-        try {
-            event = stripe.webhooks.constructEvent(
-                req.body,
-                signature,
-                process.env.STRIPE_WEBHOOK_SECRET
-            );
-        } catch (err) {
-            console.error('Webhook signature verification failed:', err.message);
-            return res.status(400).send(`Webhook Error: ${err.message}`);
-        }
-        
+        const event = stripe.webhooks.constructEvent(
+            rawBody,
+            sig,
+            process.env.STRIPE_WEBHOOK_SECRET
+        );
+
         console.log('Received Stripe webhook event:', event.type);
         
         if (event.type === 'payment_intent.succeeded') {

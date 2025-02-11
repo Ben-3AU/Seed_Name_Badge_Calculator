@@ -216,35 +216,40 @@
                     }
                 });
                 
-                // Add custom name field
-                const nameInput = document.createElement('div');
-                nameInput.className = 'name-field';
-                nameInput.style.marginBottom = '20px';
-                nameInput.innerHTML = `
-                    <label style="display: block; margin-bottom: 8px; color: #1b4c57;">Name on card</label>
-                    <input type="text" id="card-name" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                // Create the name input field
+                const nameField = document.createElement('div');
+                nameField.style.marginBottom = '20px';
+                nameField.innerHTML = `
+                    <div style="padding: 10px 0;">
+                        <label style="display: block; margin-bottom: 8px; color: #1b4c57;">Name on card</label>
+                        <input type="text" id="card-name" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                    </div>
                 `;
-                document.getElementById('payment-element').appendChild(nameInput);
+                document.getElementById('payment-form').insertBefore(nameField, document.getElementById('payment-element'));
                 
                 // Create the payment element
                 paymentElement = elements.create('payment');
                 paymentElement.mount('#payment-element');
                 
-                // Create order summary
+                // Create order summary table
                 const orderSummary = document.querySelector('#order-summary');
+                orderSummary.style.width = '100%';
+                orderSummary.style.borderCollapse = 'collapse';
                 orderSummary.innerHTML = `
-                    <li><span>Name:</span><span>${orderData.order_details.first_name} ${orderData.order_details.last_name}</span></li>
-                    <li><span>Company:</span><span>${orderData.order_details.company}</span></li>
-                    <li><span>Email:</span><span>${orderData.order_details.email}</span></li>
-                    <li><span>Quantity with guest details printed:</span><span>${orderData.order_details.quantity_with_guests}</span></li>
-                    <li><span>Quantity without guest details printed:</span><span>${orderData.order_details.quantity_without_guests}</span></li>
-                    <li><span>Total quantity:</span><span>${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</span></li>
-                    <li><span>Size:</span><span>${orderData.order_details.size}</span></li>
-                    <li><span>Printed sides:</span><span>${orderData.order_details.printed_sides}</span></li>
-                    <li><span>Ink coverage:</span><span>${orderData.order_details.ink_coverage}</span></li>
-                    <li><span>Lanyards:</span><span>${orderData.order_details.lanyards ? 'Yes' : 'No'}</span></li>
-                    <li><span>Shipping:</span><span>${orderData.order_details.shipping}</span></li>
-                    <li><span>Paper type:</span><span>${orderData.order_details.paper_type}</span></li>
+                    <table style="width: 100%;">
+                        <tr><td style="padding: 4px 0;">Name:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.first_name} ${orderData.order_details.last_name}</td></tr>
+                        <tr><td style="padding: 4px 0;">Company:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.company}</td></tr>
+                        <tr><td style="padding: 4px 0;">Email:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.email}</td></tr>
+                        <tr><td style="padding: 4px 0;">Quantity with guest details printed:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.quantity_with_guests}</td></tr>
+                        <tr><td style="padding: 4px 0;">Quantity without guest details printed:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.quantity_without_guests}</td></tr>
+                        <tr><td style="padding: 4px 0;">Total quantity:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.quantity_with_guests + orderData.order_details.quantity_without_guests}</td></tr>
+                        <tr><td style="padding: 4px 0;">Size:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.size}</td></tr>
+                        <tr><td style="padding: 4px 0;">Printed sides:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.printed_sides}</td></tr>
+                        <tr><td style="padding: 4px 0;">Ink coverage:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.ink_coverage}</td></tr>
+                        <tr><td style="padding: 4px 0;">Lanyards:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.lanyards ? 'Yes' : 'No'}</td></tr>
+                        <tr><td style="padding: 4px 0;">Shipping:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.shipping}</td></tr>
+                        <tr><td style="padding: 4px 0;">Paper type:</td><td style="padding: 4px 0 4px 24px;">${orderData.order_details.paper_type}</td></tr>
+                    </table>
                 `;
                 
                 // Handle loading errors
