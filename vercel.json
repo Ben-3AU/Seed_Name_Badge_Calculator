@@ -24,6 +24,10 @@
   ],
   "routes": [
     {
+      "src": "/config",
+      "dest": "server.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "server.js"
     },
