@@ -7,7 +7,7 @@
     function injectStyles() {
         const styles = `
             .terra-tag-widget {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                font-family: Verdana, sans-serif !important;
                 max-width: 600px;
                 margin: 0 auto;
                 background-color: #ffffff;
@@ -15,6 +15,7 @@
 
             .terra-tag-widget * {
                 box-sizing: border-box;
+                font-family: Verdana, sans-serif !important;
             }
 
             .terra-tag-widget .calculator-heading {
@@ -122,6 +123,54 @@
 
             .terra-tag-widget .widget-view.active {
                 display: block;
+            }
+
+            .terra-tag-widget .action-buttons {
+                margin-top: 1rem;
+            }
+
+            .terra-tag-widget .action-buttons .button-group {
+                display: flex;
+                gap: 0;
+            }
+
+            .terra-tag-widget .action-button {
+                flex: 1;
+                padding: 1rem;
+                font-family: Verdana, sans-serif !important;
+                font-size: 1rem;
+                font-weight: normal;
+                color: #1b4c57;
+                background-color: #edf2f7;
+                border: 1px solid #e2e8f0;
+                border-radius: 0;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .terra-tag-widget .action-button:hover {
+                background-color: #e2e8f0;
+            }
+
+            .terra-tag-widget .action-button.selected {
+                color: white;
+                background-color: #1b4c57;
+                border-color: #1b4c57;
+            }
+
+            .terra-tag-widget .action-button:first-child {
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+            }
+
+            .terra-tag-widget .action-button:last-child {
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+
+            .terra-tag-widget .additional-form {
+                margin-top: 1rem;
+                padding-top: 0;
             }
         `;
 
