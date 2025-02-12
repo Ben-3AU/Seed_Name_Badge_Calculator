@@ -343,6 +343,26 @@ function initializeCalculator(baseUrl) {
         const paymentView = document.querySelector('.terra-tag-widget .payment-view');
         
         if (calculatorView && paymentView) {
+            // Update the payment view HTML structure
+            paymentView.innerHTML = `
+                <div class="payment-container">
+                    <h2>Complete your payment</h2>
+                    <form id="payment-form">
+                        <div id="card-name-container">
+                            <label for="card-name">Name on card</label>
+                            <input id="card-name" type="text" placeholder="Name on card" required>
+                        </div>
+                        <div id="payment-element"></div>
+                        <button id="submit-payment" class="payment-button">
+                            <div class="spinner" id="spinner"></div>
+                            <span id="button-text">Pay now</span>
+                        </button>
+                        <div id="payment-message"></div>
+                    </form>
+                </div>
+            `;
+
+            // Hide calculator view and show payment view
             calculatorView.style.display = 'none';
             paymentView.style.display = 'block';
             
