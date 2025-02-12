@@ -244,6 +244,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
         console.log('Created order:', order);
         console.log('Creating payment intent with amount:', Math.round(orderData.total_cost * 100));
         
+        // Create the payment intent
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(orderData.total_cost * 100),
             currency: 'aud',
@@ -273,10 +274,11 @@ app.post('/api/create-payment-intent', async (req, res) => {
             console.error('Error updating order with payment intent:', updateError);
         }
 
-        // Redirect URL with payment intent client secret and order ID
-        const redirectUrl = `/payment.html?payment_intent_client_secret=${paymentIntent.client_secret}&order_id=${order.id}`;
-        
-        res.json({ url: redirectUrl });
+        // Return the client secret directly
+        res.json({ 
+            clientSecret: paymentIntent.client_secret,
+            orderId: order.id
+        });
     } catch (error) {
         console.error('Error creating payment intent:', error);
         res.status(500).json({ error: error.message });

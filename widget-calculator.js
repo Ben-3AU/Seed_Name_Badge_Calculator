@@ -296,8 +296,15 @@ function initializeCalculator(baseUrl) {
             calculatorView.classList.remove('active');
             paymentView.classList.add('active');
 
+            // Extract client secret from the URL in the response
+            const urlParams = new URLSearchParams(new URL(result.url).search);
+            const clientSecret = urlParams.get('payment_intent_client_secret');
+            
+            if (!clientSecret) {
+                throw new Error('No client secret received from the server');
+            }
+
             // Initialize payment form
-            const { clientSecret } = result;
             await initializePaymentElement(clientSecret);
             
         } catch (error) {
@@ -313,6 +320,10 @@ function initializeCalculator(baseUrl) {
 
     // Payment related functions
     async function initializePaymentElement(clientSecret) {
+        if (!clientSecret) {
+            throw new Error('Client secret is required to initialize payment element');
+        }
+
         const appearance = {
             theme: 'stripe',
             variables: {
@@ -320,7 +331,10 @@ function initializeCalculator(baseUrl) {
             },
         };
 
-        elements = stripe.elements({ appearance, clientSecret });
+        elements = stripe.elements({ 
+            appearance, 
+            clientSecret
+        });
         paymentElement = elements.create('payment');
         
         const paymentElementMount = widget.querySelector('#payment-element');
