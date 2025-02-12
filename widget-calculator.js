@@ -334,16 +334,33 @@ function initializeCalculator(baseUrl) {
             appearance, 
             clientSecret
         });
+        
+        // Create and mount the payment element
         paymentElement = elements.create('payment');
         
-        const paymentElementMount = widget.querySelector('#payment-element');
-        if (paymentElementMount) {
-            paymentElement.mount('#payment-element');
+        // Show payment view and hide calculator view
+        const calculatorView = document.querySelector('.terra-tag-widget .calculator-view');
+        const paymentView = document.querySelector('.terra-tag-widget .payment-view');
+        
+        if (calculatorView && paymentView) {
+            calculatorView.style.display = 'none';
+            paymentView.style.display = 'block';
             
-            const submitButton = widget.querySelector('#submit-payment');
-            if (submitButton) {
-                submitButton.addEventListener('click', handlePaymentSubmission);
+            // Mount the payment element
+            const paymentElementMount = paymentView.querySelector('#payment-element');
+            if (paymentElementMount) {
+                paymentElement.mount('#payment-element');
+                
+                // Add event listener to the submit button
+                const submitButton = paymentView.querySelector('#submit-payment');
+                if (submitButton) {
+                    submitButton.addEventListener('click', handlePaymentSubmission);
+                }
+            } else {
+                console.error('Payment element mount point not found');
             }
+        } else {
+            console.error('Views not found:', { calculatorView, paymentView });
         }
     }
 
@@ -426,5 +443,125 @@ async function initializeStripe() {
 
 // Initialize Stripe when the widget loads
 initializeStripe();
+
+// Create widget HTML structure
+function createWidgetStructure() {
+    // ... existing code ...
+
+    // Payment view (initially hidden)
+    const paymentView = document.createElement('div');
+    paymentView.className = 'widget-view payment-view';
+    paymentView.innerHTML = `
+        <div class="payment-container">
+            <h2>Complete your payment</h2>
+            <form id="payment-form">
+                <div id="card-name-container">
+                    <label for="card-name">Name on card</label>
+                    <input id="card-name" type="text" placeholder="Name on card" required>
+                </div>
+                <div id="payment-element">
+                    <!-- Stripe Elements will be mounted here -->
+                </div>
+                <button id="submit-payment" class="payment-button">
+                    <div class="spinner" id="spinner"></div>
+                    <span id="button-text">Pay now</span>
+                </button>
+                <div id="payment-message"></div>
+            </form>
+        </div>
+    `;
+
+    // ... rest of the existing code ...
+}
+
+function injectStyles() {
+    const styles = `
+        /* Payment view styles */
+        .terra-tag-widget .payment-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .terra-tag-widget .payment-container h2 {
+            color: #1b4c57;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .terra-tag-widget #payment-form {
+            display: block;
+        }
+
+        .terra-tag-widget #card-name-container {
+            margin-bottom: 20px;
+        }
+
+        .terra-tag-widget #card-name {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .terra-tag-widget #payment-element {
+            margin-bottom: 24px;
+        }
+
+        .terra-tag-widget .payment-button {
+            background: #1b4c57;
+            color: #ffffff;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .terra-tag-widget .payment-button:hover {
+            background: #163f48;
+        }
+
+        .terra-tag-widget .payment-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .terra-tag-widget .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .terra-tag-widget #payment-message {
+            color: #dc2626;
+            font-size: 14px;
+            line-height: 20px;
+            padding-top: 12px;
+            text-align: center;
+        }
+    `;
+
+    // ... rest of the existing code ...
+}
 
 // ... existing code ... 
