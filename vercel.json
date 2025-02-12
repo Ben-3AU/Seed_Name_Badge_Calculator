@@ -18,6 +18,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "widget*.js",
+      "use": "@vercel/static"
+    },
+    {
       "src": "assets/**",
       "use": "@vercel/static"
     }
@@ -38,6 +42,22 @@
     {
       "src": "/config",
       "dest": "server.js"
+    },
+    {
+      "src": "/widget.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+        "Cache-Control": "s-maxage=3600"
+      }
+    },
+    {
+      "src": "/widget-calculator.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+        "Cache-Control": "s-maxage=3600"
+      }
     },
     {
       "src": "/(.*)",
