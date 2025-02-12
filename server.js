@@ -49,13 +49,32 @@ app.use(cors({
         'https://seed-name-badge-calculator-bens-projects-4af3578a.vercel.app',
         'https://seed-name-badge-calculator-git-master-bens-projects-4af3578a.vercel.app',
         'https://seed-name-badge-calculator.vercel.app',
+        'https://www.terratag.com.au',
+        'https://terratag.com.au',
         process.env.CLIENT_URL
     ].filter(Boolean).map(url => url.startsWith('http') ? url : `https://${url}`),
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Serve static files
 app.use(express.static(path.join(__dirname)));
+
+// Add CORS headers to all responses
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
 
 // Stripe configuration endpoint
 app.get('/config', (req, res) => {
