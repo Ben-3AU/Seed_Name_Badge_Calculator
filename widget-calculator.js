@@ -420,8 +420,8 @@ async function initializeStripe() {
 
   await new Promise(resolve => stripeScript.onload = resolve);
 
-  // Initialize Stripe
-  stripe = Stripe('pk_test_51OsKQbGPWIVZcGbxPXBSWVLDQZGRvLTXkO8hAHABGBEwRHXh9KPOEQCkQQXWHhV9O1F5EEDqhkEDWTXpJWzQEkSX00uZKEzwbP');
+  // Initialize Stripe with the same key
+  stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb');
 }
 
 // Initialize Stripe when the widget loads
