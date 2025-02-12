@@ -11,7 +11,7 @@ function initializeCalculator(baseUrl) {
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
     // Initialize Stripe
-    const stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb');
+    const stripe = Stripe('pk_test_51QrDDBDCFS4sGBlEhdnhx2eN3J3SO2VWoyhZd5IkFphglGQG97FxaBMxdXNqH4eiDKzCUoQNqgUyZnQN7PWphZNm00I3pBTYW4');
 
     // Core calculation functions
     function calculateTotalQuantity() {
@@ -421,7 +421,7 @@ async function initializeStripe() {
   await new Promise(resolve => stripeScript.onload = resolve);
 
   // Initialize Stripe with the same key
-  stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb');
+  stripe = Stripe('pk_test_51QrDDBDCFS4sGBlEhdnhx2eN3J3SO2VWoyhZd5IkFphglGQG97FxaBMxdXNqH4eiDKzCUoQNqgUyZnQN7PWphZNm00I3pBTYW4');
 }
 
 // Initialize Stripe when the widget loads
