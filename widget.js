@@ -511,31 +511,55 @@
 
     // Initialize the widget
     function initWidget() {
-        // Load required external scripts
-        function loadScript(src, callback) {
+        return new Promise((resolve, reject) => {
+            // Load required external scripts sequentially
+            loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js')
+                .then(() => loadScript('https://js.stripe.com/v3/'))
+                .then(() => loadScript(`${BASE_URL}/widget-calculator.js`))
+                .then(() => {
+                    // Ensure the calculator is initialized after DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', () => {
+                            if (typeof initializeCalculator === 'function') {
+                                initializeCalculator(BASE_URL);
+                                resolve();
+                            } else {
+                                reject(new Error('Calculator initialization failed'));
+                            }
+                        });
+                    } else {
+                        if (typeof initializeCalculator === 'function') {
+                            initializeCalculator(BASE_URL);
+                            resolve();
+                        } else {
+                            reject(new Error('Calculator initialization failed'));
+                        }
+                    }
+                })
+                .catch(reject);
+        });
+    }
+
+    // Load a script and return a promise
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = src;
-            script.onload = callback;
+            script.onload = resolve;
+            script.onerror = reject;
             document.head.appendChild(script);
-        }
-
-        // Load Supabase and Stripe scripts
-        loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js', () => {
-            loadScript('https://js.stripe.com/v3/', () => {
-                // Load calculator functionality
-                loadScript(`${BASE_URL}/widget-calculator.js`, () => {
-                    // Initialize the widget functionality
-                    initializeCalculator();
-                });
-            });
         });
     }
 
     // Main initialization
-    function initialize() {
-        injectStyles();
-        createWidgetStructure();
-        initWidget();
+    async function initialize() {
+        try {
+            injectStyles();
+            createWidgetStructure();
+            await initWidget();
+        } catch (error) {
+            console.error('Widget initialization error:', error);
+        }
     }
 
     // Start the widget
@@ -544,35 +568,4 @@
     } else {
         initialize();
     }
-
-    function showPaymentView() {
-        const calculatorView = document.querySelector('.calculator-view');
-        const paymentView = document.querySelector('.payment-view');
-        
-        calculatorView.style.display = 'none';
-        paymentView.style.display = 'block';
-
-        // Create payment intent
-        fetch(`${BASE_URL}/api/create-payment-intent`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                amount: calculateTotal() * 100, // Convert to cents
-                currency: 'aud',
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            initializePaymentElement(data.clientSecret);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showMessage('An error occurred while setting up the payment. Please try again.');
-        });
-    }
-
-    // Add event listener to the Pay Now button
-    document.querySelector('#pay-now-button').addEventListener('click', showPaymentView);
 })(); 
