@@ -296,9 +296,8 @@ function initializeCalculator(baseUrl) {
             calculatorView.classList.remove('active');
             paymentView.classList.add('active');
 
-            // Extract client secret from the URL in the response
-            const urlParams = new URLSearchParams(new URL(result.url).search);
-            const clientSecret = urlParams.get('payment_intent_client_secret');
+            // Get client secret directly from the response
+            const clientSecret = result.clientSecret;
             
             if (!clientSecret) {
                 throw new Error('No client secret received from the server');
