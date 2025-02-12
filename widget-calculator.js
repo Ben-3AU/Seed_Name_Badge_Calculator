@@ -154,6 +154,154 @@ function initializeCalculator() {
         emailQuoteBtn.classList.remove('selected');
     });
 
+    // Function to validate email format
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Function to validate email quote form
+    function validateEmailQuoteForm() {
+        const firstName = widget.querySelector('#quoteFirstName').value.trim();
+        const email = widget.querySelector('#quoteEmail').value.trim();
+        widget.querySelector('#submitQuoteBtn').disabled = !(firstName && isValidEmail(email));
+    }
+
+    // Function to validate order form
+    function validateOrderForm() {
+        const firstName = widget.querySelector('#orderFirstName').value.trim();
+        const lastName = widget.querySelector('#orderLastName').value.trim();
+        const company = widget.querySelector('#orderCompany').value.trim();
+        const email = widget.querySelector('#orderEmail').value.trim();
+        const paperType = getSelectedValue('paperType');
+        widget.querySelector('#payNowBtn').disabled = !(firstName && lastName && company && isValidEmail(email) && paperType);
+    }
+
+    // Add form validation listeners
+    widget.querySelector('#emailQuoteForm').querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', validateEmailQuoteForm);
+    });
+
+    widget.querySelector('#orderForm').querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', validateOrderForm);
+    });
+
+    // Handle quote submission
+    widget.querySelector('#submitQuoteBtn').addEventListener('click', async (event) => {
+        event.preventDefault();
+        
+        const totalCost = calculateTotalPrice();
+        const gstAmount = calculateGST(totalCost);
+        
+        const quoteData = {
+            quantity_with_guests: parseInt(widget.querySelector('#quantityWithGuests').value) || 0,
+            quantity_without_guests: parseInt(widget.querySelector('#quantityWithoutGuests').value) || 0,
+            size: getSelectedValue('size'),
+            printed_sides: getSelectedValue('printedSides'),
+            ink_coverage: getSelectedValue('inkCoverage'),
+            lanyards: getSelectedValue('lanyards') === 'yes',
+            shipping: getSelectedValue('shipping'),
+            first_name: widget.querySelector('#quoteFirstName').value.trim(),
+            email: widget.querySelector('#quoteEmail').value.trim(),
+            total_quantity: calculateTotalQuantity(),
+            total_cost: Number(totalCost.toFixed(2)),
+            gst_amount: Number(gstAmount.toFixed(2)),
+            co2_savings: calculateCO2Savings(),
+            email_sent: false
+        };
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/submit-quote`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(quoteData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to process quote');
+            }
+
+            // Show success message
+            const successMessage = widget.querySelector('#quoteSuccessMessage');
+            successMessage.classList.add('visible');
+            setTimeout(() => {
+                successMessage.classList.remove('visible');
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Error processing quote:', error);
+            alert('Error sending quote. Please try again.');
+        }
+    });
+
+    // Handle order submission
+    widget.querySelector('#payNowBtn').addEventListener('click', async (event) => {
+        event.preventDefault();
+        
+        const totalCost = calculateTotalPrice();
+        const gstAmount = calculateGST(totalCost);
+        
+        const orderData = {
+            quantity_with_guests: parseInt(widget.querySelector('#quantityWithGuests').value) || 0,
+            quantity_without_guests: parseInt(widget.querySelector('#quantityWithoutGuests').value) || 0,
+            size: getSelectedValue('size'),
+            printed_sides: getSelectedValue('printedSides'),
+            ink_coverage: getSelectedValue('inkCoverage'),
+            lanyards: getSelectedValue('lanyards') === 'yes',
+            shipping: getSelectedValue('shipping'),
+            paper_type: getSelectedValue('paperType'),
+            first_name: widget.querySelector('#orderFirstName').value.trim(),
+            last_name: widget.querySelector('#orderLastName').value.trim(),
+            company: widget.querySelector('#orderCompany').value.trim(),
+            email: widget.querySelector('#orderEmail').value.trim(),
+            total_quantity: calculateTotalQuantity(),
+            total_cost: Number(totalCost.toFixed(2)),
+            gst_amount: Number(gstAmount.toFixed(2)),
+            co2_savings: calculateCO2Savings(),
+            payment_status: 'pending',
+            email_sent: false
+        };
+
+        try {
+            const payNowBtn = widget.querySelector('#payNowBtn');
+            payNowBtn.disabled = true;
+            
+            // Create a payment intent
+            const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderData })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create payment intent');
+            }
+
+            const result = await response.json();
+            
+            // Show payment view
+            const calculatorView = widget.querySelector('.calculator-view');
+            const paymentView = widget.querySelector('.payment-view');
+            calculatorView.classList.remove('active');
+            paymentView.classList.add('active');
+
+            // Initialize payment form
+            initializePaymentForm(result.clientSecret, orderData);
+            
+        } catch (error) {
+            console.error('Error processing order:', error);
+            const payNowBtn = widget.querySelector('#payNowBtn');
+            payNowBtn.disabled = false;
+            alert('Error processing order: ' + (error.message || 'Unknown error'));
+        }
+    });
+
     // Initial display update
     updateDisplay();
 } 

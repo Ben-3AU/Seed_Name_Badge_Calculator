@@ -172,6 +172,71 @@
                 margin-top: 1rem;
                 padding-top: 0;
             }
+
+            /* Additional form styles */
+            .terra-tag-widget input[type="text"],
+            .terra-tag-widget input[type="email"] {
+                padding: 0.75rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                font-size: 1rem;
+                width: 100%;
+                transition: border-color 0.2s ease;
+                color: #1b4c57;
+            }
+
+            .terra-tag-widget input[type="text"]:focus,
+            .terra-tag-widget input[type="email"]:focus {
+                outline: none;
+                border-color: #1b4c57;
+                box-shadow: 0 0 0 3px rgba(27, 76, 87, 0.1);
+            }
+
+            .terra-tag-widget .submit-button {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+                background-color: #1b4c57;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin-top: 1.5rem;
+            }
+
+            .terra-tag-widget .submit-button:hover:not(:disabled) {
+                background-color: #163f48;
+            }
+
+            .terra-tag-widget .submit-button:disabled {
+                background-color: #cbd5e0;
+                cursor: not-allowed;
+            }
+
+            .terra-tag-widget .quote-success-message {
+                color: #83A764;
+                text-align: center;
+                margin-top: 1rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .terra-tag-widget .quote-success-message.visible {
+                opacity: 1;
+            }
+
+            /* Paper type button specific styles */
+            .terra-tag-widget [data-name="paperType"].option-button {
+                flex: 1;
+                border-radius: 6px;
+                margin-right: 0.75rem;
+            }
+
+            .terra-tag-widget [data-name="paperType"].option-button:last-child {
+                margin-right: 0;
+            }
         `;
 
         const styleSheet = document.createElement('style');
@@ -257,12 +322,45 @@
 
                 <!-- Email Quote Form -->
                 <div id="emailQuoteForm" class="additional-form" style="display: none;">
-                    <!-- Quote form content -->
+                    <div class="form-group">
+                        <label for="quoteFirstName">First name</label>
+                        <input type="text" id="quoteFirstName" name="quoteFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteEmail">Email</label>
+                        <input type="email" id="quoteEmail" name="quoteEmail" required>
+                    </div>
+                    <button type="button" class="submit-button" id="submitQuoteBtn" disabled>Submit</button>
+                    <div id="quoteSuccessMessage" class="quote-success-message">Quote sent! Please check your inbox.</div>
                 </div>
 
                 <!-- Order Form -->
                 <div id="orderForm" class="additional-form" style="display: none;">
-                    <!-- Order form content -->
+                    <div class="form-group">
+                        <label for="orderFirstName">First name</label>
+                        <input type="text" id="orderFirstName" name="orderFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderLastName">Last name</label>
+                        <input type="text" id="orderLastName" name="orderLastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderCompany">Company</label>
+                        <input type="text" id="orderCompany" name="orderCompany" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderEmail">Email</label>
+                        <input type="email" id="orderEmail" name="orderEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Paper type</label>
+                        <div class="button-group">
+                            <button type="button" class="option-button" data-name="paperType" data-value="mixedHerb">Mixed herb</button>
+                            <button type="button" class="option-button" data-name="paperType" data-value="mixedFlower">Mixed flower</button>
+                            <button type="button" class="option-button" data-name="paperType" data-value="randomMix">Random mix</button>
+                        </div>
+                    </div>
+                    <button type="button" class="submit-button" id="payNowBtn" disabled>Pay Now</button>
                 </div>
             </form>
         `;
