@@ -296,6 +296,50 @@ function initializeCalculator(baseUrl) {
             calculatorView.classList.remove('active');
             paymentView.classList.add('active');
 
+            // Update order summary with actual data
+            const orderSummary = paymentView.querySelector('.order-summary');
+            orderSummary.innerHTML = `
+                <div class="label">Name:</div>
+                <div class="value">${orderData.first_name} ${orderData.last_name}</div>
+                
+                <div class="label">Company:</div>
+                <div class="value">${orderData.company}</div>
+                
+                <div class="label">Email:</div>
+                <div class="value">${orderData.email}</div>
+                
+                <div class="label">Quantity with guest details printed:</div>
+                <div class="value">${orderData.quantity_with_guests}</div>
+                
+                <div class="label">Quantity without guest details printed:</div>
+                <div class="value">${orderData.quantity_without_guests}</div>
+                
+                <div class="label">Total quantity:</div>
+                <div class="value">${orderData.total_quantity}</div>
+                
+                <div class="label">Size:</div>
+                <div class="value">${orderData.size}</div>
+                
+                <div class="label">Printed sides:</div>
+                <div class="value">${orderData.printed_sides === 'double' ? 'Double sided' : 'Single sided'}</div>
+                
+                <div class="label">Ink coverage:</div>
+                <div class="value">${orderData.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%'}</div>
+                
+                <div class="label">Lanyards:</div>
+                <div class="value">${orderData.lanyards ? 'Yes' : 'No'}</div>
+                
+                <div class="label">Shipping:</div>
+                <div class="value">${orderData.shipping.charAt(0).toUpperCase() + orderData.shipping.slice(1)}</div>
+                
+                <div class="label">Paper type:</div>
+                <div class="value">${orderData.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}</div>
+            `;
+
+            // Update total amount
+            const totalAmount = paymentView.querySelector('.total-amount');
+            totalAmount.textContent = `$${orderData.total_cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
             // Get client secret directly from the response
             const clientSecret = result.clientSecret;
             
@@ -327,7 +371,21 @@ function initializeCalculator(baseUrl) {
             theme: 'stripe',
             variables: {
                 colorPrimary: '#1b4c57',
+                fontFamily: 'Verdana, sans-serif',
+                borderRadius: '6px',
+                fontSizeBase: '16px',
+                spacingUnit: '4px',
+                spacingGridRow: '16px'
             },
+            rules: {
+                '.Label': {
+                    fontFamily: 'Verdana, sans-serif',
+                    fontSize: '0.9375rem',
+                    fontWeight: '500',
+                    color: '#1b4c57',
+                    marginBottom: '0.75rem'
+                }
+            }
         };
 
         elements = stripe.elements({ 
@@ -336,7 +394,12 @@ function initializeCalculator(baseUrl) {
         });
         
         // Create and mount the payment element
-        paymentElement = elements.create('payment');
+        paymentElement = elements.create('payment', {
+            layout: {
+                type: 'tabs',
+                defaultCollapsed: false
+            }
+        });
         
         // Show payment view and hide calculator view
         const calculatorView = document.querySelector('.terra-tag-widget .calculator-view');
@@ -346,21 +409,125 @@ function initializeCalculator(baseUrl) {
             // Update the payment view HTML structure
             paymentView.innerHTML = `
                 <div class="payment-container">
-                    <h2>Complete your payment</h2>
+                    <a href="#" class="back-link">← Cancel</a>
+                    
+                    <div class="order-details">
+                        <h2>Order Summary</h2>
+                        <div class="order-summary">
+                            <!-- Order details will be populated dynamically -->
+                        </div>
+                        <div class="total-amount">$3,267.72</div>
+                    </div>
+
                     <form id="payment-form">
-                        <div id="card-name-container">
+                        <div class="form-group">
                             <label for="card-name">Name on card</label>
-                            <input id="card-name" type="text" placeholder="Name on card" required>
+                            <input id="card-name" type="text" required>
                         </div>
                         <div id="payment-element"></div>
                         <button id="submit-payment" class="payment-button">
-                            <div class="spinner" id="spinner"></div>
-                            <span id="button-text">Pay now</span>
+                            Pay now
                         </button>
-                        <div id="payment-message"></div>
                     </form>
                 </div>
             `;
+
+            // Add styles specific to the payment form
+            const styles = `
+                .terra-tag-widget .payment-container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                    font-family: Verdana, sans-serif;
+                }
+
+                .terra-tag-widget .back-link {
+                    display: inline-block;
+                    color: #0066cc;
+                    text-decoration: none;
+                    margin-bottom: 2rem;
+                    font-size: 14px;
+                }
+
+                .terra-tag-widget .order-details {
+                    background-color: #f8f9fc;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+
+                .terra-tag-widget .order-details h2 {
+                    color: #1b4c57;
+                    font-size: 18px;
+                    margin: 0 0 1rem 0;
+                    font-weight: 500;
+                }
+
+                .terra-tag-widget .order-summary {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0.75rem;
+                    margin-bottom: 1rem;
+                }
+
+                .terra-tag-widget .order-summary .label {
+                    color: #1b4c57;
+                    font-size: 14px;
+                }
+
+                .terra-tag-widget .order-summary .value {
+                    color: #1b4c57;
+                    font-size: 14px;
+                    text-align: right;
+                }
+
+                .terra-tag-widget .total-amount {
+                    font-size: 24px;
+                    color: #1b4c57;
+                    font-weight: 500;
+                    margin-top: 1rem;
+                }
+
+                .terra-tag-widget .form-group {
+                    margin-bottom: 1.5rem;
+                }
+
+                .terra-tag-widget label {
+                    display: block;
+                    color: #1b4c57;
+                    font-size: 14px;
+                    margin-bottom: 0.5rem;
+                }
+
+                .terra-tag-widget input {
+                    width: 100%;
+                    padding: 0.75rem;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    color: #1b4c57;
+                }
+
+                .terra-tag-widget .payment-button {
+                    width: 100%;
+                    padding: 1rem;
+                    background-color: #1b4c57;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                }
+
+                .terra-tag-widget .payment-button:hover {
+                    background-color: #163f48;
+                }
+            `;
+
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = styles;
+            document.head.appendChild(styleSheet);
 
             // Hide calculator view and show payment view
             calculatorView.style.display = 'none';
@@ -375,6 +542,16 @@ function initializeCalculator(baseUrl) {
                 const submitButton = paymentView.querySelector('#submit-payment');
                 if (submitButton) {
                     submitButton.addEventListener('click', handlePaymentSubmission);
+                }
+
+                // Add event listener to the back link
+                const backLink = paymentView.querySelector('.back-link');
+                if (backLink) {
+                    backLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        paymentView.style.display = 'none';
+                        calculatorView.style.display = 'block';
+                    });
                 }
             } else {
                 console.error('Payment element mount point not found');
