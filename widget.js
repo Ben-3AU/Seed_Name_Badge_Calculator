@@ -239,82 +239,130 @@
             }
 
             /* Payment view styles */
-            .payment-view {
-                display: none;
+            .terra-tag-widget .payment-container {
+                max-width: 600px;
+                margin: 0 auto;
                 padding: 20px;
                 background: #fff;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
-            .payment-view.active {
-                display: block;
-            }
-
-            #payment-form {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-
-            #card-name-container {
-                margin-bottom: 20px;
-            }
-
-            #card-name {
-                width: calc(100% - 20px);
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
+            .terra-tag-widget .back-link {
+                display: flex;
+                align-items: center;
+                color: #1b4c57;
+                text-decoration: none;
+                margin-bottom: 24px;
                 font-size: 16px;
-                margin-top: 5px;
+                font-family: Verdana, sans-serif;
             }
 
-            #card-element {
+            .terra-tag-widget .back-link:hover {
+                text-decoration: underline;
+            }
+
+            .terra-tag-widget .order-details {
+                background-color: #f8f9fa;
+                padding: 24px;
+                border-radius: 6px;
+                margin-bottom: 24px;
+            }
+
+            .terra-tag-widget .order-details h2 {
+                color: #1b4c57;
+                font-size: 1.2em;
+                margin: 0 0 16px 0;
+                font-family: Verdana, sans-serif;
+                font-weight: normal;
+            }
+
+            .terra-tag-widget .order-summary {
+                margin-bottom: 16px;
+            }
+
+            .terra-tag-widget .summary-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+                font-family: Verdana, sans-serif;
+                color: #1b4c57;
+            }
+
+            .terra-tag-widget .summary-row .label {
+                flex: 1;
+                padding-right: 24px;
+            }
+
+            .terra-tag-widget .summary-row .value {
+                text-align: left;
+            }
+
+            .terra-tag-widget .total-amount {
+                font-size: 24px;
+                font-weight: bold;
+                color: #1b4c57;
+                text-align: left;
+                margin-top: 16px;
+                font-family: Verdana, sans-serif;
+            }
+
+            .terra-tag-widget .card-name-group {
+                margin-bottom: 24px;
+            }
+
+            .terra-tag-widget .card-name-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #1b4c57;
+                font-family: Verdana, sans-serif;
+                font-size: 16px;
+            }
+
+            .terra-tag-widget .card-name-group input {
+                width: 100%;
                 padding: 12px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                background: white;
-                margin-bottom: 20px;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                font-size: 16px;
+                font-family: Verdana, sans-serif;
             }
 
-            #payment-request-button {
-                margin-bottom: 20px;
+            .terra-tag-widget #payment-element {
+                margin-bottom: 24px;
             }
 
-            .payment-button {
-                background: #5469d4;
+            .terra-tag-widget .payment-button {
+                background: #1b4c57;
                 color: #ffffff;
-                font-family: Arial, sans-serif;
-                border-radius: 4px;
-                border: 0;
+                border: none;
                 padding: 12px 16px;
+                border-radius: 6px;
                 font-size: 16px;
                 font-weight: 600;
                 cursor: pointer;
                 display: block;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 transition: all 0.2s ease;
                 width: 100%;
+                font-family: Verdana, sans-serif;
             }
 
-            .payment-button:hover {
-                filter: brightness(110%);
+            .terra-tag-widget .payment-button:hover {
+                background: #163f48;
             }
 
-            .payment-button:disabled {
+            .terra-tag-widget .payment-button:disabled {
                 opacity: 0.5;
-                cursor: default;
+                cursor: not-allowed;
             }
 
-            .spinner {
+            .terra-tag-widget .spinner {
                 display: none;
                 width: 20px;
                 height: 20px;
-                border: 3px solid #f3f3f3;
-                border-top: 3px solid #3498db;
+                border: 3px solid rgba(255, 255, 255, 0.3);
                 border-radius: 50%;
+                border-top-color: #fff;
                 animation: spin 1s linear infinite;
-                margin: 10px auto;
+                margin: 0 auto;
             }
 
             @keyframes spin {
@@ -322,16 +370,13 @@
                 100% { transform: rotate(360deg); }
             }
 
-            #payment-message {
-                color: rgb(105, 115, 134);
-                font-size: 16px;
+            .terra-tag-widget #payment-message {
+                color: #dc2626;
+                font-size: 14px;
                 line-height: 20px;
                 padding-top: 12px;
                 text-align: center;
-            }
-
-            #payment-element {
-                margin-bottom: 24px;
+                font-family: Verdana, sans-serif;
             }
         `;
 
@@ -465,11 +510,19 @@
         const paymentView = document.createElement('div');
         paymentView.className = 'widget-view payment-view';
         paymentView.innerHTML = `
-            <div class="payment-view">
+            <div class="payment-container">
+                <a href="#" class="back-link">← Cancel</a>
+                <div class="order-details">
+                    <h2>Order Summary</h2>
+                    <div id="order-summary" class="order-summary">
+                        <!-- Order details will be populated here -->
+                    </div>
+                    <div id="order-amount" class="total-amount"></div>
+                </div>
                 <form id="payment-form">
-                    <div id="card-name-container">
+                    <div class="form-group card-name-group">
                         <label for="card-name">Name on card</label>
-                        <input id="card-name" type="text" placeholder="Name on card" required>
+                        <input id="card-name" type="text" required>
                     </div>
                     <div id="payment-element"></div>
                     <button id="submit-payment" class="payment-button">

@@ -53,7 +53,7 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "s-maxage=3600"
+        "Cache-Control": "no-cache, no-store, must-revalidate"
       }
     },
     {
@@ -61,7 +61,7 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "s-maxage=3600"
+        "Cache-Control": "no-cache, no-store, must-revalidate"
       }
     },
     {
