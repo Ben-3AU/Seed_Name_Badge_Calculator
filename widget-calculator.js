@@ -304,4 +304,96 @@ function initializeCalculator() {
 
     // Initial display update
     updateDisplay();
-} 
+}
+
+let stripe;
+let elements;
+let paymentElement;
+
+async function initializeStripe() {
+  // Load Stripe.js
+  const stripeScript = document.createElement('script');
+  stripeScript.src = 'https://js.stripe.com/v3/';
+  document.head.appendChild(stripeScript);
+
+  await new Promise(resolve => stripeScript.onload = resolve);
+
+  // Initialize Stripe
+  stripe = Stripe('pk_test_51OsKQbGPWIVZcGbxPXBSWVLDQZGRvLTXkO8hAHABGBEwRHXh9KPOEQCkQQXWHhV9O1F5EEDqhkEDWTXpJWzQEkSX00uZKEzwbP');
+}
+
+async function initializePaymentElement(clientSecret) {
+  const appearance = {
+    theme: 'stripe',
+    variables: {
+      colorPrimary: '#5469d4',
+    },
+  };
+
+  elements = stripe.elements({ appearance, clientSecret });
+  paymentElement = elements.create('payment');
+  paymentElement.mount('#payment-element');
+
+  document.querySelector('#submit-payment').addEventListener('click', handlePaymentSubmission);
+}
+
+async function handlePaymentSubmission(e) {
+  e.preventDefault();
+
+  setLoading(true);
+
+  const cardName = document.querySelector('#card-name').value;
+  if (!cardName) {
+    showMessage('Please enter the name on your card.');
+    setLoading(false);
+    return;
+  }
+
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: `${window.location.origin}/success`,
+      payment_method_data: {
+        billing_details: {
+          name: cardName,
+        },
+      },
+    },
+  });
+
+  if (error) {
+    showMessage(error.message);
+    setLoading(false);
+  }
+}
+
+function setLoading(isLoading) {
+  const submitButton = document.querySelector('#submit-payment');
+  const spinner = document.querySelector('#spinner');
+  const buttonText = document.querySelector('#button-text');
+
+  if (isLoading) {
+    submitButton.disabled = true;
+    spinner.style.display = 'inline-block';
+    buttonText.style.display = 'none';
+  } else {
+    submitButton.disabled = false;
+    spinner.style.display = 'none';
+    buttonText.style.display = 'inline-block';
+  }
+}
+
+function showMessage(messageText) {
+  const messageContainer = document.querySelector('#payment-message');
+  messageContainer.textContent = messageText;
+  messageContainer.style.display = 'block';
+  setTimeout(() => {
+    messageContainer.style.display = 'none';
+    messageContainer.textContent = '';
+  }, 4000);
+}
+
+// Initialize Stripe when the widget loads
+initializeStripe();
+
+// ... existing code ... 

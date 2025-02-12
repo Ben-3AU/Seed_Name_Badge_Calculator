@@ -237,6 +237,102 @@
             .terra-tag-widget [data-name="paperType"].option-button:last-child {
                 margin-right: 0;
             }
+
+            /* Payment view styles */
+            .payment-view {
+                display: none;
+                padding: 20px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .payment-view.active {
+                display: block;
+            }
+
+            #payment-form {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            #card-name-container {
+                margin-bottom: 20px;
+            }
+
+            #card-name {
+                width: calc(100% - 20px);
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px;
+                margin-top: 5px;
+            }
+
+            #card-element {
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background: white;
+                margin-bottom: 20px;
+            }
+
+            #payment-request-button {
+                margin-bottom: 20px;
+            }
+
+            .payment-button {
+                background: #5469d4;
+                color: #ffffff;
+                font-family: Arial, sans-serif;
+                border-radius: 4px;
+                border: 0;
+                padding: 12px 16px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                display: block;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.2s ease;
+                width: 100%;
+            }
+
+            .payment-button:hover {
+                filter: brightness(110%);
+            }
+
+            .payment-button:disabled {
+                opacity: 0.5;
+                cursor: default;
+            }
+
+            .spinner {
+                display: none;
+                width: 20px;
+                height: 20px;
+                border: 3px solid #f3f3f3;
+                border-top: 3px solid #3498db;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 10px auto;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            #payment-message {
+                color: rgb(105, 115, 134);
+                font-size: 16px;
+                line-height: 20px;
+                padding-top: 12px;
+                text-align: center;
+            }
+
+            #payment-element {
+                margin-bottom: 24px;
+            }
         `;
 
         const styleSheet = document.createElement('style');
@@ -369,32 +465,18 @@
         const paymentView = document.createElement('div');
         paymentView.className = 'widget-view payment-view';
         paymentView.innerHTML = `
-            <div class="container">
-                <a href="#" class="back-link" onclick="return false;">
-                    <span class="back-arrow">←</span>
-                    Cancel
-                </a>
-                
-                <div class="order-details">
-                    <h2>Order Summary</h2>
-                    <ul id="order-summary" class="order-summary">
-                        <!-- Order details will be populated here -->
-                    </ul>
-                    <div id="order-amount" class="amount"></div>
-                </div>
-                
-                <div id="loading">
-                    Loading payment form...
-                </div>
-                
+            <div class="payment-view">
                 <form id="payment-form">
                     <div id="card-name-container">
-                        <label for="card-name" id="card-name-label">Name on card</label>
-                        <input type="text" id="card-name" required>
+                        <label for="card-name">Name on card</label>
+                        <input id="card-name" type="text" placeholder="Name on card" required>
                     </div>
                     <div id="payment-element"></div>
-                    <button id="submit" type="submit">Pay now</button>
-                    <div id="error-message"></div>
+                    <button id="submit-payment" class="payment-button">
+                        <div class="spinner" id="spinner"></div>
+                        <span id="button-text">Pay now</span>
+                    </button>
+                    <div id="payment-message"></div>
                 </form>
             </div>
         `;
@@ -462,4 +544,35 @@
     } else {
         initialize();
     }
+
+    function showPaymentView() {
+        const calculatorView = document.querySelector('.calculator-view');
+        const paymentView = document.querySelector('.payment-view');
+        
+        calculatorView.style.display = 'none';
+        paymentView.style.display = 'block';
+
+        // Create payment intent
+        fetch(`${BASE_URL}/api/create-payment-intent`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: calculateTotal() * 100, // Convert to cents
+                currency: 'aud',
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            initializePaymentElement(data.clientSecret);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('An error occurred while setting up the payment. Please try again.');
+        });
+    }
+
+    // Add event listener to the Pay Now button
+    document.querySelector('#pay-now-button').addEventListener('click', showPaymentView);
 })(); 
