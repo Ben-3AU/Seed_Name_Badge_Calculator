@@ -30,30 +30,23 @@
     {
       "src": "/webhook",
       "methods": ["POST"],
-      "dest": "server.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
+      "dest": "server.js"
     },
     {
       "src": "/api/(.*)",
-      "dest": "server.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
+      "dest": "server.js"
     },
     {
       "src": "/config",
-      "dest": "server.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
+      "dest": "server.js"
+    },
+    {
+      "src": "/payment",
+      "dest": "payment.html"
+    },
+    {
+      "src": "/success",
+      "dest": "success.html"
     },
     {
       "src": "/widget.js",

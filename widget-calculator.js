@@ -366,47 +366,71 @@ function initializeCalculator(baseUrl) {
                 <div class="order-details">
                     <h2>Order Summary</h2>
                     <div class="order-summary">
-                        <div class="label">Name:</div>
-                        <div class="value">${orderData.first_name} ${orderData.last_name}</div>
+                        <div class="summary-row">
+                            <div class="label">Name:</div>
+                            <div class="value">${orderData.first_name} ${orderData.last_name}</div>
+                        </div>
                         
-                        <div class="label">Company:</div>
-                        <div class="value">${orderData.company}</div>
+                        <div class="summary-row">
+                            <div class="label">Company:</div>
+                            <div class="value">${orderData.company}</div>
+                        </div>
                         
-                        <div class="label">Email:</div>
-                        <div class="value">${orderData.email}</div>
+                        <div class="summary-row">
+                            <div class="label">Email:</div>
+                            <div class="value">${orderData.email}</div>
+                        </div>
                         
-                        <div class="label">Quantity with guest details printed:</div>
-                        <div class="value">${orderData.quantity_with_guests}</div>
+                        <div class="summary-row">
+                            <div class="label">Quantity with guest details printed:</div>
+                            <div class="value">${orderData.quantity_with_guests}</div>
+                        </div>
                         
-                        <div class="label">Quantity without guest details printed:</div>
-                        <div class="value">${orderData.quantity_without_guests}</div>
+                        <div class="summary-row">
+                            <div class="label">Quantity without guest details printed:</div>
+                            <div class="value">${orderData.quantity_without_guests}</div>
+                        </div>
                         
-                        <div class="label">Total quantity:</div>
-                        <div class="value">${orderData.total_quantity}</div>
+                        <div class="summary-row">
+                            <div class="label">Total quantity:</div>
+                            <div class="value">${orderData.total_quantity}</div>
+                        </div>
                         
-                        <div class="label">Size:</div>
-                        <div class="value">${orderData.size}</div>
+                        <div class="summary-row">
+                            <div class="label">Size:</div>
+                            <div class="value">${orderData.size}</div>
+                        </div>
                         
-                        <div class="label">Printed sides:</div>
-                        <div class="value">${orderData.printed_sides === 'double' ? 'Double sided' : 'Single sided'}</div>
+                        <div class="summary-row">
+                            <div class="label">Printed sides:</div>
+                            <div class="value">${orderData.printed_sides === 'double' ? 'Double sided' : 'Single sided'}</div>
+                        </div>
                         
-                        <div class="label">Ink coverage:</div>
-                        <div class="value">${orderData.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%'}</div>
+                        <div class="summary-row">
+                            <div class="label">Ink coverage:</div>
+                            <div class="value">${orderData.ink_coverage === 'over40' ? 'Over 40%' : 'Up to 40%'}</div>
+                        </div>
                         
-                        <div class="label">Lanyards:</div>
-                        <div class="value">${orderData.lanyards ? 'Yes' : 'No'}</div>
+                        <div class="summary-row">
+                            <div class="label">Lanyards:</div>
+                            <div class="value">${orderData.lanyards ? 'Yes' : 'No'}</div>
+                        </div>
                         
-                        <div class="label">Shipping:</div>
-                        <div class="value">${orderData.shipping.charAt(0).toUpperCase() + orderData.shipping.slice(1)}</div>
+                        <div class="summary-row">
+                            <div class="label">Shipping:</div>
+                            <div class="value">${orderData.shipping.charAt(0).toUpperCase() + orderData.shipping.slice(1)}</div>
+                        </div>
                         
-                        <div class="label">Paper type:</div>
-                        <div class="value">${orderData.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}</div>
+                        <div class="summary-row">
+                            <div class="label">Paper type:</div>
+                            <div class="value">${orderData.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}</div>
+                        </div>
                     </div>
                     <div class="total-amount">$${orderData.total_cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                 </div>
 
                 <form id="payment-form">
-                    <div class="form-group">
+                    <div class="form-group card-name-group">
                         <label for="card-name">Name on card</label>
                         <input id="card-name" type="text" required>
                     </div>
