@@ -436,7 +436,7 @@ function initializeCalculator(baseUrl) {
 
                 <form id="payment-form">
                     <div class="form-group card-name-group">
-                        <label for="card-name">Name on card</label>
+                        <label for="card-name" style="display: block; color: #30313d; font-family: 'Ideal Sans', system-ui, sans-serif; font-size: 0.9em; margin-bottom: 3px;">Name on card</label>
                         <input id="card-name" type="text" required>
                     </div>
                     <div id="payment-element"></div>
@@ -700,6 +700,14 @@ function injectStyles() {
             line-height: 20px;
             padding-top: 12px;
             text-align: center;
+        }
+
+        .terra-tag-widget .card-name-group label {
+            display: block;
+            margin-bottom: 3px;
+            color: #30313d;
+            font-family: "Ideal Sans", system-ui, sans-serif;
+            font-size: 0.9em;
         }
     `;
 

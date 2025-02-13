@@ -432,6 +432,14 @@
                 text-align: center;
                 line-height: 1.5;
             }
+
+            .terra-tag-widget #card-name-container label {
+                display: block;
+                margin-bottom: 3px;
+                color: #30313d;
+                font-family: "Ideal Sans", system-ui, sans-serif;
+                font-size: 0.9em;
+            }
         `;
 
         const styleSheet = document.createElement('style');
