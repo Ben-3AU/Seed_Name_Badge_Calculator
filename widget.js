@@ -43,7 +43,7 @@
 
             .terra-tag-widget label {
                 font-family: Verdana, sans-serif;
-                font-size: 0.9375rem;
+                font-size: 0.9em;
                 font-weight: 500;
                 color: #1b4c57;
             }
@@ -294,10 +294,22 @@
             }
 
             .terra-tag-widget .summary-row {
+                display: flex;
+                justify-content: space-between;
                 font-size: 0.9em;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 margin-bottom: 4px;
+            }
+
+            .terra-tag-widget .summary-row span:first-child {
+                min-width: 300px;
+            }
+
+            .terra-tag-widget .summary-row span:last-child {
+                text-align: left;
+                margin-left: auto;
+                padding-left: 24px;
             }
 
             .terra-tag-widget .total-amount {
@@ -333,7 +345,9 @@
             .terra-tag-widget #payment-element {
                 margin-bottom: 24px;
                 --elements-label-color: #1b4c57;
-                --elements-label-spacing: 4px;  /* Reduced spacing for Stripe labels */
+                --elements-label-spacing: 3px;
+                font-family: Verdana, sans-serif;
+                --elements-label-font-size: 0.9em;
             }
 
             .terra-tag-widget .payment-button {
@@ -661,4 +675,4 @@
     } else {
         initialize();
     }
-})(); 
+})();
