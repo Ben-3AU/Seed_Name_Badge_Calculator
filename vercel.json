@@ -42,11 +42,11 @@
     },
     {
       "src": "/payment",
-      "dest": "payment.html"
+      "dest": "/payment.html"
     },
     {
       "src": "/success",
-      "dest": "success.html"
+      "dest": "/success.html"
     },
     {
       "src": "/widget.js",
@@ -54,7 +54,8 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
         "Cache-Control": "no-cache, no-store, must-revalidate"
-      }
+      },
+      "dest": "/widget.js"
     },
     {
       "src": "/widget-calculator.js",
@@ -62,11 +63,12 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
         "Cache-Control": "no-cache, no-store, must-revalidate"
-      }
+      },
+      "dest": "/widget-calculator.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ]
 } 

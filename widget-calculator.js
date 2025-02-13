@@ -484,21 +484,30 @@ function initializeCalculator(baseUrl) {
             return;
         }
 
-        const { error } = await stripe.confirmPayment({
+        const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: `${BASE_URL}/success.html`,
                 payment_method_data: {
                     billing_details: {
                         name: cardName,
                     },
                 },
             },
+            redirect: 'if_required'  // Changed from return_url to handle success in the widget
         });
 
         if (error) {
             showMessage(error.message);
             setLoading(false);
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            // Hide payment view and show success view
+            const paymentView = widget.querySelector('.payment-view');
+            const successView = widget.querySelector('.success-view');
+            
+            if (paymentView && successView) {
+                paymentView.style.display = 'none';
+                successView.style.display = 'block';
+            }
         }
     }
 

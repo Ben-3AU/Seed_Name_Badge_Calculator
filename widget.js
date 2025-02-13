@@ -242,7 +242,7 @@
             .terra-tag-widget .payment-container {
                 max-width: 600px;
                 margin: 0 auto;
-                padding: 20px;
+                padding: 0 20px 20px 20px;
                 background: #fff;
             }
 
@@ -272,23 +272,29 @@
                 font-size: 1.2em;
                 margin: 0 0 16px 0;
                 font-family: Verdana, sans-serif;
-                font-weight: normal;
+                font-weight: bold;
             }
 
             .terra-tag-widget .order-summary {
                 margin-bottom: 16px;
+                display: table;
+                width: 100%;
+                font-size: 0.9em;
             }
 
             .terra-tag-widget .summary-row {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 8px;
-                font-family: Verdana, sans-serif;
+                display: table-row;
                 color: #1b4c57;
+                font-family: Verdana, sans-serif;
+            }
+
+            .terra-tag-widget .summary-row .label,
+            .terra-tag-widget .summary-row .value {
+                display: table-cell;
+                padding: 4px 0;
             }
 
             .terra-tag-widget .summary-row .label {
-                flex: 1;
                 padding-right: 24px;
             }
 
@@ -297,7 +303,7 @@
             }
 
             .terra-tag-widget .total-amount {
-                font-size: 24px;
+                font-size: 1.2em;
                 font-weight: bold;
                 color: #1b4c57;
                 text-align: left;
@@ -311,7 +317,7 @@
 
             .terra-tag-widget .card-name-group label {
                 display: block;
-                margin-bottom: 8px;
+                margin-bottom: 6px;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 16px;
@@ -328,6 +334,7 @@
 
             .terra-tag-widget #payment-element {
                 margin-bottom: 24px;
+                --elements-label-color: #1b4c57;
             }
 
             .terra-tag-widget .payment-button {
