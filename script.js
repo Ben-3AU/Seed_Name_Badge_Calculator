@@ -84,7 +84,7 @@ function updateDisplay() {
     const orderForm = document.getElementById('orderForm');
 
     if (totalQuantity < 75) {
-        warningDiv.style.display = 'block';
+        warningDiv.style.display = 'none';
         totalPriceDiv.style.display = 'none';
         actionButtons.style.display = 'none';
         emailQuoteForm.style.display = 'none';

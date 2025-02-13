@@ -81,7 +81,7 @@ function initializeCalculator(baseUrl) {
         const orderForm = widget.querySelector('#orderForm');
 
         if (totalQuantity < 75) {
-            warningDiv.style.display = 'block';
+            warningDiv.style.display = 'none';
             totalPriceDiv.style.display = 'none';
             actionButtons.style.display = 'none';
             emailQuoteForm.style.display = 'none';
@@ -332,7 +332,9 @@ function initializeCalculator(baseUrl) {
             rules: {
                 '.Label': {
                     color: '#30313d',
-                    fontFamily: '"Ideal Sans", system-ui, sans-serif'
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
+                    fontSize: '0.9em',
+                    marginBottom: '3px'
                 }
             }
         };
