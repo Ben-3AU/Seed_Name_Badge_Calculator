@@ -704,10 +704,11 @@ function injectStyles() {
 
         .terra-tag-widget .card-name-group label {
             display: block;
-            margin-bottom: 3px;
+            margin-bottom: 1px;
             color: #30313d;
             font-family: "Ideal Sans", system-ui, sans-serif;
-            font-size: 0.9em;
+            font-size: 0.6em;
+            font-weight: normal;
         }
     `;
 
