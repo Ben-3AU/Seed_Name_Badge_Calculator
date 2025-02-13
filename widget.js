@@ -335,6 +335,7 @@
             .terra-tag-widget #payment-element {
                 margin-bottom: 24px;
                 --elements-label-color: #1b4c57;
+                --elements-label-spacing: 4px;  /* Reduced spacing for Stripe labels */
             }
 
             .terra-tag-widget .payment-button {
@@ -384,6 +385,40 @@
                 padding-top: 12px;
                 text-align: center;
                 font-family: Verdana, sans-serif;
+            }
+
+            /* Success view styles */
+            .terra-tag-widget .success-container {
+                text-align: center;
+                padding: 2rem;
+                max-width: 600px;
+                margin: 2rem auto;
+                background-color: #fff;
+            }
+
+            .terra-tag-widget .success-icon {
+                color: #83A764;  /* Match application color */
+                font-size: 4rem;  /* Increased size */
+                margin-bottom: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .terra-tag-widget .success-message {
+                font-family: Verdana, sans-serif;
+                font-size: 1.2em;  /* Match Order Summary size */
+                color: #1b4c57;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+
+            .terra-tag-widget .success-text {
+                font-family: Verdana, sans-serif;
+                font-size: 0.9em;  /* Match Order Summary question size */
+                color: #1b4c57;
+                text-align: center;
+                line-height: 1.5;
             }
         `;
 
@@ -547,8 +582,8 @@
         successView.innerHTML = `
             <div class="success-container">
                 <div class="success-icon">✓</div>
-                <h1 class="success-message">Payment Successful!</h1>
-                <p>Thank you for your order. A tax receipt will be emailed to you shortly. We'll also reach out to you soon to discuss your artwork.</p>
+                <h2 class="success-message">Payment Successful!</h2>
+                <p class="success-text">Thank you for your order. A tax receipt will be emailed to you shortly. We'll also reach out to you soon to discuss your artwork.</p>
             </div>
         `;
 
