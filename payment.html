@@ -130,9 +130,11 @@
 
         #card-name-label {
             display: block;
-            margin-bottom: 8px;
-            color: #1b4c57;
+            margin-bottom: 3px;
+            color: #30313d;
+            font-family: "Ideal Sans", system-ui, sans-serif;
             font-weight: 500;
+            font-size: 0.9em;
         }
 
         #card-name {
@@ -148,7 +150,7 @@
     <div class="container">
         <a href="/" class="back-link">
             <span class="back-arrow">←</span>
-            Cancel
+            Back
         </a>
         
         <div class="order-details">
@@ -232,9 +234,15 @@
                             colorBackground: '#ffffff',
                             colorText: '#30313d',
                             colorDanger: '#df1b41',
-                            fontFamily: 'Ideal Sans, system-ui, sans-serif',
+                            fontFamily: '"Ideal Sans", system-ui, sans-serif',
                             spacingUnit: '2px',
                             borderRadius: '4px',
+                        },
+                        rules: {
+                            '.Label': {
+                                color: '#30313d',
+                                fontFamily: '"Ideal Sans", system-ui, sans-serif'
+                            }
                         }
                     }
                 });

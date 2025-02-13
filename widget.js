@@ -151,7 +151,7 @@
                 padding: 1rem;
                 font-family: Verdana, sans-serif !important;
                 font-size: 1rem;
-                font-weight: normal;
+                font-weight: 600;
                 color: #1b4c57;
                 background-color: #edf2f7;
                 border: 1px solid #e2e8f0;
@@ -328,8 +328,8 @@
             .terra-tag-widget .card-name-group label {
                 display: block;
                 margin-bottom: 3px;
-                color: #1b4c57;
-                font-family: Verdana, sans-serif;
+                color: #30313d;
+                font-family: "Ideal Sans", system-ui, sans-serif;
                 font-size: 0.9em;
             }
 
@@ -565,7 +565,7 @@
         paymentView.className = 'widget-view payment-view';
         paymentView.innerHTML = `
             <div class="payment-container">
-                <a href="#" class="back-link">← Cancel</a>
+                <a href="#" class="back-link">← Back</a>
                 <div class="order-details">
                     <h2>Order Summary</h2>
                     <div id="order-summary" class="order-summary">

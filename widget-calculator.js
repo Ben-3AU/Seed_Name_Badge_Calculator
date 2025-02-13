@@ -74,28 +74,21 @@ function initializeCalculator(baseUrl) {
     // Display function
     function updateDisplay() {
         const totalQuantity = calculateTotalQuantity();
-        const warningDiv = document.querySelector('.terra-tag-widget #minimumQuantityWarning');
-        const totalPriceDiv = document.querySelector('.terra-tag-widget #totalPrice');
-        const actionButtons = document.querySelector('.terra-tag-widget #actionButtons');
-        const emailQuoteForm = document.querySelector('.terra-tag-widget #emailQuoteForm');
-        const orderForm = document.querySelector('.terra-tag-widget #orderForm');
-
-        totalPriceDiv.style.display = 'block';
+        const warningDiv = widget.querySelector('#minimumQuantityWarning');
+        const totalPriceDiv = widget.querySelector('#totalPrice');
+        const actionButtons = widget.querySelector('#actionButtons');
+        const emailQuoteForm = widget.querySelector('#emailQuoteForm');
+        const orderForm = widget.querySelector('#orderForm');
 
         if (totalQuantity < 75) {
-            warningDiv.style.display = 'none';
-            totalPriceDiv.innerHTML = `
-                <div style="text-align: center; padding: 10px;">
-                    <div style="font-size: 1em; color: #333;">
-                        Enter a minimum quantity of 75 above
-                    </div>
-                </div>
-            `;
+            warningDiv.style.display = 'block';
+            totalPriceDiv.style.display = 'none';
             actionButtons.style.display = 'none';
             emailQuoteForm.style.display = 'none';
             orderForm.style.display = 'none';
         } else {
             warningDiv.style.display = 'none';
+            totalPriceDiv.style.display = 'block';
             const totalPrice = calculateTotalPrice();
             const gst = calculateGST(totalPrice);
             const co2Savings = calculateCO2Savings();
@@ -329,11 +322,18 @@ function initializeCalculator(baseUrl) {
             theme: 'stripe',
             variables: {
                 colorPrimary: '#1b4c57',
-                fontFamily: 'Verdana, sans-serif',
-                borderRadius: '6px',
-                fontSizeBase: '16px',
+                colorBackground: '#ffffff',
+                colorText: '#30313d',
+                colorDanger: '#df1b41',
+                fontFamily: '"Ideal Sans", system-ui, sans-serif',
                 spacingUnit: '4px',
                 spacingGridRow: '16px'
+            },
+            rules: {
+                '.Label': {
+                    color: '#30313d',
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif'
+                }
             }
         };
 
@@ -347,6 +347,9 @@ function initializeCalculator(baseUrl) {
             layout: {
                 type: 'tabs',
                 defaultCollapsed: false
+            },
+            wallets: {
+                googlePay: 'auto'
             }
         });
         
@@ -361,7 +364,7 @@ function initializeCalculator(baseUrl) {
         // Update the payment view HTML structure
         paymentView.innerHTML = `
             <div class="payment-container">
-                <a href="#" class="back-link">← Cancel</a>
+                <a href="#" class="back-link">← Back</a>
                 
                 <div class="order-details">
                     <h2>Order Summary</h2>
@@ -446,6 +449,9 @@ function initializeCalculator(baseUrl) {
         // Hide calculator view and show payment view
         calculatorView.style.display = 'none';
         paymentView.style.display = 'block';
+        
+        // Scroll to top of widget
+        widget.scrollIntoView({ behavior: 'smooth' });
         
         // Mount the payment element
         const paymentElementMount = paymentView.querySelector('#payment-element');
@@ -540,6 +546,15 @@ function initializeCalculator(baseUrl) {
             }, 4000);
         }
     }
+
+    function showPaymentView() {
+        const calculatorView = document.querySelector('.calculator-view');
+        const paymentView = document.querySelector('.payment-view');
+        calculatorView.classList.remove('active');
+        paymentView.classList.add('active');
+        const widget = document.querySelector('.terra-tag-widget');
+        widget.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 let stripe;
@@ -616,6 +631,14 @@ function injectStyles() {
 
         .terra-tag-widget #card-name-container {
             margin-bottom: 20px;
+        }
+
+        .terra-tag-widget #card-name-container label {
+            display: block;
+            margin-bottom: 3px;
+            color: #30313d;
+            font-family: "Ideal Sans", system-ui, sans-serif;
+            font-size: 0.9em;
         }
 
         .terra-tag-widget #card-name {

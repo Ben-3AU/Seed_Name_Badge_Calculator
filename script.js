@@ -83,23 +83,15 @@ function updateDisplay() {
     const emailQuoteForm = document.getElementById('emailQuoteForm');
     const orderForm = document.getElementById('orderForm');
 
-    // Always show the totalPrice div, but update its content based on quantity
-    totalPriceDiv.style.display = 'block';
-
     if (totalQuantity < 75) {
-        warningDiv.style.display = 'none'; // Hide the warning above
-        totalPriceDiv.innerHTML = `
-            <div style="text-align: center; padding: 10px;">
-                <div style="font-size: 1em; color: #333;">
-                    Enter a minimum quantity of 75 above
-                </div>
-            </div>
-        `;
+        warningDiv.style.display = 'block';
+        totalPriceDiv.style.display = 'none';
         actionButtons.style.display = 'none';
         emailQuoteForm.style.display = 'none';
         orderForm.style.display = 'none';
     } else {
         warningDiv.style.display = 'none';
+        totalPriceDiv.style.display = 'block';
         const totalPrice = calculateTotalPrice();
         const gst = calculateGST(totalPrice);
         const co2Savings = calculateCO2Savings();
@@ -421,4 +413,4 @@ async function handleOrderSubmission(event) {
     }
 }
 
-console.log('Debug: script.js finished loading'); 
+console.log('Debug: script.js finished loading');
