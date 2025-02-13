@@ -11,6 +11,7 @@
                 max-width: 600px;
                 margin: 0 auto;
                 background-color: #ffffff;
+                padding-top: 0;  /* Remove top padding */
             }
 
             .terra-tag-widget * {
@@ -24,6 +25,7 @@
                 font-weight: normal;
                 color: #1b4c57;
                 text-align: center;
+                margin-top: 0;  /* Remove top margin */
                 margin-bottom: 2rem;
             }
 
@@ -36,10 +38,11 @@
             .terra-tag-widget .form-group {
                 display: flex;
                 flex-direction: column;
-                gap: 0.75rem;
+                gap: 0.375rem;  /* Reduced gap between label and input */
             }
 
             .terra-tag-widget label {
+                font-family: Verdana, sans-serif;
                 font-size: 0.9375rem;
                 font-weight: 500;
                 color: #1b4c57;
@@ -53,6 +56,15 @@
                 width: 100%;
                 transition: border-color 0.2s ease;
                 color: #1b4c57;
+                -webkit-appearance: none;  /* Remove spinner arrows */
+                -moz-appearance: textfield;  /* Remove spinner arrows in Firefox */
+            }
+
+            /* Remove spinner arrows in Edge */
+            .terra-tag-widget input[type="number"]::-webkit-outer-spin-button,
+            .terra-tag-widget input[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
             }
 
             .terra-tag-widget .button-group {
@@ -243,7 +255,6 @@
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 0 20px 20px 20px;
-                background: #fff;
             }
 
             .terra-tag-widget .back-link {
@@ -251,7 +262,7 @@
                 align-items: center;
                 color: #1b4c57;
                 text-decoration: none;
-                margin-bottom: 24px;
+                margin-bottom: 6px;
                 font-size: 16px;
                 font-family: Verdana, sans-serif;
             }
@@ -283,23 +294,10 @@
             }
 
             .terra-tag-widget .summary-row {
-                display: table-row;
+                font-size: 0.9em;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
-            }
-
-            .terra-tag-widget .summary-row .label,
-            .terra-tag-widget .summary-row .value {
-                display: table-cell;
-                padding: 4px 0;
-            }
-
-            .terra-tag-widget .summary-row .label {
-                padding-right: 24px;
-            }
-
-            .terra-tag-widget .summary-row .value {
-                text-align: left;
+                margin-bottom: 4px;
             }
 
             .terra-tag-widget .total-amount {
@@ -317,10 +315,10 @@
 
             .terra-tag-widget .card-name-group label {
                 display: block;
-                margin-bottom: 6px;
+                margin-bottom: 3px;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
-                font-size: 16px;
+                font-size: 0.9em;
             }
 
             .terra-tag-widget .card-name-group input {
