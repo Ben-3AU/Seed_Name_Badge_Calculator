@@ -49,22 +49,32 @@
       "dest": "/success.html"
     },
     {
+      "src": "/script.js",
+      "dest": "/script.js",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Content-Type": "application/javascript"
+      }
+    },
+    {
       "src": "/widget.js",
+      "dest": "/widget.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "no-cache, no-store, must-revalidate"
-      },
-      "dest": "/widget.js"
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Content-Type": "application/javascript"
+      }
     },
     {
       "src": "/widget-calculator.js",
+      "dest": "/widget-calculator.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "no-cache, no-store, must-revalidate"
-      },
-      "dest": "/widget-calculator.js"
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Content-Type": "application/javascript"
+      }
     },
     {
       "src": "/(.*)",
