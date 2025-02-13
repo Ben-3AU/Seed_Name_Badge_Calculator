@@ -335,6 +335,12 @@ function initializeCalculator(baseUrl) {
                     fontFamily: '"Ideal Sans", system-ui, sans-serif',
                     fontSize: '0.9em',
                     marginBottom: '3px'
+                },
+                '.Input': {
+                    padding: '12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e2e8f0',
+                    fontSize: '16px'
                 }
             }
         };
@@ -437,11 +443,12 @@ function initializeCalculator(baseUrl) {
                 <form id="payment-form">
                     <div class="form-group card-name-group">
                         <label for="card-name" style="display: block; color: #30313d; font-family: 'Ideal Sans', system-ui, sans-serif; font-size: 0.9em; margin-bottom: 3px;">Name on card</label>
-                        <input id="card-name" type="text" required>
+                        <input id="card-name" type="text" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 16px;" required>
                     </div>
                     <div id="payment-element"></div>
                     <button id="submit-payment" class="payment-button">
-                        Pay now
+                        <div class="spinner" id="spinner"></div>
+                        <span id="button-text">Pay now</span>
                     </button>
                     <div id="payment-message"></div>
                 </form>
