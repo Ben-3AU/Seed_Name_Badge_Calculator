@@ -188,6 +188,12 @@ function initializeCalculator(baseUrl) {
     widget.querySelector('#submitQuoteBtn').addEventListener('click', async (event) => {
         event.preventDefault();
         
+        // Show spinner
+        const submitButton = widget.querySelector('#submitQuoteBtn');
+        const originalButtonText = submitButton.innerHTML;
+        submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
+        submitButton.classList.add('loading');
+        
         const totalCost = calculateTotalPrice();
         const gstAmount = calculateGST(totalCost);
         
@@ -232,12 +238,22 @@ function initializeCalculator(baseUrl) {
         } catch (error) {
             console.error('Error processing quote:', error);
             alert('Error sending quote. Please try again.');
+        } finally {
+            // Hide spinner and restore button text
+            submitButton.innerHTML = originalButtonText;
+            submitButton.classList.remove('loading');
         }
     });
 
     // Handle order submission
     widget.querySelector('#payNowBtn').addEventListener('click', async (event) => {
         event.preventDefault();
+        
+        // Show spinner
+        const payNowBtn = widget.querySelector('#payNowBtn');
+        const originalButtonText = payNowBtn.innerHTML;
+        payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
+        payNowBtn.classList.add('loading');
         
         const totalCost = calculateTotalPrice();
         const gstAmount = calculateGST(totalCost);
@@ -264,9 +280,6 @@ function initializeCalculator(baseUrl) {
         };
 
         try {
-            const payNowBtn = widget.querySelector('#payNowBtn');
-            payNowBtn.disabled = true;
-            
             // Create a payment intent
             const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
                 method: 'POST',
@@ -282,30 +295,16 @@ function initializeCalculator(baseUrl) {
             }
 
             const result = await response.json();
-            
-            // Get client secret directly from the response
-            const clientSecret = result.clientSecret;
-            
-            if (!clientSecret) {
-                throw new Error('No client secret received from the server');
-            }
+            console.log('Payment intent created:', result);
 
-            // First create the payment view structure if it doesn't exist
-            let paymentView = widget.querySelector('.payment-view');
-            if (!paymentView) {
-                paymentView = document.createElement('div');
-                paymentView.className = 'widget-view payment-view';
-                widget.appendChild(paymentView);
-            }
-
-            // Initialize payment form with order data
-            await initializePaymentElement(clientSecret, orderData);
-            
+            // Redirect to payment page
+            window.location.href = result.url;
         } catch (error) {
             console.error('Error processing order:', error);
-            const payNowBtn = widget.querySelector('#payNowBtn');
-            payNowBtn.disabled = false;
             alert('Error processing order: ' + (error.message || 'Unknown error'));
+            // Hide spinner and restore button text if there's an error
+            payNowBtn.innerHTML = originalButtonText;
+            payNowBtn.classList.remove('loading');
         }
     });
 
@@ -723,3 +722,33 @@ function injectStyles() {
 }
 
 // ... existing code ... 
+
+document.getElementById('order-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
+    submitButton.classList.add('loading');
+    
+    // Store form data and redirect
+    storeFormData();
+    window.location.href = 'payment.html';
+});
+
+document.getElementById('quote-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
+    submitButton.classList.add('loading');
+
+    try {
+        // Your existing email sending logic here
+        await sendEmail();
+        showMessage('Quote sent successfully!', 'success');
+    } catch (error) {
+        showMessage('Failed to send quote. Please try again.', 'error');
+    } finally {
+        submitButton.innerHTML = originalButtonText;
+        submitButton.classList.remove('loading');
+    }
+}); 

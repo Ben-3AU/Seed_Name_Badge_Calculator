@@ -378,25 +378,32 @@
                 display: none;
                 width: 20px;
                 height: 20px;
-                border: 3px solid rgba(255, 255, 255, 0.3);
+                border: 2px solid #ffffff;
                 border-radius: 50%;
-                border-top-color: #fff;
+                border-top-color: transparent;
                 animation: spin 1s linear infinite;
-                margin: 0 auto;
+                margin-right: 8px;
+            }
+
+            .terra-tag-widget .button-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .terra-tag-widget .loading .spinner {
+                display: inline-block;
             }
 
             @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
+                to {
+                    transform: rotate(360deg);
+                }
             }
 
-            .terra-tag-widget #payment-message {
-                color: #dc2626;
-                font-size: 14px;
-                line-height: 20px;
-                padding-top: 12px;
-                text-align: center;
-                font-family: Verdana, sans-serif;
+            /* Update button styles to maintain consistent height during loading */
+            .terra-tag-widget button {
+                min-height: 40px;
             }
 
             /* Success view styles */
