@@ -14,11 +14,11 @@
       "use": "@vercel/static"
     },
     {
-      "src": "widget*.js",
-      "use": "@vercel/node"
+      "src": "*.js",
+      "use": "@vercel/static"
     },
     {
-      "src": "*.js",
+      "src": "widget*.js",
       "use": "@vercel/static"
     },
     {
