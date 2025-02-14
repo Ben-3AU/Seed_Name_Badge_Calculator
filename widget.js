@@ -675,7 +675,8 @@
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = src;
+            // Add version parameter for cache busting
+            script.src = src.includes('widget-calculator.js') ? `${src}?v=${Date.now()}` : src;
             script.onload = resolve;
             script.onerror = reject;
             document.head.appendChild(script);
