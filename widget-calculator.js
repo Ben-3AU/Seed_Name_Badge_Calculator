@@ -224,14 +224,25 @@ function initializeCalculator(baseUrl) {
                 colorDanger: '#df1b41',
                 fontFamily: '"Ideal Sans", system-ui, sans-serif',
                 spacingUnit: '4px',
-                spacingGridRow: '16px'
+                spacingGridRow: '16px',
+                fontSizeBase: '16px',
+                fontSizeSm: '0.9em',
+                spacingTab: '3px'
             },
             rules: {
+                '.Label': {
+                    color: '#30313d',
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
+                    fontSize: '0.9em',
+                    marginBottom: '3px',
+                    fontWeight: 'normal'
+                },
                 '.Input': {
                     padding: '12px',
                     borderRadius: '6px',
                     border: '1px solid #e2e8f0',
-                    fontSize: '16px'
+                    fontSize: '16px',
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif'
                 }
             }
         };
@@ -618,6 +629,7 @@ function injectStyles() {
             font-family: "Ideal Sans", system-ui, sans-serif !important;
             font-size: 0.9em !important;
             font-weight: normal !important;
+            line-height: 1.2 !important;
         }
 
         .terra-tag-widget .card-name-group input {
@@ -627,6 +639,15 @@ function injectStyles() {
             border-radius: 6px !important;
             font-size: 16px !important;
             font-family: "Ideal Sans", system-ui, sans-serif !important;
+            background: #ffffff !important;
+            transition: border-color 0.15s ease !important;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02) !important;
+        }
+
+        .terra-tag-widget .card-name-group input:focus {
+            outline: none !important;
+            border-color: #1b4c57 !important;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(27, 76, 87, 0.1) !important;
         }
 
         /* Remove any conflicting styles */
