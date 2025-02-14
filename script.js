@@ -258,12 +258,18 @@ async function saveOrder(orderData) {
 async function handleQuoteSubmission(event) {
     event.preventDefault();
     
+    // Show spinner
+    const submitButton = document.getElementById('submitQuoteBtn');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
+    submitButton.classList.add('loading');
+    
     const totalCost = calculateTotalPrice();
     const gstAmount = calculateGST(totalCost);
     
     const quoteData = {
-        quantity_with_guests: parseInt(quantityWithGuests.value) || 0,
-        quantity_without_guests: parseInt(quantityWithoutGuests.value) || 0,
+        quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
+        quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
         size: getSelectedValue('size'),
         printed_sides: getSelectedValue('printedSides'),
         ink_coverage: getSelectedValue('inkCoverage'),
@@ -351,6 +357,11 @@ async function handleQuoteSubmission(event) {
         
     } catch (error) {
         console.error('Detailed error processing quote:', error);
+        alert('Error sending quote. Please try again.');
+    } finally {
+        // Hide spinner and restore button text
+        submitButton.innerHTML = originalButtonText;
+        submitButton.classList.remove('loading');
     }
 }
 
@@ -358,12 +369,18 @@ async function handleQuoteSubmission(event) {
 async function handleOrderSubmission(event) {
     event.preventDefault();
     
+    // Show spinner
+    const payNowBtn = document.getElementById('payNowBtn');
+    const originalButtonText = payNowBtn.innerHTML;
+    payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
+    payNowBtn.classList.add('loading');
+    
     const totalCost = calculateTotalPrice();
     const gstAmount = calculateGST(totalCost);
     
     const orderData = {
-        quantity_with_guests: parseInt(quantityWithGuests.value) || 0,
-        quantity_without_guests: parseInt(quantityWithoutGuests.value) || 0,
+        quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
+        quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
         size: getSelectedValue('size'),
         printed_sides: getSelectedValue('printedSides'),
         ink_coverage: getSelectedValue('inkCoverage'),
@@ -383,9 +400,6 @@ async function handleOrderSubmission(event) {
     };
 
     try {
-        const payNowBtn = document.getElementById('payNowBtn');
-        payNowBtn.disabled = true;
-        
         // Create a payment intent
         const response = await fetch('/api/create-payment-intent', {
             method: 'POST',
@@ -407,9 +421,14 @@ async function handleOrderSubmission(event) {
         window.location.href = result.url;
     } catch (error) {
         console.error('Error processing order:', error);
-        const payNowBtn = document.getElementById('payNowBtn');
-        payNowBtn.disabled = false;
         alert('Error processing order: ' + (error.message || 'Unknown error'));
+    } finally {
+        // Hide spinner and restore button text if there's an error
+        // (If successful, the page will redirect)
+        if (error) {
+            payNowBtn.innerHTML = originalButtonText;
+            payNowBtn.classList.remove('loading');
+        }
     }
 }
 
