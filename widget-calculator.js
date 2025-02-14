@@ -416,7 +416,7 @@ function initializeCalculator(baseUrl) {
                     },
                 },
             },
-            redirect: 'if_required'  // Changed from return_url to handle success in the widget
+            redirect: 'if_required'
         });
 
         if (error) {
@@ -430,6 +430,8 @@ function initializeCalculator(baseUrl) {
             if (paymentView && successView) {
                 paymentView.style.display = 'none';
                 successView.style.display = 'block';
+                // Scroll to top of widget
+                widget.scrollIntoView({ behavior: 'smooth' });
             }
         }
     }
@@ -443,11 +445,11 @@ function initializeCalculator(baseUrl) {
             if (isLoading) {
                 submitButton.disabled = true;
                 spinner.style.display = 'inline-block';
-                buttonText.style.display = 'none';
+                buttonText.textContent = 'Processing...';
             } else {
                 submitButton.disabled = false;
                 spinner.style.display = 'none';
-                buttonText.style.display = 'inline-block';
+                buttonText.textContent = 'Pay now';
             }
         }
     }
@@ -663,7 +665,10 @@ function injectStyles() {
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
             transition: all 0.2s ease;
             width: 100%;
         }
@@ -677,15 +682,15 @@ function injectStyles() {
             cursor: not-allowed;
         }
 
-        .terra-tag-widget .spinner {
+        .terra-tag-widget .payment-button .spinner {
             display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0;
         }
 
         @keyframes spin {
