@@ -514,8 +514,23 @@ function initializeCalculator(baseUrl) {
             const result = await response.json();
             console.log('Payment intent created:', result);
 
-            // Redirect to payment page
-            window.location.href = result.url;
+            // Show payment view instead of redirecting
+            const calculatorView = document.querySelector('.calculator-view');
+            const paymentView = document.querySelector('.payment-view');
+            
+            if (calculatorView && paymentView) {
+                calculatorView.style.display = 'none';
+                paymentView.style.display = 'block';
+                
+                // Initialize payment element with the client secret
+                if (result.clientSecret) {
+                    await initializePaymentElement(result.clientSecret, orderData);
+                } else {
+                    throw new Error('No client secret received from server');
+                }
+            } else {
+                throw new Error('Payment view elements not found');
+            }
         } catch (error) {
             console.error('Error processing order:', error);
             alert('Error processing order: ' + (error.message || 'Unknown error'));
