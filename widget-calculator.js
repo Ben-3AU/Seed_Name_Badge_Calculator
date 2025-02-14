@@ -338,11 +338,13 @@ function initializeCalculator(baseUrl) {
                 </div>
 
                 <form id="payment-form">
-                    <div class="form-group card-name-group">
-                        <label for="card-name" style="display: block; color: #30313d; font-family: 'Ideal Sans', system-ui, sans-serif; font-size: 0.9em; margin-bottom: 3px;">Name on card</label>
+                    <div id="card-name-container">
+                        <label for="card-name" style="display: block !important; color: #30313d !important; font-family: 'Ideal Sans', system-ui, sans-serif !important; font-size: 0.9em !important; margin-bottom: 3px !important;">Name on card</label>
                         <input id="card-name" type="text" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 16px;" required>
                     </div>
-                    <div id="payment-element"></div>
+                    <div id="payment-element">
+                        <!-- Stripe Elements will be mounted here -->
+                    </div>
                     <button id="submit-payment" class="payment-button">
                         <div class="spinner" id="spinner"></div>
                         <span id="button-text">Pay now</span>
@@ -572,8 +574,8 @@ function createWidgetStructure() {
             <h2>Complete your payment</h2>
             <form id="payment-form">
                 <div id="card-name-container">
-                    <label for="card-name">Name on card</label>
-                    <input id="card-name" type="text" placeholder="Name on card" required>
+                    <label for="card-name" style="display: block !important; color: #30313d !important; font-family: 'Ideal Sans', system-ui, sans-serif !important; font-size: 0.9em !important; margin-bottom: 3px !important;">Name on card</label>
+                    <input id="card-name" type="text" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 16px;" required>
                 </div>
                 <div id="payment-element">
                     <!-- Stripe Elements will be mounted here -->
