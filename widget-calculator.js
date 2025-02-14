@@ -226,17 +226,23 @@ function initializeCalculator(baseUrl) {
                 spacingUnit: '4px',
                 spacingGridRow: '16px',
                 fontSizeBase: '16px',
-                fontSizeSm: '14px',
+                fontSizeSm: '0.9em',
                 spacingTab: '3px'
             },
             rules: {
+                '.Label': {
+                    color: '#30313d',
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
+                    fontSize: '0.9em',
+                    marginBottom: '3px',
+                    fontWeight: 'normal'
+                },
                 '.Input': {
-                    padding: '8px 12px',
+                    padding: '12px',
                     borderRadius: '6px',
                     border: '1px solid #e2e8f0',
                     fontSize: '16px',
-                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
-                    lineHeight: '24px'
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif'
                 }
             }
         };
@@ -343,13 +349,9 @@ function initializeCalculator(baseUrl) {
                 </div>
 
                 <form id="payment-form">
-                    <div class="form-group card-name-field">
-                        <div class="card-name-label-wrapper">
-                            <label for="card-name" class="custom-label">Name on card</label>
-                        </div>
-                        <div class="card-name-input-wrapper">
-                            <input id="card-name" type="text" class="custom-input" required>
-                        </div>
+                    <div class="card-name-group">
+                        <label for="card-name">Name on card</label>
+                        <input id="card-name" type="text" required>
                     </div>
                     <div id="payment-element"></div>
                     <button id="submit-payment" class="payment-button">
@@ -611,17 +613,6 @@ function injectStyles() {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .terra-tag-widget .payment-container h2 {
-            color: #1b4c57;
-            font-size: 1.5rem;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .terra-tag-widget #payment-form {
-            display: block;
-        }
-
         .terra-tag-widget .card-name-group {
             margin-bottom: 24px;
         }
@@ -655,9 +646,12 @@ function injectStyles() {
         }
 
         /* Remove any conflicting styles */
+        .terra-tag-widget .card-name-field,
+        .terra-tag-widget .card-name-label-wrapper,
+        .terra-tag-widget .card-name-input-wrapper,
         .terra-tag-widget #card-name-container,
         .terra-tag-widget .stripe-label {
-            display: none;
+            display: none !important;
         }
 
         .terra-tag-widget .payment-button {
