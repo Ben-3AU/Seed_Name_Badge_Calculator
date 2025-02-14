@@ -227,12 +227,6 @@ function initializeCalculator(baseUrl) {
                 spacingGridRow: '16px'
             },
             rules: {
-                '.Label': {
-                    color: '#30313d',
-                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
-                    fontSize: '0.9em',
-                    marginBottom: '3px'
-                },
                 '.Input': {
                     padding: '12px',
                     borderRadius: '6px',
@@ -339,8 +333,8 @@ function initializeCalculator(baseUrl) {
 
                 <form id="payment-form">
                     <div class="form-group card-name-group">
-                        <label for="card-name" style="display: block; color: #30313d; font-family: 'Ideal Sans', system-ui, sans-serif; font-size: 0.9em; margin-bottom: 3px;">Name on card</label>
-                        <input id="card-name" type="text" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 16px;" required>
+                        <label for="card-name">Name on card</label>
+                        <input id="card-name" type="text" required>
                     </div>
                     <div id="payment-element"></div>
                     <button id="submit-payment" class="payment-button">
@@ -613,28 +607,32 @@ function injectStyles() {
             display: block;
         }
 
-        .terra-tag-widget #card-name-container {
-            margin-bottom: 20px;
-        }
-
-        .terra-tag-widget #card-name-container label {
-            display: block;
-            margin-bottom: 3px;
-            color: #30313d;
-            font-family: "Ideal Sans", system-ui, sans-serif;
-            font-size: 0.9em;
-        }
-
-        .terra-tag-widget #card-name {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        .terra-tag-widget #payment-element {
+        .terra-tag-widget .card-name-group {
             margin-bottom: 24px;
+        }
+
+        .terra-tag-widget .card-name-group label {
+            display: block !important;
+            margin-bottom: 3px !important;
+            color: #30313d !important;
+            font-family: "Ideal Sans", system-ui, sans-serif !important;
+            font-size: 0.9em !important;
+            font-weight: normal !important;
+        }
+
+        .terra-tag-widget .card-name-group input {
+            width: 100% !important;
+            padding: 12px !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 6px !important;
+            font-size: 16px !important;
+            font-family: "Ideal Sans", system-ui, sans-serif !important;
+        }
+
+        /* Remove any conflicting styles */
+        .terra-tag-widget #card-name-container,
+        .terra-tag-widget .stripe-label {
+            display: none;
         }
 
         .terra-tag-widget .payment-button {
@@ -682,15 +680,6 @@ function injectStyles() {
             line-height: 20px;
             padding-top: 12px;
             text-align: center;
-        }
-
-        .terra-tag-widget .card-name-group label {
-            display: block;
-            margin-bottom: 1px;
-            color: #30313d;
-            font-family: "Ideal Sans", system-ui, sans-serif;
-            font-size: 0.6em;
-            font-weight: normal;
         }
     `;
 
