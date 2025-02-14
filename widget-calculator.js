@@ -732,6 +732,7 @@ function injectStyles() {
 
         .terra-tag-widget .card-name-input-wrapper {
             position: relative;
+            margin-bottom: 24px;  /* Increased spacing to match Stripe's spacing */
         }
 
         .terra-tag-widget .custom-input {
