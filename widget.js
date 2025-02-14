@@ -48,6 +48,32 @@
                 color: #1b4c57;
             }
 
+            .terra-tag-widget input[type="text"],
+            .terra-tag-widget input[type="email"] {
+                padding: 0.75rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                font-size: 1rem;
+                width: 100%;
+                transition: border-color 0.2s ease;
+                color: #1b4c57;
+                font-family: Verdana, sans-serif !important;
+                background-color: #ffffff;
+            }
+
+            .terra-tag-widget input[type="text"]:focus,
+            .terra-tag-widget input[type="email"]:focus {
+                outline: none;
+                border-color: #1b4c57;
+                box-shadow: 0 0 0 3px rgba(27, 76, 87, 0.1);
+            }
+
+            .terra-tag-widget input[type="text"]::placeholder,
+            .terra-tag-widget input[type="email"]::placeholder {
+                color: #a0aec0;
+                font-family: Verdana, sans-serif !important;
+            }
+
             .terra-tag-widget input[type="number"] {
                 padding: 0.75rem;
                 border: 1px solid #e2e8f0;
@@ -56,6 +82,8 @@
                 width: 100%;
                 transition: border-color 0.2s ease;
                 color: #1b4c57;
+                font-family: Verdana, sans-serif !important;
+                background-color: #ffffff;
                 -webkit-appearance: none;  /* Remove spinner arrows */
                 -moz-appearance: textfield;  /* Remove spinner arrows in Firefox */
             }
@@ -65,6 +93,12 @@
             .terra-tag-widget input[type="number"]::-webkit-inner-spin-button {
                 -webkit-appearance: none;
                 margin: 0;
+            }
+
+            .terra-tag-widget input[type="number"]:focus {
+                outline: none;
+                border-color: #1b4c57;
+                box-shadow: 0 0 0 3px rgba(27, 76, 87, 0.1);
             }
 
             .terra-tag-widget .button-group {
@@ -507,15 +541,6 @@
                     <div class="button-group">
                         <button type="button" class="option-button selected" data-name="shipping" data-value="standard">Standard</button>
                         <button type="button" class="option-button" data-name="shipping" data-value="express">Express</button>
-                    </div>
-                </div>
-
-                <div class="form-group" data-type="paper-type">
-                    <label>Paper type</label>
-                    <div class="button-group">
-                        <button type="button" class="option-button" data-name="paperType" data-value="mixedHerb">Mixed herb</button>
-                        <button type="button" class="option-button" data-name="paperType" data-value="mixedFlower">Mixed flower</button>
-                        <button type="button" class="option-button" data-name="paperType" data-value="randomMix">Random mix</button>
                     </div>
                 </div>
 

@@ -79,15 +79,13 @@ function initializeCalculator(baseUrl) {
         const actionButtons = document.querySelector('.terra-tag-widget #actionButtons');
         const emailQuoteForm = document.querySelector('.terra-tag-widget #emailQuoteForm');
         const orderForm = document.querySelector('.terra-tag-widget #orderForm');
-        const paperTypeGroup = document.querySelector('.terra-tag-widget [data-type="paper-type"]');
 
         if (totalQuantity < 75) {
-            warningDiv.style.display = 'block';
+            warningDiv.style.display = 'none';
             totalPriceDiv.style.display = 'none';
             actionButtons.style.display = 'none';
             emailQuoteForm.style.display = 'none';
             orderForm.style.display = 'none';
-            paperTypeGroup.style.display = 'none';  // Hide paper type when quantity < 75
         } else {
             warningDiv.style.display = 'none';
             totalPriceDiv.style.display = 'block';
@@ -104,7 +102,6 @@ function initializeCalculator(baseUrl) {
                 </div>
             `;
             actionButtons.style.display = 'block';
-            paperTypeGroup.style.display = 'block';  // Show paper type when quantity >= 75
         }
     }
 
