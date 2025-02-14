@@ -38,7 +38,7 @@
             .terra-tag-widget .form-group {
                 display: flex;
                 flex-direction: column;
-                gap: 0.375rem;  /* Reduced gap between label and input */
+                gap: 0.25rem;  /* Reduced gap between label and input */
             }
 
             .terra-tag-widget label {
@@ -185,23 +185,13 @@
                 padding-top: 0;
             }
 
-            /* Additional form styles */
-            .terra-tag-widget input[type="text"],
-            .terra-tag-widget input[type="email"] {
-                padding: 0.75rem;
-                border: 1px solid #e2e8f0;
-                border-radius: 6px;
-                font-size: 1rem;
-                width: 100%;
-                transition: border-color 0.2s ease;
-                color: #1b4c57;
+            .terra-tag-widget .additional-form .form-group {
+                margin-bottom: 1rem;
+                gap: 0.25rem;  /* Consistent gap for additional forms */
             }
 
-            .terra-tag-widget input[type="text"]:focus,
-            .terra-tag-widget input[type="email"]:focus {
-                outline: none;
-                border-color: #1b4c57;
-                box-shadow: 0 0 0 3px rgba(27, 76, 87, 0.1);
+            .terra-tag-widget .additional-form .form-group:last-child {
+                margin-bottom: 0;
             }
 
             .terra-tag-widget .submit-button {
@@ -216,6 +206,7 @@
                 cursor: pointer;
                 transition: all 0.2s ease;
                 margin-top: 1.5rem;
+                position: relative;  /* Added for spinner positioning */
             }
 
             .terra-tag-widget .submit-button:hover:not(:disabled) {

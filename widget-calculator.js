@@ -15,8 +15,8 @@ function initializeCalculator(baseUrl) {
 
     // Core calculation functions
     function calculateTotalQuantity() {
-        const withGuests = parseInt(document.getElementById('quantityWithGuests').value) || 0;
-        const withoutGuests = parseInt(document.getElementById('quantityWithoutGuests').value) || 0;
+        const withGuests = parseInt(document.querySelector('.terra-tag-widget #quantityWithGuests').value) || 0;
+        const withoutGuests = parseInt(document.querySelector('.terra-tag-widget #quantityWithoutGuests').value) || 0;
         return withGuests + withoutGuests;
     }
 
@@ -27,8 +27,8 @@ function initializeCalculator(baseUrl) {
 
     function calculateTotalPrice() {
         const totalQuantity = calculateTotalQuantity();
-        const withGuests = parseInt(document.getElementById('quantityWithGuests').value) || 0;
-        const withoutGuests = parseInt(document.getElementById('quantityWithoutGuests').value) || 0;
+        const withGuests = parseInt(document.querySelector('.terra-tag-widget #quantityWithGuests').value) || 0;
+        const withoutGuests = parseInt(document.querySelector('.terra-tag-widget #quantityWithoutGuests').value) || 0;
         let totalPrice = (withGuests * 6) + (withoutGuests * 5);
 
         if (totalQuantity > 300) totalPrice -= 0.50 * totalQuantity;
@@ -74,18 +74,20 @@ function initializeCalculator(baseUrl) {
     // Display function
     function updateDisplay() {
         const totalQuantity = calculateTotalQuantity();
-        const warningDiv = widget.querySelector('#minimumQuantityWarning');
-        const totalPriceDiv = widget.querySelector('#totalPrice');
-        const actionButtons = widget.querySelector('#actionButtons');
-        const emailQuoteForm = widget.querySelector('#emailQuoteForm');
-        const orderForm = widget.querySelector('#orderForm');
+        const warningDiv = document.querySelector('.terra-tag-widget #minimumQuantityWarning');
+        const totalPriceDiv = document.querySelector('.terra-tag-widget #totalPrice');
+        const actionButtons = document.querySelector('.terra-tag-widget #actionButtons');
+        const emailQuoteForm = document.querySelector('.terra-tag-widget #emailQuoteForm');
+        const orderForm = document.querySelector('.terra-tag-widget #orderForm');
+        const paperTypeGroup = document.querySelector('.terra-tag-widget [data-type="paper-type"]');
 
         if (totalQuantity < 75) {
-            warningDiv.style.display = 'none';
+            warningDiv.style.display = 'block';
             totalPriceDiv.style.display = 'none';
             actionButtons.style.display = 'none';
             emailQuoteForm.style.display = 'none';
             orderForm.style.display = 'none';
+            paperTypeGroup.style.display = 'none';  // Hide paper type when quantity < 75
         } else {
             warningDiv.style.display = 'none';
             totalPriceDiv.style.display = 'block';
@@ -102,6 +104,7 @@ function initializeCalculator(baseUrl) {
                 </div>
             `;
             actionButtons.style.display = 'block';
+            paperTypeGroup.style.display = 'block';  // Show paper type when quantity >= 75
         }
     }
 
@@ -109,8 +112,7 @@ function initializeCalculator(baseUrl) {
     const widget = document.querySelector('.terra-tag-widget');
     
     // Prevent form submission
-    const form = widget.querySelector('#calculatorForm');
-    form.addEventListener('submit', e => e.preventDefault());
+    widget.querySelector('#calculatorForm').addEventListener('submit', e => e.preventDefault());
 
     // Add quantity input listeners
     widget.querySelector('#quantityWithGuests').addEventListener('input', updateDisplay);
@@ -184,11 +186,28 @@ function initializeCalculator(baseUrl) {
         input.addEventListener('input', validateOrderForm);
     });
 
+    // Add button content structure to submit buttons with proper spinner HTML
+    const submitQuoteBtn = widget.querySelector('#submitQuoteBtn');
+    submitQuoteBtn.innerHTML = `
+        <div class="button-content">
+            <div class="spinner"></div>
+            <span>Submit</span>
+        </div>
+    `;
+
+    const payNowBtn = widget.querySelector('#payNowBtn');
+    payNowBtn.innerHTML = `
+        <div class="button-content">
+            <div class="spinner"></div>
+            <span>Pay Now</span>
+        </div>
+    `;
+
     // Handle quote submission
-    widget.querySelector('#submitQuoteBtn').addEventListener('click', handleQuoteSubmission);
+    submitQuoteBtn.addEventListener('click', handleQuoteSubmission);
 
     // Handle order submission
-    widget.querySelector('#payNowBtn').addEventListener('click', handleOrderSubmission);
+    payNowBtn.addEventListener('click', handleOrderSubmission);
 
     // Initial display update
     updateDisplay();
@@ -445,13 +464,6 @@ function initializeCalculator(baseUrl) {
         const widget = document.querySelector('.terra-tag-widget');
         widget.scrollIntoView({ behavior: 'smooth' });
     }
-
-    // Add button content structure to submit buttons
-    const submitQuoteBtn = widget.querySelector('#submitQuoteBtn');
-    submitQuoteBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Submit</span></div>';
-
-    const payNowBtn = widget.querySelector('#payNowBtn');
-    payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Pay Now</span></div>';
 }
 
 let stripe;
@@ -611,36 +623,6 @@ function injectStyles() {
 }
 
 // ... existing code ... 
-
-document.getElementById('order-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const submitButton = this.querySelector('button[type="submit"]');
-    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
-    submitButton.classList.add('loading');
-    
-    // Store form data and redirect
-    storeFormData();
-    window.location.href = 'payment.html';
-});
-
-document.getElementById('quote-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalButtonText = submitButton.innerHTML;
-    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
-    submitButton.classList.add('loading');
-
-    try {
-        // Your existing email sending logic here
-        await sendEmail();
-        showMessage('Quote sent successfully!', 'success');
-    } catch (error) {
-        showMessage('Failed to send quote. Please try again.', 'error');
-    } finally {
-        submitButton.innerHTML = originalButtonText;
-        submitButton.classList.remove('loading');
-    }
-}); 
 
 async function handleQuoteSubmission(event) {
     event.preventDefault();
