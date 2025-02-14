@@ -14,11 +14,11 @@
       "use": "@vercel/static"
     },
     {
-      "src": "*.js",
-      "use": "@vercel/static"
+      "src": "widget*.js",
+      "use": "@vercel/node"
     },
     {
-      "src": "widget*.js",
+      "src": "*.js",
       "use": "@vercel/static"
     },
     {
@@ -62,7 +62,9 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+        "Pragma": "no-cache",
+        "Expires": "0",
         "Content-Type": "application/javascript"
       }
     },
@@ -72,7 +74,9 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+        "Pragma": "no-cache",
+        "Expires": "0",
         "Content-Type": "application/javascript"
       }
     },
