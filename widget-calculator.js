@@ -694,6 +694,30 @@ async function handleOrderSubmission(event) {
     payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
     payNowBtn.classList.add('loading');
     
+    const totalCost = calculateTotalPrice();
+    const gstAmount = calculateGST(totalCost);
+    
+    const orderData = {
+        quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
+        quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
+        size: getSelectedValue('size'),
+        printed_sides: getSelectedValue('printedSides'),
+        ink_coverage: getSelectedValue('inkCoverage'),
+        lanyards: getSelectedValue('lanyards') === 'yes',
+        shipping: getSelectedValue('shipping'),
+        paper_type: getSelectedValue('paperType'),
+        first_name: document.getElementById('orderFirstName').value.trim(),
+        last_name: document.getElementById('orderLastName').value.trim(),
+        company: document.getElementById('orderCompany').value.trim(),
+        email: document.getElementById('orderEmail').value.trim(),
+        total_quantity: calculateTotalQuantity(),
+        total_cost: Number(totalCost.toFixed(2)),
+        gst_amount: Number(gstAmount.toFixed(2)),
+        co2_savings: calculateCO2Savings(),
+        payment_status: 'pending',
+        email_sent: false
+    };
+    
     try {
         // Create a payment intent
         const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
@@ -701,7 +725,7 @@ async function handleOrderSubmission(event) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({})
+            body: JSON.stringify({ orderData })
         });
 
         if (!response.ok) {
