@@ -226,30 +226,25 @@ function initializeCalculator(baseUrl) {
                 spacingUnit: '4px',
                 spacingGridRow: '16px',
                 fontSizeBase: '16px',
-                fontSizeSm: '0.9em',
+                fontSizeSm: '14px',
                 spacingTab: '3px'
             },
             rules: {
-                '.Label': {
-                    color: '#30313d',
-                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
-                    fontSize: '0.9em',
-                    marginBottom: '3px',
-                    fontWeight: 'normal'
-                },
                 '.Input': {
-                    padding: '12px',
+                    padding: '8px 12px',
                     borderRadius: '6px',
                     border: '1px solid #e2e8f0',
                     fontSize: '16px',
-                    fontFamily: '"Ideal Sans", system-ui, sans-serif'
+                    fontFamily: '"Ideal Sans", system-ui, sans-serif',
+                    lineHeight: '24px'
                 }
             }
         };
 
         elements = stripe.elements({ 
             appearance, 
-            clientSecret
+            clientSecret,
+            loader: 'never'
         });
         
         // Create and mount the payment element
@@ -260,6 +255,11 @@ function initializeCalculator(baseUrl) {
             },
             wallets: {
                 googlePay: 'auto'
+            },
+            fields: {
+                billingDetails: {
+                    name: 'never'
+                }
             }
         });
         
@@ -343,9 +343,13 @@ function initializeCalculator(baseUrl) {
                 </div>
 
                 <form id="payment-form">
-                    <div class="form-group card-name-group">
-                        <label for="card-name">Name on card</label>
-                        <input id="card-name" type="text" required>
+                    <div class="form-group card-name-field">
+                        <div class="card-name-label-wrapper">
+                            <label for="card-name" class="custom-label">Name on card</label>
+                        </div>
+                        <div class="card-name-input-wrapper">
+                            <input id="card-name" type="text" class="custom-input" required>
+                        </div>
                     </div>
                     <div id="payment-element"></div>
                     <button id="submit-payment" class="payment-button">
@@ -701,6 +705,60 @@ function injectStyles() {
             line-height: 20px;
             padding-top: 12px;
             text-align: center;
+        }
+
+        /* Update the styles section */
+        .terra-tag-widget .card-name-field {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .terra-tag-widget .card-name-label-wrapper {
+            position: relative;
+            margin-bottom: 3px;
+        }
+
+        .terra-tag-widget .custom-label {
+            display: block;
+            color: #30313d;
+            font-family: "Ideal Sans", system-ui, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+            letter-spacing: normal;
+            margin: 0;
+            padding: 0;
+        }
+
+        .terra-tag-widget .card-name-input-wrapper {
+            position: relative;
+        }
+
+        .terra-tag-widget .custom-input {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            color: #30313d;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: "Ideal Sans", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .terra-tag-widget .custom-input:focus {
+            border-color: #1b4c57;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(27, 76, 87, 0.1);
+        }
+
+        /* Remove any conflicting styles */
+        .terra-tag-widget #card-name-container,
+        .terra-tag-widget .card-name-group,
+        .terra-tag-widget .stripe-label {
+            display: none !important;
         }
     `;
 
