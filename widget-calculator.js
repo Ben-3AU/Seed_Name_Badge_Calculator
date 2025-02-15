@@ -772,6 +772,7 @@ function injectStyles() {
 
         .terra-tag-widget .summary-row {
             display: table-row;
+            margin-bottom: 4px;
         }
 
         .terra-tag-widget .summary-row .label {

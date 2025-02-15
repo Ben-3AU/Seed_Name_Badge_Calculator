@@ -317,6 +317,7 @@
                 margin-bottom: 16px;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
+                font-size: 0.9em;
             }
 
             .terra-tag-widget .summary-row {
