@@ -621,7 +621,7 @@
                             <button type="button" class="option-button" data-name="paperType" data-value="randomMix">Random mix</button>
                         </div>
                     </div>
-                    <button type="button" class="submit-button" id="payNowBtn" disabled>Pay Now</button>
+                    <button type="button" class="submit-button" id="payNowBtn" disabled>Checkout</button>
                 </div>
             </form>
         `;
