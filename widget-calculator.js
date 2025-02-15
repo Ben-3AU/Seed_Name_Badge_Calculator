@@ -751,7 +751,7 @@ function injectStyles() {
             border-spacing: 16px 8px;
             color: #1b4c57;
             font-family: Verdana, sans-serif;
-            font-size: 14px;
+            font-size: 0.9em;
         }
 
         .terra-tag-widget .summary-row {
@@ -773,7 +773,7 @@ function injectStyles() {
 
         .terra-tag-widget .total-amount {
             text-align: center;
-            font-size: 1.25em;
+            font-size: 1.2em;
             font-weight: 600;
             margin-top: 16px;
         }

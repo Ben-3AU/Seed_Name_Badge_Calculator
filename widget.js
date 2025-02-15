@@ -12,6 +12,7 @@
                 margin: 0 auto;
                 background-color: #ffffff;
                 padding-top: 0;  /* Remove top padding */
+                font-size: 16px; /* Base font size */
             }
 
             .terra-tag-widget * {
@@ -318,6 +319,7 @@
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 0.9em;
+                border-spacing: 16px 8px;
             }
 
             .terra-tag-widget .summary-row {
@@ -325,19 +327,22 @@
                 margin-bottom: 4px;
             }
 
-            .terra-tag-widget .summary-row .label {
+            .terra-tag-widget .summary-row .label,
+            .terra-tag-widget .summary-row .value {
                 display: table-cell;
+                font-size: inherit;
+                line-height: 1.4;
+            }
+
+            .terra-tag-widget .summary-row .label {
                 color: #1b4c57;
                 padding-right: 24px;
                 white-space: nowrap;
-                font-family: Verdana, sans-serif;
             }
 
             .terra-tag-widget .summary-row .value {
-                display: table-cell;
                 text-align: left;
                 color: #1b4c57;
-                font-family: Verdana, sans-serif;
             }
 
             .terra-tag-widget .total-amount {
@@ -346,7 +351,6 @@
                 color: #1b4c57;
                 text-align: left;
                 margin-top: 16px;
-                font-family: Verdana, sans-serif;
             }
 
             .terra-tag-widget .card-name-group {
