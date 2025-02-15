@@ -365,13 +365,13 @@
             }
 
             .terra-tag-widget .card-name-group label {
-                display: block;
-                margin-bottom: 3px;
-                color: #30313d;
-                font-family: "Ideal Sans", system-ui, sans-serif;
-                font-size: 0.9em;
-                font-weight: normal;
-                line-height: 1.2;
+                display: block !important;
+                margin-bottom: 3px !important;
+                color: #30313d !important;
+                font-family: "Ideal Sans", system-ui, sans-serif !important;
+                font-size: 0.9em !important;
+                font-weight: normal !important;
+                line-height: 1.2 !important;
             }
 
             .terra-tag-widget .card-name-group input {
