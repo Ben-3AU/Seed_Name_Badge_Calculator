@@ -146,24 +146,24 @@ input[type="number"]:focus {
     min-height: 4rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 0;
 }
 
 .total-price .total-cost {
     font-size: 2em;
     font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-.total-price .gst-line {
-    font-size: 0.9em;
-    text-align: center;
-    margin-top: 0.5rem;
-}
-
+.total-price .gst-line,
 .total-price .co2-line {
     font-size: 0.9em;
     text-align: center;
-    margin-top: 0.25rem;
+    margin: 0;
+}
+
+.total-price .co2-line {
+    padding-top: 0.25rem;
 }
 
 /* Responsive adjustments */
