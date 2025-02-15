@@ -375,12 +375,22 @@
             }
 
             .terra-tag-widget .card-name-group input {
-                width: 100%;
-                padding: 12px;
-                border: 1px solid #e2e8f0;
-                border-radius: 6px;
-                font-size: 16px;
-                font-family: "Ideal Sans", system-ui, sans-serif;
+                width: 100% !important;
+                padding: 12px !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 6px !important;
+                font-size: 16px !important;
+                font-family: "Ideal Sans", system-ui, sans-serif !important;
+                color: #30313d !important;
+                background-color: #ffffff !important;
+                transition: border-color 0.15s ease !important;
+                box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02) !important;
+            }
+
+            .terra-tag-widget .card-name-group input:focus {
+                outline: none !important;
+                border-color: #1b4c57 !important;
+                box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(27, 76, 87, 0.1) !important;
             }
 
             .terra-tag-widget #payment-element {
