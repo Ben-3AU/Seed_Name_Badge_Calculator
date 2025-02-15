@@ -96,12 +96,12 @@ function initializeCalculator(baseUrl) {
             const co2Savings = calculateCO2Savings();
 
             totalPriceDiv.innerHTML = `
-                <div class="total-cost">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                <div class="gst-line">
-                    GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </div>
-                <div class="co2-line">
-                    CO2 emissions saved: ${co2Savings.toFixed(2)} kg
+                <div class="total-price-content">
+                    <div class="total-cost">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div class="price-details">
+                        <div class="gst-line">GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div class="co2-line">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
+                    </div>
                 </div>
             `;
             actionButtons.style.display = 'block';

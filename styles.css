@@ -139,31 +139,33 @@ input[type="number"]:focus {
     padding: 1rem;
     background-color: #f7fafc;
     border-radius: 6px;
-    font-weight: normal;
-    font-size: 1rem;
     color: #1b4c57;
     text-align: center;
-    min-height: 4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
 }
 
-.total-price .total-cost {
+.total-price-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.total-cost {
     font-size: 2em;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.total-price .gst-line,
-.total-price .co2-line {
+.price-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     font-size: 0.9em;
-    text-align: center;
-    margin: 0;
 }
 
-.total-price .co2-line {
-    padding-top: 0.25rem;
+.gst-line, .co2-line {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
 }
 
 /* Responsive adjustments */
