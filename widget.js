@@ -370,6 +370,8 @@
                 color: #30313d;
                 font-family: "Ideal Sans", system-ui, sans-serif;
                 font-size: 0.9em;
+                font-weight: normal;
+                line-height: 1.2;
             }
 
             .terra-tag-widget .card-name-group input {
@@ -378,7 +380,7 @@
                 border: 1px solid #e2e8f0;
                 border-radius: 6px;
                 font-size: 16px;
-                font-family: Verdana, sans-serif;
+                font-family: "Ideal Sans", system-ui, sans-serif;
             }
 
             .terra-tag-widget #payment-element {
