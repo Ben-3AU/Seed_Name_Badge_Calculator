@@ -762,25 +762,26 @@ function injectStyles() {
         }
 
         .terra-tag-widget .order-summary {
-            display: grid;
-            grid-template-columns: minmax(auto, max-content) 1fr;
-            gap: 8px 16px;
-            margin-bottom: 24px;
+            display: table;
             width: 100%;
+            margin-bottom: 24px;
+            border-spacing: 16px 8px;
         }
 
         .terra-tag-widget .summary-row {
-            display: contents;
+            display: table-row;
         }
 
         .terra-tag-widget .summary-row .label {
+            display: table-cell;
             color: #666;
+            white-space: nowrap;
+            padding-right: 16px;
         }
 
         .terra-tag-widget .summary-row .value {
+            display: table-cell;
             text-align: left;
-            justify-self: start;
-            width: 100%;
         }
 
         .terra-tag-widget .total-amount {
