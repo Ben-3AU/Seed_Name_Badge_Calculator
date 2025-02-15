@@ -310,6 +310,7 @@
                 margin: 0 0 16px 0;
                 font-family: Verdana, sans-serif;
                 font-weight: bold;
+                padding-left: 8px; /* Align with labels */
             }
 
             .terra-tag-widget .order-summary {
@@ -319,7 +320,8 @@
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 0.9em;
-                border-spacing: 16px 8px;
+                border-spacing: 8px 8px; /* Reduce horizontal spacing */
+                padding: 0 8px; /* Add padding to align with heading */
             }
 
             .terra-tag-widget .summary-row {
@@ -336,13 +338,15 @@
 
             .terra-tag-widget .summary-row .label {
                 color: #1b4c57;
-                padding-right: 24px;
+                padding-right: 32px; /* Increase spacing between label and value */
                 white-space: nowrap;
+                text-align: left;
             }
 
             .terra-tag-widget .summary-row .value {
                 text-align: left;
                 color: #1b4c57;
+                width: 100%; /* Make value column take remaining space */
             }
 
             .terra-tag-widget .total-amount {
@@ -351,6 +355,7 @@
                 color: #1b4c57;
                 text-align: left;
                 margin-top: 16px;
+                padding-left: 8px; /* Align with labels */
             }
 
             .terra-tag-widget .card-name-group {
