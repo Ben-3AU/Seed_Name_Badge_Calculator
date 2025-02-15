@@ -763,9 +763,10 @@ function injectStyles() {
 
         .terra-tag-widget .order-summary {
             display: grid;
-            grid-template-columns: auto 1fr;
+            grid-template-columns: minmax(auto, max-content) 1fr;
             gap: 8px 16px;
             margin-bottom: 24px;
+            width: 100%;
         }
 
         .terra-tag-widget .summary-row {
@@ -774,12 +775,12 @@ function injectStyles() {
 
         .terra-tag-widget .summary-row .label {
             color: #666;
-            text-align: right;
-            padding-right: 8px;
         }
 
         .terra-tag-widget .summary-row .value {
             text-align: left;
+            justify-self: start;
+            width: 100%;
         }
 
         .terra-tag-widget .total-amount {
