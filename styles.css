@@ -149,6 +149,23 @@ input[type="number"]:focus {
     justify-content: center;
 }
 
+.total-price .total-cost {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.total-price .gst-line {
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.total-price .co2-line {
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
     .container {
