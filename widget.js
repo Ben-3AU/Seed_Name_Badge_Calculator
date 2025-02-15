@@ -315,7 +315,6 @@
                 display: table;
                 width: 100%;
                 margin-bottom: 16px;
-                font-size: 0.9em;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
             }

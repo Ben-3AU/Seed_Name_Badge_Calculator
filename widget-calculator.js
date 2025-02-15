@@ -766,6 +766,8 @@ function injectStyles() {
             width: 100%;
             margin-bottom: 24px;
             border-spacing: 16px 8px;
+            color: #1b4c57;
+            font-family: Verdana, sans-serif;
         }
 
         .terra-tag-widget .summary-row {
