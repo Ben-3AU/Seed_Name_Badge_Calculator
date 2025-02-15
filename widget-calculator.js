@@ -1,5 +1,7 @@
 // Calculator functionality
 let BASE_URL;  // Declare BASE_URL at the top level
+let elements;
+let paymentElement;
 
 function initializeCalculator(baseUrl) {
     // Store the base URL
@@ -10,7 +12,7 @@ function initializeCalculator(baseUrl) {
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4eHF2anhtem1zcXVucmhlZ2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg0NDk0NTcsImV4cCI6MjA1NDAyNTQ1N30.5CUbSb2OR9H4IrGHx_vxmIPZCWN8x7TYoG5RUeYAehM';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Initialize Stripe
+    // Initialize Stripe with the key (using the already loaded Stripe.js)
     const stripe = Stripe('pk_test_51QrDDBDCFS4sGBlEhdnhx2eN3J3SO2VWoyhZd5IkFphglGQG97FxaBMxdXNqH4eiDKzCUoQNqgUyZnQN7PWphZNm00I3pBTYW4');
 
     // Core calculation functions
@@ -554,25 +556,6 @@ function initializeCalculator(baseUrl) {
     }
 }
 
-let stripe;
-let elements;
-let paymentElement;
-
-async function initializeStripe() {
-  // Load Stripe.js
-  const stripeScript = document.createElement('script');
-  stripeScript.src = 'https://js.stripe.com/v3/';
-  document.head.appendChild(stripeScript);
-
-  await new Promise(resolve => stripeScript.onload = resolve);
-
-  // Initialize Stripe with the same key
-  stripe = Stripe('pk_test_51QrDDBDCFS4sGBlEhdnhx2eN3J3SO2VWoyhZd5IkFphglGQG97FxaBMxdXNqH4eiDKzCUoQNqgUyZnQN7PWphZNm00I3pBTYW4');
-}
-
-// Initialize Stripe when the widget loads
-initializeStripe();
-
 // Create widget HTML structure
 function createWidgetStructure() {
     // ... existing code ...
@@ -768,6 +751,7 @@ function injectStyles() {
             border-spacing: 16px 8px;
             color: #1b4c57;
             font-family: Verdana, sans-serif;
+            font-size: 14px;
         }
 
         .terra-tag-widget .summary-row {
@@ -789,7 +773,7 @@ function injectStyles() {
 
         .terra-tag-widget .total-amount {
             text-align: center;
-            font-size: 1.5em;
+            font-size: 1.25em;
             font-weight: 600;
             margin-top: 16px;
         }

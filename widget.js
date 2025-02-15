@@ -662,31 +662,41 @@
     // Initialize the widget
     function initWidget() {
         return new Promise((resolve, reject) => {
-            // Load required external scripts sequentially
-            loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js')
-                .then(() => loadScript('https://js.stripe.com/v3/'))
-                .then(() => loadScript(`${BASE_URL}/widget-calculator.js`))
-                .then(() => {
-                    // Ensure the calculator is initialized after DOM is ready
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', () => {
+            // First check if Stripe is already loaded
+            if (window.Stripe) {
+                loadCalculator();
+            } else {
+                // Load required external scripts sequentially
+                loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js')
+                    .then(() => loadScript('https://js.stripe.com/v3/'))
+                    .then(() => loadCalculator())
+                    .catch(reject);
+            }
+
+            function loadCalculator() {
+                loadScript(`${BASE_URL}/widget-calculator.js`)
+                    .then(() => {
+                        // Ensure the calculator is initialized after DOM is ready
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', () => {
+                                if (typeof initializeCalculator === 'function') {
+                                    initializeCalculator(BASE_URL);
+                                    resolve();
+                                } else {
+                                    reject(new Error('Calculator initialization failed'));
+                                }
+                            });
+                        } else {
                             if (typeof initializeCalculator === 'function') {
                                 initializeCalculator(BASE_URL);
                                 resolve();
                             } else {
                                 reject(new Error('Calculator initialization failed'));
                             }
-                        });
-                    } else {
-                        if (typeof initializeCalculator === 'function') {
-                            initializeCalculator(BASE_URL);
-                            resolve();
-                        } else {
-                            reject(new Error('Calculator initialization failed'));
                         }
-                    }
-                })
-                .catch(reject);
+                    })
+                    .catch(reject);
+            }
         });
     }
 
