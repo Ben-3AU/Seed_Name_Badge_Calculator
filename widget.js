@@ -312,29 +312,37 @@
             }
 
             .terra-tag-widget .order-summary {
-                margin-bottom: 16px;
                 display: table;
                 width: 100%;
-                font-size: 0.9em;
+                margin-bottom: 24px;
+                border-spacing: 16px 8px;
+                table-layout: fixed;
             }
 
             .terra-tag-widget .summary-row {
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9em;
-                color: #1b4c57;
-                font-family: Verdana, sans-serif;
-                margin-bottom: 4px;
+                display: table-row;
             }
 
-            .terra-tag-widget .summary-row span:first-child {
-                min-width: 300px;
+            .terra-tag-widget .summary-row .label,
+            .terra-tag-widget .summary-row .value {
+                display: table-cell;
+                vertical-align: top;
+                line-height: 1.4;
             }
 
-            .terra-tag-widget .summary-row span:last-child {
+            .terra-tag-widget .summary-row .label {
+                color: #666;
+                white-space: nowrap;
+                width: 1%;
+                min-width: fit-content;
+                padding-right: 16px;
+            }
+
+            .terra-tag-widget .summary-row .value {
                 text-align: left;
-                margin-left: auto;
-                padding-left: 24px;
+                width: auto;
+                padding-left: 0;
+                word-break: break-word;
             }
 
             .terra-tag-widget .total-amount {

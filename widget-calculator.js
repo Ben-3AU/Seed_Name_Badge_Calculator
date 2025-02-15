@@ -766,6 +766,7 @@ function injectStyles() {
             width: 100%;
             margin-bottom: 24px;
             border-spacing: 16px 8px;
+            table-layout: fixed;
         }
 
         .terra-tag-widget .summary-row {
@@ -776,12 +777,15 @@ function injectStyles() {
             display: table-cell;
             color: #666;
             white-space: nowrap;
+            width: 1%;
             padding-right: 16px;
         }
 
         .terra-tag-widget .summary-row .value {
             display: table-cell;
             text-align: left;
+            width: auto;
+            padding-left: 0;
         }
 
         .terra-tag-widget .total-amount {
