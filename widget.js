@@ -312,29 +312,32 @@
             }
 
             .terra-tag-widget .order-summary {
-                margin-bottom: 16px;
                 display: table;
                 width: 100%;
-                font-size: 0.9em;
-            }
-
-            .terra-tag-widget .summary-row {
-                display: flex;
-                justify-content: space-between;
+                margin-bottom: 16px;
                 font-size: 0.9em;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
+            }
+
+            .terra-tag-widget .summary-row {
+                display: table-row;
                 margin-bottom: 4px;
             }
 
-            .terra-tag-widget .summary-row span:first-child {
-                min-width: 300px;
+            .terra-tag-widget .summary-row .label {
+                display: table-cell;
+                color: #1b4c57;
+                padding-right: 24px;
+                white-space: nowrap;
+                font-family: Verdana, sans-serif;
             }
 
-            .terra-tag-widget .summary-row span:last-child {
+            .terra-tag-widget .summary-row .value {
+                display: table-cell;
                 text-align: left;
-                margin-left: auto;
-                padding-left: 24px;
+                color: #1b4c57;
+                font-family: Verdana, sans-serif;
             }
 
             .terra-tag-widget .total-amount {
