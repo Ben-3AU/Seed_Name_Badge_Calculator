@@ -166,10 +166,6 @@
                 font-size: 0.9em;
             }
 
-            .terra-tag-widget .gst-line {
-                margin-bottom: 0.25rem;
-            }
-
             /* Views management */
             .terra-tag-widget .widget-view {
                 display: none;
