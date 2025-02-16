@@ -159,7 +159,16 @@
             .terra-tag-widget .total-cost {
                 font-size: 2em;
                 font-weight: 600;
-                margin-bottom: 0.5rem;
+            }
+
+            .terra-tag-widget .gst-amount {
+                font-size: 0.9em;
+                margin-top: 1rem;
+            }
+
+            .terra-tag-widget .co2-savings {
+                font-size: 0.9em;
+                margin-top: 0.25rem;
             }
 
             .terra-tag-widget .price-details {
