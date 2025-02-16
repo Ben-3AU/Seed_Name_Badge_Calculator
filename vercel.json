@@ -81,6 +81,14 @@
       }
     },
     {
+      "src": "/styles.css",
+      "dest": "/styles.css",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Content-Type": "text/css"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
