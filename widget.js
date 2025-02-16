@@ -578,7 +578,7 @@
                     </div>
                 </div>
 
-                <div id="totalPrice" class="total-price">
+                <div id="totalPrice" class="total-price-container">
                     <!-- Price content will be displayed here -->
                 </div>
 
