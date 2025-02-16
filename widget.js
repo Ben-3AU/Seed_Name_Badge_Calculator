@@ -171,10 +171,6 @@
                 margin-top: 0.25rem;
             }
 
-            .terra-tag-widget .price-details {
-                font-size: 0.9em;
-            }
-
             /* Views management */
             .terra-tag-widget .widget-view {
                 display: none;
