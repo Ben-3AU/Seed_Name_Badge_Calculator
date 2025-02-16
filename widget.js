@@ -148,23 +148,30 @@
                 display: none;
             }
 
-            .terra-tag-widget .total-price {
-                margin-top: 1rem;
-                padding: 1rem;
+            .terra-tag-widget .total-price-container {
                 background-color: #f7fafc;
                 border-radius: 6px;
-                font-weight: normal;
-                font-size: 1rem;
                 color: #1b4c57;
                 text-align: center;
-                min-height: 4rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+                padding: 1rem;
+            }
+
+            .terra-tag-widget .total-cost {
+                font-size: 2em;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .terra-tag-widget .price-details {
+                font-size: 0.9em;
+            }
+
+            .terra-tag-widget .gst-line {
+                margin-bottom: 0.25rem;
             }
 
             .terra-tag-widget .co2-line {
-                margin-top: 0.25rem;
+                margin-top: 0;
             }
 
             /* Views management */
