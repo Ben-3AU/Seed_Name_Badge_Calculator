@@ -100,7 +100,7 @@ function initializeCalculator(baseUrl) {
                     <div class="total-cost">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                     <div class="price-details">
                         <div class="gst-line">GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        <div class="co2-line">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
+                        <div style="margin-top: 0.25rem !important;">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
                     </div>
                 </div>
             `;
