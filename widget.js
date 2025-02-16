@@ -163,6 +163,10 @@
                 justify-content: center;
             }
 
+            .terra-tag-widget .co2-line {
+                margin-top: 0.25rem;
+            }
+
             /* Views management */
             .terra-tag-widget .widget-view {
                 display: none;
