@@ -739,7 +739,8 @@
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             // Add version parameter for cache busting
-            script.src = src.includes('widget-calculator.js') ? `${src}?v=${Date.now()}` : src;
+            const timestamp = Date.now();
+            script.src = src.includes('widget') ? `${src}?v=${timestamp}` : src;
             script.onload = resolve;
             script.onerror = reject;
             document.head.appendChild(script);
