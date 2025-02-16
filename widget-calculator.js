@@ -98,10 +98,8 @@ function initializeCalculator(baseUrl) {
             totalPriceDiv.innerHTML = `
                 <div class="total-price-container">
                     <div class="total-cost">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    <div class="price-details">
-                        <div>GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        <div style="margin-top: 0.25rem !important;">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
-                    </div>
+                    <div style="font-size: 0.9em; margin-top: 0.5rem;">GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div style="font-size: 0.9em; margin-top: 0.25rem;">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
                 </div>
             `;
             actionButtons.style.display = 'block';
