@@ -822,6 +822,31 @@ function injectStyles() {
             font-weight: 600;
             margin-top: 16px;
         }
+
+        .terra-tag-widget .success-icon {
+            color: #83A764;
+            font-size: 8rem;  /* Doubled from 4rem */
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .terra-tag-widget .success-message {
+            font-family: Verdana, sans-serif;
+            font-size: 2em;  /* Changed from 1.2em */
+            color: #1b4c57;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .terra-tag-widget .success-text {
+            font-family: Verdana, sans-serif;
+            font-size: 1em;  /* Changed from 0.9em */
+            color: #1b4c57;
+            text-align: center;
+            line-height: 1.5;
+        }
     `;
 
     // ... rest of the existing code ...
