@@ -167,8 +167,13 @@
             }
 
             .terra-tag-widget .total-price-container .co2-savings {
-                font-size: 0.9em;
-                margin-top: 0.25rem;
+                font-family: Verdana, sans-serif !important;
+                font-size: 0.9em !important;
+                font-weight: normal !important;
+                color: #1b4c57 !important;
+                line-height: 1.2 !important;
+                margin-top: 0.25rem !important;
+                text-align: center !important;
             }
 
             /* Views management */
