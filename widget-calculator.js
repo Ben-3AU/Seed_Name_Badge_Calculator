@@ -535,6 +535,69 @@ function initializeCalculator(baseUrl) {
     }
 
     // Initial display update
+    async function handleOrderSubmission(event) {
+        event.preventDefault();
+        
+        // Show spinner
+        const payNowBtn = document.querySelector('.terra-tag-widget #payNowBtn');
+        const originalButtonText = payNowBtn.innerHTML;
+        payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
+        payNowBtn.classList.add('loading');
+        
+        const totalCost = calculateTotalPrice();
+        const gstAmount = calculateGST(totalCost);
+        
+        const orderData = {
+            quantity_with_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithGuests').value) || 0,
+            quantity_without_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithoutGuests').value) || 0,
+            size: getSelectedValue('size'),
+            printed_sides: getSelectedValue('printedSides'),
+            ink_coverage: getSelectedValue('inkCoverage'),
+            lanyards: getSelectedValue('lanyards') === 'yes',
+            shipping: getSelectedValue('shipping'),
+            paper_type: getSelectedValue('paperType'),
+            first_name: document.querySelector('.terra-tag-widget #orderFirstName').value.trim(),
+            last_name: document.querySelector('.terra-tag-widget #orderLastName').value.trim(),
+            company: document.querySelector('.terra-tag-widget #orderCompany').value.trim(),
+            email: document.querySelector('.terra-tag-widget #orderEmail').value.trim(),
+            total_quantity: calculateTotalQuantity(),
+            total_cost: Number(totalCost.toFixed(2)),
+            gst_amount: Number(gstAmount.toFixed(2)),
+            co2_savings: calculateCO2Savings(),
+            payment_status: 'pending',
+            email_sent: false
+        };
+
+        try {
+            // Create a payment intent
+            const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderData })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create payment intent');
+            }
+
+            const result = await response.json();
+            console.log('Payment intent created:', result);
+
+            // Initialize payment element with the client secret
+            await initializePaymentElement(result.clientSecret, orderData);
+            
+        } catch (error) {
+            console.error('Error processing order:', error);
+            alert('Error processing order: ' + (error.message || 'Unknown error'));
+            // Hide spinner and restore button text
+            payNowBtn.innerHTML = originalButtonText;
+            payNowBtn.classList.remove('loading');
+        }
+    }
+
     updateDisplay();
 }
 
@@ -762,69 +825,6 @@ function injectStyles() {
     `;
 
     // ... rest of the existing code ...
-}
-
-async function handleOrderSubmission(event) {
-    event.preventDefault();
-    
-    // Show spinner
-    const payNowBtn = document.querySelector('.terra-tag-widget #payNowBtn');
-    const originalButtonText = payNowBtn.innerHTML;
-    payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
-    payNowBtn.classList.add('loading');
-    
-    const totalCost = calculateTotalPrice();
-    const gstAmount = calculateGST(totalCost);
-    
-    const orderData = {
-        quantity_with_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithGuests').value) || 0,
-        quantity_without_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithoutGuests').value) || 0,
-        size: getSelectedValue('size'),
-        printed_sides: getSelectedValue('printedSides'),
-        ink_coverage: getSelectedValue('inkCoverage'),
-        lanyards: getSelectedValue('lanyards') === 'yes',
-        shipping: getSelectedValue('shipping'),
-        paper_type: getSelectedValue('paperType'),
-        first_name: document.querySelector('.terra-tag-widget #orderFirstName').value.trim(),
-        last_name: document.querySelector('.terra-tag-widget #orderLastName').value.trim(),
-        company: document.querySelector('.terra-tag-widget #orderCompany').value.trim(),
-        email: document.querySelector('.terra-tag-widget #orderEmail').value.trim(),
-        total_quantity: calculateTotalQuantity(),
-        total_cost: Number(totalCost.toFixed(2)),
-        gst_amount: Number(gstAmount.toFixed(2)),
-        co2_savings: calculateCO2Savings(),
-        payment_status: 'pending',
-        email_sent: false
-    };
-
-    try {
-        // Create a payment intent
-        const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ orderData })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to create payment intent');
-        }
-
-        const result = await response.json();
-        console.log('Payment intent created:', result);
-
-        // Initialize payment element with the client secret
-        await initializePaymentElement(result.clientSecret, orderData);
-        
-    } catch (error) {
-        console.error('Error processing order:', error);
-        alert('Error processing order: ' + (error.message || 'Unknown error'));
-        // Hide spinner and restore button text
-        payNowBtn.innerHTML = originalButtonText;
-        payNowBtn.classList.remove('loading');
-    }
 }
 
 // ... rest of the existing code ... 
