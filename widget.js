@@ -602,11 +602,11 @@
                     </div>
                 </div>
 
-                <div id="totalPrice" class="total-price" style="display: none !important; visibility: hidden !important;">
+                <div id="totalPrice" class="total-price">
                     <!-- Price content will be displayed here -->
                 </div>
 
-                    <div id="actionButtons" class="action-buttons" style="display: none;">
+                <div id="actionButtons" class="action-buttons" style="display: none;">
                     <div class="button-group">
                         <button type="button" class="action-button" id="orderNowBtn">Order Now</button>
                         <button type="button" class="action-button" id="emailQuoteBtn">Email the quote</button>
