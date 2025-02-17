@@ -788,8 +788,6 @@ async function handleQuoteSubmission(event) {
     
     // Show spinner
     const submitButton = document.getElementById('submitQuoteBtn');
-    const originalButtonText = submitButton.innerHTML;
-    submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
     submitButton.classList.add('loading');
     
     const totalCost = calculateTotalPrice();
@@ -841,8 +839,7 @@ async function handleQuoteSubmission(event) {
         console.error('Error sending quote:', error);
         alert('Error sending quote. Please try again.');
     } finally {
-        // Hide spinner and restore button text
-        submitButton.innerHTML = originalButtonText;
+        // Remove loading state
         submitButton.classList.remove('loading');
     }
 }
