@@ -84,13 +84,12 @@ function initializeCalculator(baseUrl) {
 
         if (totalQuantity < 75) {
             warningDiv.style.display = 'none';
-            totalPriceDiv.style.display = 'none';
+            totalPriceDiv.classList.remove('show');
             actionButtons.style.display = 'none';
             emailQuoteForm.style.display = 'none';
             orderForm.style.display = 'none';
         } else {
             warningDiv.style.display = 'none';
-            totalPriceDiv.style.display = 'block';
             const totalPrice = calculateTotalPrice();
             const gst = calculateGST(totalPrice);
             const co2Savings = calculateCO2Savings();
@@ -102,6 +101,7 @@ function initializeCalculator(baseUrl) {
                     <div class="co2-savings">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
                 </div>
             `;
+            totalPriceDiv.classList.add('show');
             actionButtons.style.display = 'block';
         }
     }

@@ -148,6 +148,16 @@
                 display: none;
             }
 
+            .terra-tag-widget #totalPrice {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .terra-tag-widget #totalPrice.show {
+                display: block !important;
+                visibility: visible !important;
+            }
+
             .terra-tag-widget .total-price-container {
                 background-color: #f7fafc;
                 border-radius: 6px;
@@ -590,7 +600,7 @@
                     </div>
                 </div>
 
-                <div id="totalPrice" class="total-price" style="display: none;">
+                <div id="totalPrice" class="total-price" style="display: none !important; visibility: hidden !important;">
                     <!-- Price content will be displayed here -->
                 </div>
 
