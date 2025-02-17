@@ -202,13 +202,71 @@ function initializeCalculator(baseUrl) {
     `;
 
     // Handle quote submission
-    submitQuoteBtn.addEventListener('click', handleQuoteSubmission);
+    submitQuoteBtn.addEventListener('click', async function(event) {
+        event.preventDefault();
+        
+        // Show spinner and change text
+        submitQuoteBtn.classList.add('loading');
+        submitQuoteBtn.querySelector('span').textContent = 'Sending';
+        
+        const totalCost = calculateTotalPrice();
+        const gstAmount = calculateGST(totalCost);
+        
+        const quoteData = {
+            quantity_with_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithGuests').value) || 0,
+            quantity_without_guests: parseInt(document.querySelector('.terra-tag-widget #quantityWithoutGuests').value) || 0,
+            size: getSelectedValue('size'),
+            printed_sides: getSelectedValue('printedSides'),
+            ink_coverage: getSelectedValue('inkCoverage'),
+            lanyards: getSelectedValue('lanyards') === 'yes',
+            shipping: getSelectedValue('shipping'),
+            first_name: document.querySelector('.terra-tag-widget #quoteFirstName').value.trim(),
+            email: document.querySelector('.terra-tag-widget #quoteEmail').value.trim(),
+            total_quantity: calculateTotalQuantity(),
+            total_cost: Number(totalCost.toFixed(2)),
+            gst_amount: Number(gstAmount.toFixed(2)),
+            co2_savings: calculateCO2Savings(),
+            email_sent: false
+        };
+
+        try {
+            console.log('Submitting quote data:', quoteData);
+            // Submit for email processing
+            const response = await fetch(`${BASE_URL}/api/submit-quote`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(quoteData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to process quote');
+            }
+
+            const emailResult = await response.json();
+            console.log('Email processing result:', emailResult);
+
+            // Show success message
+            const successMessage = document.querySelector('.terra-tag-widget #quoteSuccessMessage');
+            successMessage.classList.add('visible');
+            setTimeout(() => {
+                successMessage.classList.remove('visible');
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Error sending quote:', error);
+            alert('Error sending quote. Please try again.');
+        } finally {
+            // Remove loading state and restore button text
+            submitQuoteBtn.classList.remove('loading');
+            submitQuoteBtn.querySelector('span').textContent = 'Submit';
+        }
+    });
 
     // Handle order submission
     payNowBtn.addEventListener('click', handleOrderSubmission);
-
-    // Initial display update
-    updateDisplay();
 
     // Payment related functions
     async function initializePaymentElement(clientSecret, orderData) {
@@ -476,83 +534,8 @@ function initializeCalculator(baseUrl) {
         widget.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Handle order submission
-    async function handleOrderSubmission(event) {
-        event.preventDefault();
-        
-        // Show spinner
-        const payNowBtn = document.getElementById('payNowBtn');
-        const originalButtonText = payNowBtn.innerHTML;
-        payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
-        payNowBtn.classList.add('loading');
-        
-        const totalCost = calculateTotalPrice();
-        const gstAmount = calculateGST(totalCost);
-        
-        const orderData = {
-            quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
-            quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
-            size: getSelectedValue('size'),
-            printed_sides: getSelectedValue('printedSides'),
-            ink_coverage: getSelectedValue('inkCoverage'),
-            lanyards: getSelectedValue('lanyards') === 'yes',
-            shipping: getSelectedValue('shipping'),
-            paper_type: getSelectedValue('paperType'),
-            first_name: document.getElementById('orderFirstName').value.trim(),
-            last_name: document.getElementById('orderLastName').value.trim(),
-            company: document.getElementById('orderCompany').value.trim(),
-            email: document.getElementById('orderEmail').value.trim(),
-            total_quantity: calculateTotalQuantity(),
-            total_cost: Number(totalCost.toFixed(2)),
-            gst_amount: Number(gstAmount.toFixed(2)),
-            co2_savings: calculateCO2Savings(),
-            payment_status: 'pending',
-            email_sent: false
-        };
-        
-        try {
-            // Create a payment intent
-            const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ orderData })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to create payment intent');
-            }
-
-            const result = await response.json();
-            console.log('Payment intent created:', result);
-
-            // Show payment view instead of redirecting
-            const calculatorView = document.querySelector('.calculator-view');
-            const paymentView = document.querySelector('.payment-view');
-            
-            if (calculatorView && paymentView) {
-                calculatorView.style.display = 'none';
-                paymentView.style.display = 'block';
-                
-                // Initialize payment element with the client secret
-                if (result.clientSecret) {
-                    await initializePaymentElement(result.clientSecret, orderData);
-                } else {
-                    throw new Error('No client secret received from server');
-                }
-            } else {
-                throw new Error('Payment view elements not found');
-            }
-        } catch (error) {
-            console.error('Error processing order:', error);
-            alert('Error processing order: ' + (error.message || 'Unknown error'));
-            // Hide spinner and restore button text
-            payNowBtn.innerHTML = originalButtonText;
-            payNowBtn.classList.remove('loading');
-        }
-    }
+    // Initial display update
+    updateDisplay();
 }
 
 // Create widget HTML structure
@@ -782,67 +765,4 @@ function injectStyles() {
 }
 
 // ... existing code ... 
-
-async function handleQuoteSubmission(event) {
-    event.preventDefault();
-    
-    // Show spinner and change text
-    const submitButton = widget.querySelector('#submitQuoteBtn');
-    submitButton.classList.add('loading');
-    submitButton.querySelector('span').textContent = 'Sending';
-    
-    const totalCost = calculateTotalPrice();
-    const gstAmount = calculateGST(totalCost);
-    
-    const quoteData = {
-        quantity_with_guests: parseInt(widget.querySelector('#quantityWithGuests').value) || 0,
-        quantity_without_guests: parseInt(widget.querySelector('#quantityWithoutGuests').value) || 0,
-        size: getSelectedValue('size'),
-        printed_sides: getSelectedValue('printedSides'),
-        ink_coverage: getSelectedValue('inkCoverage'),
-        lanyards: getSelectedValue('lanyards') === 'yes',
-        shipping: getSelectedValue('shipping'),
-        first_name: widget.querySelector('#quoteFirstName').value.trim(),
-        email: widget.querySelector('#quoteEmail').value.trim(),
-        total_quantity: calculateTotalQuantity(),
-        total_cost: Number(totalCost.toFixed(2)),
-        gst_amount: Number(gstAmount.toFixed(2)),
-        co2_savings: calculateCO2Savings(),
-        email_sent: false
-    };
-
-    try {
-        // Submit for email processing
-        const response = await fetch(`${BASE_URL}/api/submit-quote`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(quoteData)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to process quote');
-        }
-
-        const emailResult = await response.json();
-        console.log('Email processing result:', emailResult);
-
-        // Show success message
-        const successMessage = widget.querySelector('#quoteSuccessMessage');
-        successMessage.classList.add('visible');
-        setTimeout(() => {
-            successMessage.classList.remove('visible');
-        }, 3000);
-        
-    } catch (error) {
-        console.error('Error sending quote:', error);
-        alert('Error sending quote. Please try again.');
-    } finally {
-        // Remove loading state and restore button text
-        submitButton.classList.remove('loading');
-        submitButton.querySelector('span').textContent = 'Submit';
-    }
-}
 
