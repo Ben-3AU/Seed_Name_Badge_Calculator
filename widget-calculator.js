@@ -488,6 +488,14 @@ function initializeCalculator(baseUrl) {
             
             if (paymentView && successView) {
                 paymentView.style.display = 'none';
+                // Update the success view HTML structure
+                successView.innerHTML = `
+                    <div class="success-container">
+                        <div class="success-icon">✓</div>
+                        <h2 class="success-message">Payment Successful!</h2>
+                        <p class="success-text">Thank you for your order. A tax receipt will be emailed to you shortly. We'll also reach out to you soon to discuss your artwork.</p>
+                    </div>
+                `;
                 successView.style.display = 'block';
                 // Scroll to top of widget
                 widget.scrollIntoView({ behavior: 'smooth' });
