@@ -491,36 +491,52 @@
 
             /* Success view styles */
             .terra-tag-widget .success-container {
-                text-align: center;
-                padding: 2rem;
-                max-width: 600px;
-                margin: 2rem auto;
-                background-color: #fff;
+                text-align: center !important;
+                padding: 2rem !important;
+                max-width: 600px !important;
+                margin: 2rem auto !important;
+                background-color: #fff !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
             .terra-tag-widget .success-icon {
-                color: #83A764;  /* Match application color */
-                font-size: 4rem;  /* Increased size */
-                margin-bottom: 1rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                color: #83A764 !important;
+                font-size: 8rem !important;
+                margin-bottom: 1rem !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 100% !important;
+                height: auto !important;
+                text-align: center !important;
+                line-height: 1 !important;
             }
 
             .terra-tag-widget .success-message {
-                font-family: Verdana, sans-serif;
-                font-size: 1.2em;  /* Match Order Summary size */
-                color: #1b4c57;
-                margin-bottom: 1rem;
-                text-align: center;
+                font-family: Verdana, sans-serif !important;
+                font-size: 2em !important;
+                color: #1b4c57 !important;
+                margin-bottom: 1rem !important;
+                text-align: center !important;
+                font-weight: bold !important;
+                line-height: 1.2 !important;
+                width: 100% !important;
+                padding: 0 !important;
             }
 
             .terra-tag-widget .success-text {
-                font-family: Verdana, sans-serif;
-                font-size: 0.9em;  /* Match Order Summary question size */
-                color: #1b4c57;
-                text-align: center;
-                line-height: 1.5;
+                font-family: Verdana, sans-serif !important;
+                font-size: 1em !important;
+                color: #1b4c57 !important;
+                text-align: center !important;
+                line-height: 1.5 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-weight: normal !important;
             }
 
             .terra-tag-widget #card-name-container label {

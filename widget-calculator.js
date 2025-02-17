@@ -823,43 +823,7 @@ function injectStyles() {
             margin-top: 16px;
         }
 
-        .terra-tag-widget .success-icon {
-            color: #83A764 !important;
-            font-size: 8rem !important;
-            margin-bottom: 1rem !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            width: 100% !important;
-            height: auto !important;
-            text-align: center !important;
-            line-height: 1 !important;
-        }
-
-        .terra-tag-widget .success-message {
-            font-family: Verdana, sans-serif !important;
-            font-size: 2em !important;
-            color: #1b4c57 !important;
-            margin-bottom: 1rem !important;
-            text-align: center !important;
-            font-weight: bold !important;
-            line-height: 1.2 !important;
-            width: 100% !important;
-            padding: 0 !important;
-        }
-
-        .terra-tag-widget .success-text {
-            font-family: Verdana, sans-serif !important;
-            font-size: 1em !important;
-            color: #1b4c57 !important;
-            text-align: center !important;
-            line-height: 1.5 !important;
-            width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            font-weight: normal !important;
-        }
-
+        /* Remove success view styles and continue with next section */
         .terra-tag-widget .success-container {
             text-align: center;
             padding: 2rem;
