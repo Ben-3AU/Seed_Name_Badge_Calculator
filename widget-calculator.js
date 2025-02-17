@@ -786,23 +786,24 @@ function injectStyles() {
 async function handleQuoteSubmission(event) {
     event.preventDefault();
     
-    // Show spinner
-    const submitButton = document.getElementById('submitQuoteBtn');
+    // Show spinner and change text
+    const submitButton = widget.querySelector('#submitQuoteBtn');
     submitButton.classList.add('loading');
+    submitButton.querySelector('span').textContent = 'Sending';
     
     const totalCost = calculateTotalPrice();
     const gstAmount = calculateGST(totalCost);
     
     const quoteData = {
-        quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
-        quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
+        quantity_with_guests: parseInt(widget.querySelector('#quantityWithGuests').value) || 0,
+        quantity_without_guests: parseInt(widget.querySelector('#quantityWithoutGuests').value) || 0,
         size: getSelectedValue('size'),
         printed_sides: getSelectedValue('printedSides'),
         ink_coverage: getSelectedValue('inkCoverage'),
         lanyards: getSelectedValue('lanyards') === 'yes',
         shipping: getSelectedValue('shipping'),
-        first_name: document.getElementById('quoteFirstName').value.trim(),
-        email: document.getElementById('quoteEmail').value.trim(),
+        first_name: widget.querySelector('#quoteFirstName').value.trim(),
+        email: widget.querySelector('#quoteEmail').value.trim(),
         total_quantity: calculateTotalQuantity(),
         total_cost: Number(totalCost.toFixed(2)),
         gst_amount: Number(gstAmount.toFixed(2)),
@@ -829,7 +830,7 @@ async function handleQuoteSubmission(event) {
         console.log('Email processing result:', emailResult);
 
         // Show success message
-        const successMessage = document.getElementById('quoteSuccessMessage');
+        const successMessage = widget.querySelector('#quoteSuccessMessage');
         successMessage.classList.add('visible');
         setTimeout(() => {
             successMessage.classList.remove('visible');
@@ -839,8 +840,9 @@ async function handleQuoteSubmission(event) {
         console.error('Error sending quote:', error);
         alert('Error sending quote. Please try again.');
     } finally {
-        // Remove loading state
+        // Remove loading state and restore button text
         submitButton.classList.remove('loading');
+        submitButton.querySelector('span').textContent = 'Submit';
     }
 }
 
