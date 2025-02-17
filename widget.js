@@ -162,17 +162,24 @@
             }
 
             .terra-tag-widget .total-price-container .gst-amount {
-                font-size: 0.9em;
-                margin-top: 1rem;
-            }
-
-            .terra-tag-widget .total-price-container .co2-savings {
+                display: block !important;
                 font-family: Verdana, sans-serif !important;
                 font-size: 0.9em !important;
                 font-weight: normal !important;
                 color: #1b4c57 !important;
                 line-height: 1.2 !important;
-                margin-top: 0.25rem !important;
+                margin: 1rem 0 0 0 !important;
+                text-align: center !important;
+            }
+
+            .terra-tag-widget .total-price-container .co2-savings {
+                display: block !important;
+                font-family: Verdana, sans-serif !important;
+                font-size: 0.9em !important;
+                font-weight: normal !important;
+                color: #1b4c57 !important;
+                line-height: 1.2 !important;
+                margin: 3px 0 0 0 !important;
                 text-align: center !important;
             }
 
