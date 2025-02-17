@@ -164,6 +164,8 @@
                 color: #1b4c57;
                 text-align: center;
                 padding: 1rem;
+                display: block !important;
+                visibility: visible !important;
             }
 
             .terra-tag-widget .total-price-container .total-cost {
