@@ -824,28 +824,52 @@ function injectStyles() {
         }
 
         .terra-tag-widget .success-icon {
-            color: #83A764;
-            font-size: 8rem;  /* Doubled from 4rem */
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            color: #83A764 !important;
+            font-size: 8rem !important;
+            margin-bottom: 1rem !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: auto !important;
+            text-align: center !important;
+            line-height: 1 !important;
         }
 
         .terra-tag-widget .success-message {
-            font-family: Verdana, sans-serif;
-            font-size: 2em;  /* Changed from 1.2em */
-            color: #1b4c57;
-            margin-bottom: 1rem;
-            text-align: center;
+            font-family: Verdana, sans-serif !important;
+            font-size: 2em !important;
+            color: #1b4c57 !important;
+            margin-bottom: 1rem !important;
+            text-align: center !important;
+            font-weight: bold !important;
+            line-height: 1.2 !important;
+            width: 100% !important;
+            padding: 0 !important;
         }
 
         .terra-tag-widget .success-text {
-            font-family: Verdana, sans-serif;
-            font-size: 1em;  /* Changed from 0.9em */
-            color: #1b4c57;
+            font-family: Verdana, sans-serif !important;
+            font-size: 1em !important;
+            color: #1b4c57 !important;
+            text-align: center !important;
+            line-height: 1.5 !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-weight: normal !important;
+        }
+
+        .terra-tag-widget .success-container {
             text-align: center;
-            line-height: 1.5;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
     `;
 
