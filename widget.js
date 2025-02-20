@@ -330,6 +330,8 @@
             }
 
             .terra-tag-widget .order-details {
+                container-type: inline-size;
+                container-name: order-details;
                 background-color: #f8f9fa;
                 padding: 24px;
                 border-radius: 6px;
@@ -390,8 +392,18 @@
                 text-overflow: ellipsis;
             }
 
+            /* Container for enabling container queries */
+            .terra-tag-widget .order-details {
+                container-type: inline-size;
+                container-name: order-details;
+                background-color: #f8f9fa;
+                padding: 24px;
+                border-radius: 6px;
+                margin-bottom: 24px;
+            }
+
             /* Responsive styles for narrow content */
-            @container terra-tag-widget (max-width: 400px) {
+            @container order-details (max-width: 400px) {
                 .terra-tag-widget .order-summary {
                     display: block;
                     padding: 0 8px;
@@ -435,7 +447,12 @@
             }
 
             /* Small to mid-size screens */
-            @container terra-tag-widget (min-width: 401px) and (max-width: 650px) {
+            @container order-details (min-width: 401px) and (max-width: 650px) {
+                .terra-tag-widget .order-summary {
+                    display: block;
+                    padding: 0 8px;
+                }
+
                 .terra-tag-widget .summary-row {
                     display: block;
                     margin-bottom: 16px;
@@ -464,10 +481,25 @@
             }
 
             /* Larger screens */
-            @container terra-tag-widget (min-width: 651px) {
+            @container order-details (min-width: 651px) {
+                .terra-tag-widget .order-summary {
+                    display: table;
+                    padding: 0 16px;
+                }
+
+                .terra-tag-widget .summary-row {
+                    display: table-row;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: table-cell;
+                }
+
                 .terra-tag-widget .summary-row .label {
                     min-width: 200px;
                     max-width: 200px;
+                    padding-right: 24px;
                 }
 
                 .terra-tag-widget .summary-row .value {
