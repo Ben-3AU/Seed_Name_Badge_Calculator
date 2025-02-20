@@ -385,6 +385,9 @@
                 color: #1b4c57;
                 width: 100%;
                 vertical-align: top;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             /* Responsive styles for narrow content */
@@ -405,6 +408,8 @@
                     width: 100%;
                     padding: 0;
                     white-space: normal;
+                    overflow: visible;
+                    text-overflow: clip;
                 }
 
                 .terra-tag-widget .summary-row .label {
@@ -444,6 +449,8 @@
                     width: 100%;
                     padding: 0;
                     white-space: normal;
+                    overflow: visible;
+                    text-overflow: clip;
                 }
 
                 .terra-tag-widget .summary-row .label {
@@ -471,10 +478,29 @@
                 container-name: terra-tag-widget;
             }
 
-            .terra-tag-widget .order-details {
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                word-break: break-word;
+            /* Add a new breakpoint specifically for long content */
+            @container terra-tag-widget (max-width: 400px) {
+                .terra-tag-widget .summary-row {
+                    display: block;
+                    margin-bottom: 16px;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: block;
+                    width: 100%;
+                    padding: 0;
+                    white-space: normal;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    margin-bottom: 4px;
+                    font-weight: 500;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    padding-left: 0;
+                }
             }
 
             .terra-tag-widget .total-amount {
