@@ -452,34 +452,65 @@
                 }
             }
 
+            /* Container query for large screens */
+            @container order-details (min-width: 601px) {
+                .terra-tag-widget .order-summary {
+                    display: table;
+                    width: 100%;
+                    border-spacing: 0;
+                    padding: 0 16px;
+                }
+
+                .terra-tag-widget .summary-row {
+                    display: table-row;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: table-cell;
+                    padding: 4px 0;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    width: 45%;
+                    padding-right: 24px;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    width: 55%;
+                }
+            }
+
             /* Media query fallback for browsers that don't support container queries */
             @media screen and (max-width: 600px) {
-                .terra-tag-widget .order-summary:not(:has(+ :container(order-details))) {
-                    display: block;
-                    padding: 0 8px;
-                }
+                @supports not (container-type: inline-size) {
+                    .terra-tag-widget .order-summary {
+                        display: block;
+                        padding: 0 8px;
+                    }
 
-                .terra-tag-widget .summary-row:not(:has(+ :container(order-details))) {
-                    display: block;
-                    margin-bottom: 12px;
-                }
+                    .terra-tag-widget .summary-row {
+                        display: block;
+                        margin-bottom: 12px;
+                    }
 
-                .terra-tag-widget .summary-row .label:not(:has(+ :container(order-details))),
-                .terra-tag-widget .summary-row .value:not(:has(+ :container(order-details))) {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
-                }
+                    .terra-tag-widget .summary-row .label,
+                    .terra-tag-widget .summary-row .value {
+                        display: block;
+                        width: 100%;
+                        padding: 0;
+                    }
 
-                .terra-tag-widget .summary-row .label:not(:has(+ :container(order-details))) {
-                    margin-bottom: 4px;
-                    font-weight: 500;
-                }
+                    .terra-tag-widget .summary-row .label {
+                        margin-bottom: 4px;
+                        font-weight: 500;
+                    }
 
-                .terra-tag-widget .summary-row .value:not(:has(+ :container(order-details))) {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    .terra-tag-widget .summary-row .value {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                 }
             }
 
