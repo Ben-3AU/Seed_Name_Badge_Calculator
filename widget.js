@@ -376,8 +376,8 @@
             }
 
             .terra-tag-widget .summary-row .label {
-                min-width: 180px !important;
-                max-width: 180px !important;
+                min-width: 220px !important;
+                max-width: 220px !important;
                 padding-right: 24px !important;
                 white-space: nowrap !important;
                 color: #1b4c57 !important;
@@ -405,8 +405,7 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
+                    min-width: 220px !important;
                     padding: 0 !important;
                 }
 
@@ -437,8 +436,7 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
+                    min-width: 220px !important;
                     padding: 0 !important;
                 }
 
@@ -474,8 +472,8 @@
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    min-width: 180px !important;
-                    max-width: 180px !important;
+                    min-width: 220px !important;
+                    max-width: 220px !important;
                     padding-right: 24px !important;
                 }
 
@@ -506,8 +504,8 @@
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    min-width: 180px !important;
-                    max-width: 180px !important;
+                    min-width: 220px !important;
+                    max-width: 220px !important;
                     padding-right: 24px !important;
                 }
 
@@ -532,8 +530,7 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
+                    min-width: 220px !important;
                     padding: 0 !important;
                 }
 
