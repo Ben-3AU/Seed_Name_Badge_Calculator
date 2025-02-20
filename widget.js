@@ -332,6 +332,7 @@
             .terra-tag-widget .order-details {
                 container-type: inline-size;
                 container-name: order-details;
+                width: 100%;
                 background-color: #f8f9fa;
                 padding: 24px;
                 border-radius: 6px;
@@ -348,14 +349,11 @@
             }
 
             .terra-tag-widget .order-summary {
-                display: table;
                 width: 100%;
                 margin-bottom: 16px;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 0.9em;
-                border-spacing: 0;
-                padding: 0 16px;
             }
 
             .terra-tag-widget .summary-row {
@@ -392,16 +390,6 @@
                 text-overflow: ellipsis;
             }
 
-            /* Container for enabling container queries */
-            .terra-tag-widget .order-details {
-                container-type: inline-size;
-                container-name: order-details;
-                background-color: #f8f9fa;
-                padding: 24px;
-                border-radius: 6px;
-                margin-bottom: 24px;
-            }
-
             /* Responsive styles for narrow content */
             @container order-details (max-width: 400px) {
                 .terra-tag-widget .order-summary {
@@ -424,7 +412,6 @@
                 .terra-tag-widget .summary-row .label {
                     margin-bottom: 4px;
                     font-weight: 500;
-                    min-width: unset;
                 }
 
                 .terra-tag-widget .summary-row .value {
@@ -434,7 +421,6 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: normal;
-                    padding-left: 0;
                 }
 
                 .terra-tag-widget .order-details {
@@ -484,6 +470,7 @@
             @container order-details (min-width: 651px) {
                 .terra-tag-widget .order-summary {
                     display: table;
+                    border-spacing: 0;
                     padding: 0 16px;
                 }
 
@@ -494,70 +481,25 @@
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
                     display: table-cell;
+                    padding: 4px 0;
+                    vertical-align: top;
                 }
 
                 .terra-tag-widget .summary-row .label {
+                    width: 200px;
                     min-width: 200px;
                     max-width: 200px;
                     padding-right: 24px;
+                    white-space: nowrap;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    max-width: calc(100% - 220px);
+                    width: auto;
+                    max-width: calc(100% - 224px);
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-            }
-
-            /* Fallback for browsers that don't support container queries */
-            @media screen and (max-width: 600px) {
-                .terra-tag-widget .order-summary {
-                    display: block;
-                    padding: 0 8px;
-                }
-
-                .terra-tag-widget .summary-row {
-                    display: block;
-                    margin-bottom: 16px;
-                }
-
-                .terra-tag-widget .summary-row .label,
-                .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
-                }
-
-                .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px;
-                    font-weight: 500;
-                    min-width: unset;
-                }
-
-                .terra-tag-widget .summary-row .value {
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: normal;
-                    padding-left: 0;
-                }
-
-                .terra-tag-widget .order-details {
-                    padding: 16px;
-                }
-
-                .terra-tag-widget .order-details h2 {
-                    padding-left: 8px;
-                }
-            }
-
-            /* Additional styles to prevent overflow */
-            .terra-tag-widget {
-                container-type: inline-size;
-                container-name: terra-tag-widget;
             }
 
             .terra-tag-widget .total-amount {
