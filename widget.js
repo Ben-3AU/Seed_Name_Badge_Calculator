@@ -329,6 +329,7 @@
                 text-decoration: underline;
             }
 
+            /* Base styles for order details container */
             .terra-tag-widget .order-details {
                 container-type: inline-size;
                 container-name: order-details;
@@ -339,73 +340,65 @@
                 margin-bottom: 24px;
             }
 
-            .terra-tag-widget .order-details h2 {
-                color: #1b4c57;
-                font-size: 1.2em;
-                margin: 0 0 16px 0;
-                font-family: Verdana, sans-serif;
-                font-weight: bold;
-                padding-left: 16px;
-            }
-
+            /* Base table structure - always maintain table layout by default */
             .terra-tag-widget .order-summary {
-                width: 100%;
+                display: table !important;
+                width: 100% !important;
                 margin-bottom: 16px;
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 0.9em;
+                border-spacing: 0;
+                padding: 0 16px;
             }
 
             .terra-tag-widget .summary-row {
-                display: table-row;
-                margin-bottom: 4px;
+                display: table-row !important;
             }
 
             .terra-tag-widget .summary-row .label,
             .terra-tag-widget .summary-row .value {
-                display: table-cell;
-                font-size: inherit;
+                display: table-cell !important;
+                padding: 4px 0;
+                vertical-align: top;
                 line-height: 1.4;
-                padding-bottom: 8px;
-                word-wrap: break-word;
-                max-width: 100%;
             }
 
             .terra-tag-widget .summary-row .label {
-                color: #1b4c57;
+                width: 200px;
+                min-width: 200px;
+                max-width: 200px;
                 padding-right: 24px;
                 white-space: nowrap;
-                text-align: left;
-                min-width: 180px;
-                vertical-align: top;
+                color: #1b4c57;
             }
 
             .terra-tag-widget .summary-row .value {
-                text-align: left;
-                color: #1b4c57;
-                width: 100%;
-                vertical-align: top;
+                width: auto;
+                max-width: calc(100% - 224px);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                color: #1b4c57;
             }
 
-            /* Responsive styles for narrow content */
+            /* Override for narrow screens */
             @container order-details (max-width: 400px) {
                 .terra-tag-widget .order-summary {
-                    display: block;
+                    display: block !important;
                     padding: 0 8px;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block;
+                    display: block !important;
                     margin-bottom: 16px;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
+                    display: block !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
                     padding: 0;
                 }
 
@@ -415,39 +408,32 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    display: -webkit-box;
+                    display: -webkit-box !important;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: normal;
-                }
-
-                .terra-tag-widget .order-details {
-                    padding: 16px;
-                }
-
-                .terra-tag-widget .order-details h2 {
-                    padding-left: 8px;
                 }
             }
 
             /* Small to mid-size screens */
             @container order-details (min-width: 401px) and (max-width: 650px) {
                 .terra-tag-widget .order-summary {
-                    display: block;
+                    display: block !important;
                     padding: 0 8px;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block;
+                    display: block !important;
                     margin-bottom: 16px;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
+                    display: block !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
                     padding: 0;
                 }
 
@@ -457,7 +443,7 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    display: -webkit-box;
+                    display: -webkit-box !important;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
@@ -466,39 +452,38 @@
                 }
             }
 
-            /* Larger screens */
-            @container order-details (min-width: 651px) {
+            /* Media query fallback for browsers that don't support container queries */
+            @media screen and (max-width: 600px) {
                 .terra-tag-widget .order-summary {
-                    display: table;
-                    border-spacing: 0;
-                    padding: 0 16px;
+                    display: block !important;
+                    padding: 0 8px;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: table-row;
+                    display: block !important;
+                    margin-bottom: 16px;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: table-cell;
-                    padding: 4px 0;
-                    vertical-align: top;
+                    display: block !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    padding: 0;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    width: 200px;
-                    min-width: 200px;
-                    max-width: 200px;
-                    padding-right: 24px;
-                    white-space: nowrap;
+                    margin-bottom: 4px;
+                    font-weight: 500;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    width: auto;
-                    max-width: calc(100% - 224px);
-                    white-space: nowrap;
+                    display: -webkit-box !important;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    white-space: normal;
                 }
             }
 
