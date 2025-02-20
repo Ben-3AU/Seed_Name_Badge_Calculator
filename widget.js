@@ -391,7 +391,7 @@
             }
 
             /* Responsive styles for narrow content */
-            @container terra-tag-widget (max-width: 500px), (min-width: 501px) and (max-width: 800px) {
+            @container terra-tag-widget (max-width: 400px) {
                 .terra-tag-widget .order-summary {
                     display: block;
                     padding: 0 8px;
@@ -407,9 +407,6 @@
                     display: block;
                     width: 100%;
                     padding: 0;
-                    white-space: normal;
-                    overflow: visible;
-                    text-overflow: clip;
                 }
 
                 .terra-tag-widget .summary-row .label {
@@ -419,6 +416,12 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
                     padding-left: 0;
                 }
 
@@ -428,6 +431,50 @@
 
                 .terra-tag-widget .order-details h2 {
                     padding-left: 8px;
+                }
+            }
+
+            /* Small to mid-size screens */
+            @container terra-tag-widget (min-width: 401px) and (max-width: 650px) {
+                .terra-tag-widget .summary-row {
+                    display: block;
+                    margin-bottom: 16px;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: block;
+                    width: 100%;
+                    padding: 0;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    margin-bottom: 4px;
+                    font-weight: 500;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                }
+            }
+
+            /* Larger screens */
+            @container terra-tag-widget (min-width: 651px) {
+                .terra-tag-widget .summary-row .label {
+                    min-width: 200px;
+                    max-width: 200px;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    max-width: calc(100% - 220px);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
 
@@ -448,9 +495,6 @@
                     display: block;
                     width: 100%;
                     padding: 0;
-                    white-space: normal;
-                    overflow: visible;
-                    text-overflow: clip;
                 }
 
                 .terra-tag-widget .summary-row .label {
@@ -460,6 +504,12 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
                     padding-left: 0;
                 }
 
@@ -476,31 +526,6 @@
             .terra-tag-widget {
                 container-type: inline-size;
                 container-name: terra-tag-widget;
-            }
-
-            /* Add a new breakpoint specifically for long content */
-            @container terra-tag-widget (max-width: 400px) {
-                .terra-tag-widget .summary-row {
-                    display: block;
-                    margin-bottom: 16px;
-                }
-
-                .terra-tag-widget .summary-row .label,
-                .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
-                    white-space: normal;
-                }
-
-                .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px;
-                    font-weight: 500;
-                }
-
-                .terra-tag-widget .summary-row .value {
-                    padding-left: 0;
-                }
             }
 
             .terra-tag-widget .total-amount {
