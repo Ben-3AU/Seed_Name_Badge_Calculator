@@ -376,18 +376,17 @@
             }
 
             .terra-tag-widget .summary-row .label {
-                width: 45% !important;
+                min-width: 180px !important;
+                max-width: 180px !important;
                 padding-right: 24px !important;
                 white-space: nowrap !important;
                 color: #1b4c57 !important;
             }
 
             .terra-tag-widget .summary-row .value {
-                width: 55% !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
                 color: #1b4c57 !important;
+                word-wrap: break-word !important;
+                word-break: break-word !important;
             }
 
             /* Container query for small screens */
@@ -406,6 +405,8 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
                     padding: 0 !important;
                 }
 
@@ -415,9 +416,8 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: nowrap !important;
-                    overflow: hidden !important;
-                    text-overflow: ellipsis !important;
+                    word-wrap: break-word !important;
+                    word-break: break-word !important;
                 }
             }
 
@@ -437,6 +437,8 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
                     padding: 0 !important;
                 }
 
@@ -446,9 +448,8 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: nowrap !important;
-                    overflow: hidden !important;
-                    text-overflow: ellipsis !important;
+                    word-wrap: break-word !important;
+                    word-break: break-word !important;
                 }
             }
 
@@ -473,12 +474,14 @@
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    width: 45% !important;
+                    min-width: 180px !important;
+                    max-width: 180px !important;
                     padding-right: 24px !important;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    width: 55% !important;
+                    word-wrap: break-word !important;
+                    word-break: break-word !important;
                 }
             }
 
@@ -503,12 +506,14 @@
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    width: 45% !important;
+                    min-width: 180px !important;
+                    max-width: 180px !important;
                     padding-right: 24px !important;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    width: 55% !important;
+                    word-wrap: break-word !important;
+                    word-break: break-word !important;
                 }
             }
 
@@ -527,6 +532,8 @@
                 .terra-tag-widget .summary-row .value {
                     display: block !important;
                     width: 100% !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
                     padding: 0 !important;
                 }
 
@@ -536,9 +543,8 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: nowrap !important;
-                    overflow: hidden !important;
-                    text-overflow: ellipsis !important;
+                    word-wrap: break-word !important;
+                    word-break: break-word !important;
                 }
             }
 
