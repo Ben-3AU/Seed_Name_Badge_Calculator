@@ -352,165 +352,193 @@
 
             /* Base table structure - always maintain table layout by default */
             .terra-tag-widget .order-summary {
-                display: table;
-                width: 100%;
-                border-spacing: 0;
-                margin-bottom: 16px;
-                color: #1b4c57;
-                font-family: Verdana, sans-serif;
-                font-size: 0.9em;
-                padding: 0 16px;
-                table-layout: fixed;
+                display: table !important;
+                width: 100% !important;
+                border-spacing: 0 !important;
+                margin-bottom: 16px !important;
+                color: #1b4c57 !important;
+                font-family: Verdana, sans-serif !important;
+                font-size: 0.9em !important;
+                padding: 0 16px !important;
+                table-layout: fixed !important;
             }
 
             .terra-tag-widget .summary-row {
-                display: table-row;
+                display: table-row !important;
             }
 
             .terra-tag-widget .summary-row .label,
             .terra-tag-widget .summary-row .value {
-                display: table-cell;
-                padding: 4px 0;
-                vertical-align: top;
-                line-height: 1.4;
+                display: table-cell !important;
+                padding: 4px 0 !important;
+                vertical-align: top !important;
+                line-height: 1.4 !important;
             }
 
             .terra-tag-widget .summary-row .label {
-                width: 45%;
-                padding-right: 24px;
-                white-space: nowrap;
-                color: #1b4c57;
+                width: 45% !important;
+                padding-right: 24px !important;
+                white-space: nowrap !important;
+                color: #1b4c57 !important;
             }
 
             .terra-tag-widget .summary-row .value {
-                width: 55%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                color: #1b4c57;
+                width: 55% !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                color: #1b4c57 !important;
             }
 
             /* Container query for small screens */
             @container order-details (max-width: 400px) {
                 .terra-tag-widget .order-summary {
-                    display: block;
-                    padding: 0 8px;
+                    display: block !important;
+                    padding: 0 8px !important;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block;
-                    margin-bottom: 12px;
+                    display: block !important;
+                    margin-bottom: 12px !important;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 !important;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px;
-                    font-weight: 500;
+                    margin-bottom: 4px !important;
+                    font-weight: 500 !important;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
                 }
             }
 
             /* Container query for medium screens */
             @container order-details (min-width: 401px) and (max-width: 600px) {
                 .terra-tag-widget .order-summary {
-                    display: block;
-                    padding: 0 12px;
+                    display: block !important;
+                    padding: 0 12px !important;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block;
-                    margin-bottom: 12px;
+                    display: block !important;
+                    margin-bottom: 12px !important;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 !important;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px;
-                    font-weight: 500;
+                    margin-bottom: 4px !important;
+                    font-weight: 500 !important;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
                 }
             }
 
             /* Container query for large screens */
             @container order-details (min-width: 601px) {
                 .terra-tag-widget .order-summary {
-                    display: table;
-                    width: 100%;
-                    border-spacing: 0;
-                    padding: 0 16px;
+                    display: table !important;
+                    width: 100% !important;
+                    border-spacing: 0 !important;
+                    padding: 0 16px !important;
+                    table-layout: fixed !important;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: table-row;
+                    display: table-row !important;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: table-cell;
-                    padding: 4px 0;
+                    display: table-cell !important;
+                    padding: 4px 0 !important;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    width: 45%;
-                    padding-right: 24px;
+                    width: 45% !important;
+                    padding-right: 24px !important;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    width: 55%;
+                    width: 55% !important;
                 }
             }
 
-            /* Media query fallback for browsers that don't support container queries */
+            /* Media query fallback for browsers without container query support */
+            @media screen and (min-width: 601px) {
+                .terra-tag-widget .order-summary {
+                    display: table !important;
+                    width: 100% !important;
+                    border-spacing: 0 !important;
+                    padding: 0 16px !important;
+                    table-layout: fixed !important;
+                }
+
+                .terra-tag-widget .summary-row {
+                    display: table-row !important;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: table-cell !important;
+                    padding: 4px 0 !important;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    width: 45% !important;
+                    padding-right: 24px !important;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    width: 55% !important;
+                }
+            }
+
             @media screen and (max-width: 600px) {
-                @supports not (container-type: inline-size) {
-                    .terra-tag-widget .order-summary {
-                        display: block;
-                        padding: 0 8px;
-                    }
+                .terra-tag-widget .order-summary {
+                    display: block !important;
+                    padding: 0 8px !important;
+                }
 
-                    .terra-tag-widget .summary-row {
-                        display: block;
-                        margin-bottom: 12px;
-                    }
+                .terra-tag-widget .summary-row {
+                    display: block !important;
+                    margin-bottom: 12px !important;
+                }
 
-                    .terra-tag-widget .summary-row .label,
-                    .terra-tag-widget .summary-row .value {
-                        display: block;
-                        width: 100%;
-                        padding: 0;
-                    }
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 !important;
+                }
 
-                    .terra-tag-widget .summary-row .label {
-                        margin-bottom: 4px;
-                        font-weight: 500;
-                    }
+                .terra-tag-widget .summary-row .label {
+                    margin-bottom: 4px !important;
+                    font-weight: 500 !important;
+                }
 
-                    .terra-tag-widget .summary-row .value {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
+                .terra-tag-widget .summary-row .value {
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
                 }
             }
 
