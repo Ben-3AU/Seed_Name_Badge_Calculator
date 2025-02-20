@@ -352,133 +352,134 @@
 
             /* Base table structure - always maintain table layout by default */
             .terra-tag-widget .order-summary {
-                display: table !important;
-                width: 100% !important;
-                border-spacing: 0 !important;
-                margin-bottom: 16px !important;
-                color: #1b4c57 !important;
-                font-family: Verdana, sans-serif !important;
-                font-size: 0.9em !important;
-                padding: 0 16px !important;
+                display: table;
+                width: 100%;
+                border-spacing: 0;
+                margin-bottom: 16px;
+                color: #1b4c57;
+                font-family: Verdana, sans-serif;
+                font-size: 0.9em;
+                padding: 0 16px;
+                table-layout: fixed;
             }
 
             .terra-tag-widget .summary-row {
-                display: table-row !important;
+                display: table-row;
             }
 
             .terra-tag-widget .summary-row .label,
             .terra-tag-widget .summary-row .value {
-                display: table-cell !important;
-                padding: 4px 0 !important;
-                vertical-align: top !important;
-                line-height: 1.4 !important;
+                display: table-cell;
+                padding: 4px 0;
+                vertical-align: top;
+                line-height: 1.4;
             }
 
             .terra-tag-widget .summary-row .label {
-                width: 200px !important;
-                min-width: 200px !important;
-                max-width: 200px !important;
-                padding-right: 24px !important;
-                white-space: nowrap !important;
-                color: #1b4c57 !important;
+                width: 45%;
+                padding-right: 24px;
+                white-space: nowrap;
+                color: #1b4c57;
             }
 
             .terra-tag-widget .summary-row .value {
-                width: auto !important;
-                max-width: calc(100% - 224px) !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-                color: #1b4c57 !important;
+                width: 55%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #1b4c57;
             }
 
             /* Container query for small screens */
             @container order-details (max-width: 400px) {
                 .terra-tag-widget .order-summary {
-                    display: block !important;
-                    padding: 0 8px !important;
+                    display: block;
+                    padding: 0 8px;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block !important;
-                    margin-bottom: 12px !important;
+                    display: block;
+                    margin-bottom: 12px;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block !important;
-                    width: 100% !important;
-                    max-width: 100% !important;
-                    padding: 0 !important;
+                    display: block;
+                    width: 100%;
+                    padding: 0;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px !important;
-                    font-weight: 500 !important;
+                    margin-bottom: 4px;
+                    font-weight: 500;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: normal !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
 
             /* Container query for medium screens */
             @container order-details (min-width: 401px) and (max-width: 600px) {
                 .terra-tag-widget .order-summary {
-                    display: block !important;
-                    padding: 0 12px !important;
+                    display: block;
+                    padding: 0 12px;
                 }
 
                 .terra-tag-widget .summary-row {
-                    display: block !important;
-                    margin-bottom: 12px !important;
+                    display: block;
+                    margin-bottom: 12px;
                 }
 
                 .terra-tag-widget .summary-row .label,
                 .terra-tag-widget .summary-row .value {
-                    display: block !important;
-                    width: 100% !important;
-                    max-width: 100% !important;
-                    padding: 0 !important;
+                    display: block;
+                    width: 100%;
+                    padding: 0;
                 }
 
                 .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px !important;
-                    font-weight: 500 !important;
+                    margin-bottom: 4px;
+                    font-weight: 500;
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    white-space: normal !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
 
             /* Media query fallback for browsers that don't support container queries */
             @media screen and (max-width: 600px) {
                 .terra-tag-widget .order-summary:not(:has(+ :container(order-details))) {
-                    display: block !important;
-                    padding: 0 8px !important;
+                    display: block;
+                    padding: 0 8px;
                 }
 
                 .terra-tag-widget .summary-row:not(:has(+ :container(order-details))) {
-                    display: block !important;
-                    margin-bottom: 12px !important;
+                    display: block;
+                    margin-bottom: 12px;
                 }
 
                 .terra-tag-widget .summary-row .label:not(:has(+ :container(order-details))),
                 .terra-tag-widget .summary-row .value:not(:has(+ :container(order-details))) {
-                    display: block !important;
-                    width: 100% !important;
-                    max-width: 100% !important;
-                    padding: 0 !important;
+                    display: block;
+                    width: 100%;
+                    padding: 0;
                 }
 
                 .terra-tag-widget .summary-row .label:not(:has(+ :container(order-details))) {
-                    margin-bottom: 4px !important;
-                    font-weight: 500 !important;
+                    margin-bottom: 4px;
+                    font-weight: 500;
                 }
 
                 .terra-tag-widget .summary-row .value:not(:has(+ :container(order-details))) {
-                    white-space: normal !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
 
