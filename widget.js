@@ -342,7 +342,7 @@
                 margin: 0 0 16px 0;
                 font-family: Verdana, sans-serif;
                 font-weight: bold;
-                padding-left: 16px; /* Increase padding to match table */
+                padding-left: 16px;
             }
 
             .terra-tag-widget .order-summary {
@@ -352,8 +352,8 @@
                 color: #1b4c57;
                 font-family: Verdana, sans-serif;
                 font-size: 0.9em;
-                border-spacing: 0; /* Remove spacing between cells */
-                padding: 0 16px; /* Match heading padding */
+                border-spacing: 0;
+                padding: 0 16px;
             }
 
             .terra-tag-widget .summary-row {
@@ -366,21 +366,74 @@
                 display: table-cell;
                 font-size: inherit;
                 line-height: 1.4;
-                padding-bottom: 8px; /* Add vertical spacing between rows */
+                padding-bottom: 8px;
+                word-wrap: break-word;
+                max-width: 100%;
             }
 
             .terra-tag-widget .summary-row .label {
                 color: #1b4c57;
-                padding-right: 24px; /* Reduce space between columns */
+                padding-right: 24px;
                 white-space: nowrap;
                 text-align: left;
-                min-width: 180px; /* Set minimum width for label column */
+                min-width: 180px;
             }
 
             .terra-tag-widget .summary-row .value {
                 text-align: left;
                 color: #1b4c57;
-                width: 100%; /* Make value column take remaining space */
+                width: 100%;
+            }
+
+            /* Responsive styles for narrow screens */
+            @media screen and (max-width: 600px) {
+                .terra-tag-widget .order-summary {
+                    display: block;
+                    padding: 0 8px;
+                }
+
+                .terra-tag-widget .summary-row {
+                    display: block;
+                    margin-bottom: 16px;
+                }
+
+                .terra-tag-widget .summary-row .label,
+                .terra-tag-widget .summary-row .value {
+                    display: block;
+                    width: 100%;
+                    padding: 0;
+                    white-space: normal;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    margin-bottom: 4px;
+                    font-weight: 500;
+                    min-width: unset;
+                }
+
+                .terra-tag-widget .summary-row .value {
+                    padding-left: 8px;
+                }
+
+                .terra-tag-widget .order-details {
+                    padding: 16px;
+                }
+
+                .terra-tag-widget .order-details h2 {
+                    padding-left: 8px;
+                }
+            }
+
+            /* Additional breakpoint for medium screens */
+            @media screen and (min-width: 601px) and (max-width: 800px) {
+                .terra-tag-widget .order-summary {
+                    padding: 0 12px;
+                }
+
+                .terra-tag-widget .summary-row .label {
+                    min-width: 150px;
+                    padding-right: 16px;
+                }
             }
 
             .terra-tag-widget .total-amount {
@@ -389,7 +442,14 @@
                 color: #1b4c57;
                 text-align: left;
                 margin-top: 16px;
-                padding-left: 16px; /* Match heading padding */
+                padding-left: 16px;
+            }
+
+            @media screen and (max-width: 600px) {
+                .terra-tag-widget .total-amount {
+                    padding-left: 8px;
+                    text-align: center;
+                }
             }
 
             .terra-tag-widget .card-name-group {
