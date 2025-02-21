@@ -391,7 +391,7 @@
             }
 
             /* Container query for small screens - stack when container can't maintain minimums */
-            @container order-details (max-width: 350px) {
+            @container order-details (max-width: 420px) {
                 .terra-tag-widget .order-summary {
                     display: block !important;
                     padding: 0 8px !important;
@@ -423,7 +423,7 @@
             }
 
             /* Media query fallback for browsers without container query support */
-            @media screen and (max-width: 350px) {
+            @media screen and (max-width: 420px) {
                 .terra-tag-widget .order-summary {
                     display: block !important;
                     padding: 0 8px !important;
