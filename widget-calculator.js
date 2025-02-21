@@ -169,10 +169,9 @@ function initializeCalculator(baseUrl) {
     function validateOrderForm() {
         const firstName = widget.querySelector('#orderFirstName').value.trim();
         const lastName = widget.querySelector('#orderLastName').value.trim();
-        const company = widget.querySelector('#orderCompany').value.trim();
         const email = widget.querySelector('#orderEmail').value.trim();
         const paperType = getSelectedValue('paperType');
-        widget.querySelector('#payNowBtn').disabled = !(firstName && lastName && company && isValidEmail(email) && paperType);
+        widget.querySelector('#payNowBtn').disabled = !(firstName && lastName && isValidEmail(email) && paperType);
     }
 
     // Add form validation listeners
@@ -404,7 +403,7 @@ function initializeCalculator(baseUrl) {
                             <div class="value">${orderData.paper_type.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}</div>
                         </div>
                     </div>
-                    <div class="total-amount">$${orderData.total_cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div class="total-amount">Total: $${orderData.total_cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                 </div>
 
                 <form id="payment-form">
