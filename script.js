@@ -1,21 +1,5 @@
 console.log('Debug: script.js starting to load');
 
-// Initialize Supabase
-const supabaseUrl = 'https://pxxqvjxmzmsqunrhegcq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4eHF2anhtem1zcXVucmhlZ2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg0NDk0NTcsImV4cCI6MjA1NDAyNTQ1N30.5CUbSb2OR9H4IrGHx_vxmIPZCWN8x7TYoG5RUeYAehM';
-let supabase = null;
-
-// Initialize Stripe
-const stripe = Stripe('pk_test_51PU4PWDRhweuWrjAIEn0yBzEVZcmma899ZgJUoQZNQIy1touh9oAcj2iWfj09jRHwxGHaL9X4PYmUcuhKtnpnyax00FEtBPeAb');
-
-// Initialize Supabase client
-try {
-    supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-    console.log('Supabase client initialized successfully');
-} catch (error) {
-    console.error('Error initializing Supabase client:', error);
-}
-
 // Core calculation functions
 function calculateTotalQuantity() {
     const withGuests = parseInt(document.getElementById('quantityWithGuests').value) || 0;
@@ -203,7 +187,8 @@ async function saveQuote(quoteData) {
         
         const { created_at, ...quoteDataWithoutTimestamp } = quoteData;
         
-        const { data, error } = await supabase
+        // Use the Supabase instance from widget-calculator.js
+        const { data, error } = await window.widgetSupabase
             .from('seed_name_badge_quotes')
             .insert([quoteDataWithoutTimestamp]);
 
@@ -225,7 +210,8 @@ async function saveOrder(orderData) {
     try {
         console.log('Attempting to save order to Supabase:', orderData);
         
-        const { data, error } = await supabase
+        // Use the Supabase instance from widget-calculator.js
+        const { data, error } = await window.widgetSupabase
             .from('orders')
             .insert([orderData])
             .select();
@@ -290,7 +276,7 @@ async function handleQuoteSubmission(event) {
         const { created_at, ...quoteDataWithoutTimestamp } = quoteData;
         
         // Try to insert the quote without created_at
-        let { data: savedQuote, error: insertError } = await supabase
+        let { data: savedQuote, error: insertError } = await window.widgetSupabase
             .from('seed_name_badge_quotes')
             .insert([quoteDataWithoutTimestamp])
             .select()
@@ -299,7 +285,7 @@ async function handleQuoteSubmission(event) {
         // If we get a duplicate key error, try to update instead
         if (insertError && insertError.code === '23505') {
             console.log('Quote exists, attempting update...');
-            const { data: existingQuotes, error: fetchError } = await supabase
+            const { data: existingQuotes, error: fetchError } = await window.widgetSupabase
                 .from('seed_name_badge_quotes')
                 .select('id')
                 .eq('email', quoteData.email)
@@ -310,7 +296,7 @@ async function handleQuoteSubmission(event) {
             if (fetchError) throw fetchError;
             
             if (existingQuotes && existingQuotes.length > 0) {
-                const { data: updatedQuote, error: updateError } = await supabase
+                const { data: updatedQuote, error: updateError } = await window.widgetSupabase
                     .from('seed_name_badge_quotes')
                     .update(quoteDataWithoutTimestamp)
                     .eq('id', existingQuotes[0].id)

@@ -11,6 +11,9 @@ function initializeCalculator(baseUrl) {
     const supabaseUrl = 'https://pxxqvjxmzmsqunrhegcq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4eHF2anhtem1zcXVucmhlZ2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg0NDk0NTcsImV4cCI6MjA1NDAyNTQ1N30.5CUbSb2OR9H4IrGHx_vxmIPZCWN8x7TYoG5RUeYAehM';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    
+    // Expose Supabase client globally for script.js to use
+    window.widgetSupabase = supabase;
 
     // Initialize Stripe with the key (using the already loaded Stripe.js)
     const stripe = Stripe('pk_test_51QrDDBDCFS4sGBlEhdnhx2eN3J3SO2VWoyhZd5IkFphglGQG97FxaBMxdXNqH4eiDKzCUoQNqgUyZnQN7PWphZNm00I3pBTYW4');
