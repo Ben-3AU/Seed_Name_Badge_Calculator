@@ -384,13 +384,14 @@
             }
 
             .terra-tag-widget .summary-row .value {
+                min-width: 200px !important;
                 color: #1b4c57 !important;
                 word-wrap: break-word !important;
                 word-break: break-word !important;
             }
 
-            /* Container query for small screens */
-            @container order-details (max-width: 400px) {
+            /* Container query for small screens - stack when container can't maintain minimums */
+            @container order-details (max-width: 350px) {
                 .terra-tag-widget .order-summary {
                     display: block !important;
                     padding: 0 8px !important;
@@ -415,107 +416,14 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
-                    word-wrap: break-word !important;
-                    word-break: break-word !important;
-                }
-            }
-
-            /* Container query for medium screens */
-            @container order-details (min-width: 401px) and (max-width: 600px) {
-                .terra-tag-widget .order-summary {
-                    display: block !important;
-                    padding: 0 12px !important;
-                }
-
-                .terra-tag-widget .summary-row {
-                    display: block !important;
-                    margin-bottom: 12px !important;
-                }
-
-                .terra-tag-widget .summary-row .label,
-                .terra-tag-widget .summary-row .value {
-                    display: block !important;
-                    width: 100% !important;
-                    min-width: 220px !important;
-                    padding: 0 !important;
-                }
-
-                .terra-tag-widget .summary-row .label {
-                    margin-bottom: 4px !important;
-                    font-weight: 500 !important;
-                }
-
-                .terra-tag-widget .summary-row .value {
-                    word-wrap: break-word !important;
-                    word-break: break-word !important;
-                }
-            }
-
-            /* Container query for large screens */
-            @container order-details (min-width: 601px) {
-                .terra-tag-widget .order-summary {
-                    display: table !important;
-                    width: 100% !important;
-                    border-spacing: 0 !important;
-                    padding: 0 16px !important;
-                    table-layout: fixed !important;
-                }
-
-                .terra-tag-widget .summary-row {
-                    display: table-row !important;
-                }
-
-                .terra-tag-widget .summary-row .label,
-                .terra-tag-widget .summary-row .value {
-                    display: table-cell !important;
-                    padding: 4px 0 !important;
-                }
-
-                .terra-tag-widget .summary-row .label {
-                    min-width: 220px !important;
-                    max-width: 220px !important;
-                    padding-right: 24px !important;
-                }
-
-                .terra-tag-widget .summary-row .value {
+                    min-width: unset !important;
                     word-wrap: break-word !important;
                     word-break: break-word !important;
                 }
             }
 
             /* Media query fallback for browsers without container query support */
-            @media screen and (min-width: 601px) {
-                .terra-tag-widget .order-summary {
-                    display: table !important;
-                    width: 100% !important;
-                    border-spacing: 0 !important;
-                    padding: 0 16px !important;
-                    table-layout: fixed !important;
-                }
-
-                .terra-tag-widget .summary-row {
-                    display: table-row !important;
-                }
-
-                .terra-tag-widget .summary-row .label,
-                .terra-tag-widget .summary-row .value {
-                    display: table-cell !important;
-                    padding: 4px 0 !important;
-                }
-
-                .terra-tag-widget .summary-row .label {
-                    min-width: 220px !important;
-                    max-width: 220px !important;
-                    padding-right: 24px !important;
-                }
-
-                .terra-tag-widget .summary-row .value {
-                    word-wrap: break-word !important;
-                    word-break: break-word !important;
-                }
-            }
-
-            @media screen and (max-width: 600px) {
+            @media screen and (max-width: 350px) {
                 .terra-tag-widget .order-summary {
                     display: block !important;
                     padding: 0 8px !important;
@@ -540,6 +448,7 @@
                 }
 
                 .terra-tag-widget .summary-row .value {
+                    min-width: unset !important;
                     word-wrap: break-word !important;
                     word-break: break-word !important;
                 }
