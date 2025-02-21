@@ -588,6 +588,15 @@ function initializeCalculator(baseUrl) {
             // Initialize payment element with the client secret
             await initializePaymentElement(result.clientSecret, orderData);
             
+            // Reset button state after successful initialization
+            payNowBtn.classList.remove('loading');
+            payNowBtn.innerHTML = `
+                <div class="button-content">
+                    <div class="spinner"></div>
+                    <span>Checkout</span>
+                </div>
+            `;
+            
         } catch (error) {
             console.error('Error processing order:', error);
             alert('Error processing order: ' + (error.message || 'Unknown error'));
