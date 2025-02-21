@@ -6,6 +6,25 @@
     // Create and inject widget styles
     function injectStyles() {
         const styles = `
+            /* Base font size */
+            html, body {
+                font-size: 16px;
+            }
+
+            /* iOS-specific overrides to prevent zoom */
+            @supports (-webkit-touch-callout: none) {
+                input[type="text"],
+                input[type="email"],
+                input[type="number"],
+                input[type="tel"],
+                input[type="url"],
+                input[type="password"],
+                textarea,
+                select {
+                    font-size: 16px !important;
+                }
+            }
+
             .terra-tag-widget {
                 font-family: Verdana, sans-serif !important;
                 max-width: 600px;
@@ -54,7 +73,7 @@
                 padding: 0.75rem;
                 border: 1px solid #e2e8f0;
                 border-radius: 6px;
-                font-size: 1rem;
+                font-size: 16px;
                 width: 100%;
                 transition: border-color 0.2s ease;
                 color: #1b4c57;
@@ -79,7 +98,7 @@
                 padding: 0.75rem;
                 border: 1px solid #e2e8f0;
                 border-radius: 6px;
-                font-size: 1rem;
+                font-size: 16px;
                 width: 100%;
                 transition: border-color 0.2s ease;
                 color: #1b4c57;
