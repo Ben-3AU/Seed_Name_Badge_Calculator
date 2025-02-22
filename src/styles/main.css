@@ -362,4 +362,105 @@ input[type="email"]:focus {
 /* Update button styles to maintain consistent height during loading */
 button {
     min-height: 40px;
+}
+
+/* Base widget styles */
+.terra-tag-widget {
+    font-family: Verdana, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 0;
+    font-size: 16px;
+}
+
+/* iOS-specific overrides to prevent zoom */
+@supports (-webkit-touch-callout: none) {
+    .terra-tag-widget input[type="text"],
+    .terra-tag-widget input[type="email"],
+    .terra-tag-widget input[type="number"],
+    .terra-tag-widget input[type="tel"],
+    .terra-tag-widget input[type="url"],
+    .terra-tag-widget input[type="password"],
+    .terra-tag-widget textarea,
+    .terra-tag-widget select {
+        font-size: 16px !important;
+    }
+}
+
+/* View management */
+.terra-tag-widget .widget-view {
+    display: none;
+}
+
+.terra-tag-widget .widget-view.active {
+    display: block;
+}
+
+/* Form elements */
+.terra-tag-widget .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.terra-tag-widget label {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #1b4c57;
+}
+
+.terra-tag-widget input[type="text"],
+.terra-tag-widget input[type="email"],
+.terra-tag-widget input[type="number"] {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 16px;
+    width: 100%;
+    transition: border-color 0.2s ease;
+    color: #1b4c57;
+    background-color: #ffffff;
+}
+
+/* Button styles */
+.terra-tag-widget .button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.terra-tag-widget .button-primary {
+    background-color: #1b4c57;
+    color: white;
+}
+
+.terra-tag-widget .button-primary:hover {
+    background-color: #163f48;
+}
+
+/* Loading states */
+.terra-tag-widget .spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.terra-tag-widget .loading .spinner {
+    display: inline-block;
 } 

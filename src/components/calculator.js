@@ -1,3 +1,83 @@
+// Calculator Component
+export class Calculator {
+    constructor() {
+        this.state = {
+            withGuests: 0,
+            withoutGuests: 0,
+            size: 'A7',
+            printedSides: 'single',
+            inkCoverage: 'upTo40',
+            lanyards: 'yes',
+            shipping: 'standard'
+        };
+    }
+
+    // Core calculation methods
+    getTotalQuantity() {
+        return (this.state.withGuests || 0) + (this.state.withoutGuests || 0);
+    }
+
+    getTotalPrice() {
+        const totalQuantity = this.getTotalQuantity();
+        let totalPrice = (this.state.withGuests * 6) + (this.state.withoutGuests * 5);
+
+        if (totalQuantity > 300) totalPrice -= 0.50 * totalQuantity;
+
+        if (this.state.size === 'A6') totalPrice += 3 * totalQuantity;
+        if (this.state.printedSides === 'double') totalPrice += (this.state.size === 'A7' ? 0.50 : 1.00) * totalQuantity;
+        if (this.state.inkCoverage === 'over40') totalPrice += (this.state.size === 'A7' ? 0.50 : 1.00) * totalQuantity;
+        if (this.state.lanyards === 'no') totalPrice -= 0.50 * totalQuantity;
+
+        let shippingCost = 0;
+        if (this.state.size === 'A7') {
+            if (totalQuantity < 200) shippingCost = 20;
+            else if (totalQuantity <= 500) shippingCost = 30;
+            else shippingCost = 50;
+        } else {
+            if (totalQuantity < 200) shippingCost = 30;
+            else if (totalQuantity <= 500) shippingCost = 45;
+            else shippingCost = 75;
+        }
+
+        if (this.state.shipping === 'express') shippingCost *= 2;
+        totalPrice += shippingCost;
+        totalPrice *= 1.10;
+        totalPrice *= 1.017;
+
+        return totalPrice;
+    }
+
+    getGST(totalPrice) {
+        return totalPrice / 11;
+    }
+
+    getCO2Savings() {
+        return this.getTotalQuantity() * 0.11;
+    }
+
+    // State management
+    setState(newState) {
+        this.state = { ...this.state, ...newState };
+        this.notifyStateChange();
+    }
+
+    // Observer pattern for state changes
+    addStateChangeListener(callback) {
+        this.stateChangeCallback = callback;
+    }
+
+    notifyStateChange() {
+        if (this.stateChangeCallback) {
+            this.stateChangeCallback(this.state);
+        }
+    }
+
+    // Validation
+    isValidQuantity() {
+        return this.getTotalQuantity() >= 75;
+    }
+}
+
 // Calculator functionality
 let BASE_URL;  // Declare BASE_URL at the top level
 let elements;
