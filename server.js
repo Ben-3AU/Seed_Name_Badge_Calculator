@@ -34,6 +34,7 @@ try {
 
 // Root route - serve demo page
 app.get('/', (req, res) => {
+    const baseUrl = `https://${req.get('host')}`;
     res.send(`
         <!DOCTYPE html>
         <html lang="en">
@@ -73,17 +74,17 @@ app.get('/', (req, res) => {
             <pre><code>&lt;div id="terra-tag-calculator"&gt;&lt;/div&gt;
 &lt;script&gt;
 window.TERRA_TAG_WIDGET_CONFIG = {
-    baseUrl: '${req.protocol}://${req.get('host')}'
+    baseUrl: '${baseUrl}'
 };
 &lt;/script&gt;
-&lt;script src="${req.protocol}://${req.get('host')}/widget.js"&gt;&lt;/script&gt;</code></pre>
+&lt;script src="${baseUrl}/widget.js"&gt;&lt;/script&gt;</code></pre>
 
             <script>
             window.TERRA_TAG_WIDGET_CONFIG = {
-                baseUrl: '${req.protocol}://${req.get('host')}'
+                baseUrl: '${baseUrl}'
             };
             </script>
-            <script src="${req.protocol}://${req.get('host')}/widget.js"></script>
+            <script src="${baseUrl}/widget.js"></script>
         </body>
         </html>
     `);
