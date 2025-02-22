@@ -1,11 +1,8 @@
 // Terra Tag Calculator Widget
-import { Calculator } from './calculator.js';
-import { loadScript, createElement } from '../utils/helpers.js';
-
-(() => {
+(async function() {
     // Configuration
     const config = {
-        BASE_URL: 'https://seed-name-badge-calculator.vercel.app'
+        BASE_URL: window.TERRA_TAG_WIDGET_CONFIG?.baseUrl || 'https://seed-name-badge-calculator.vercel.app'
     };
 
     // State management
@@ -29,6 +26,43 @@ import { loadScript, createElement } from '../utils/helpers.js';
         } catch (error) {
             console.error('Widget initialization error:', error);
         }
+    }
+
+    // Helper functions
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    function createElement(tag, attributes = {}, children = []) {
+        const element = document.createElement(tag);
+        
+        Object.entries(attributes).forEach(([key, value]) => {
+            if (key === 'className') {
+                element.className = value;
+            } else if (key === 'dataset') {
+                Object.entries(value).forEach(([dataKey, dataValue]) => {
+                    element.dataset[dataKey] = dataValue;
+                });
+            } else {
+                element.setAttribute(key, value);
+            }
+        });
+
+        children.forEach(child => {
+            if (typeof child === 'string') {
+                element.appendChild(document.createTextNode(child));
+            } else {
+                element.appendChild(child);
+            }
+        });
+
+        return element;
     }
 
     // Load external dependencies
