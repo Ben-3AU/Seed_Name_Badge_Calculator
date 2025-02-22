@@ -2,10 +2,8 @@
   "name": "terra-tag-calculator",
   "version": "1.0.0",
   "description": "Terra Tag Name Badge Calculator Widget",
-  "main": "src/components/widget.js",
+  "main": "server.js",
   "scripts": {
-    "build": "mkdir -p dist && rollup -c",
-    "dev": "rollup -c -w",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,11 +15,6 @@
     "express": "^4.18.2",
     "node-fetch": "^3.3.0",
     "stripe": "^12.0.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.9.6"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -6,21 +6,14 @@
       "use": "@vercel/node"
     },
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "buildCommand": "npm run build",
-        "outputDirectory": "dist"
-      }
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "/widget.js",
-      "dest": "/dist/widget.min.js",
+      "dest": "/public/widget.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -33,16 +26,7 @@
       }
     },
     {
-      "src": "/webhook",
-      "methods": ["POST"],
-      "dest": "server.js"
-    },
-    {
       "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/config",
       "dest": "server.js"
     },
     {
