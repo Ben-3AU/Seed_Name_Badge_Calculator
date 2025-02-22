@@ -16,19 +16,6 @@
   ],
   "routes": [
     {
-      "src": "/webhook",
-      "methods": ["POST"],
-      "dest": "server.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/config",
-      "dest": "server.js"
-    },
-    {
       "handle": "filesystem"
     },
     {
@@ -46,10 +33,26 @@
       }
     },
     {
+      "src": "/webhook",
+      "methods": ["POST"],
+      "dest": "server.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/config",
+      "dest": "server.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "server.js"
     }
   ],
+  "env": {
+    "NODE_ENV": "production"
+  },
   "public": true,
   "github": {
     "enabled": true,
