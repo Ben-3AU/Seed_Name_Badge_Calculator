@@ -25,6 +25,9 @@
       "dest": "server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/widget.js",
       "dest": "/public/widget.js",
       "headers": {
@@ -39,9 +42,6 @@
       }
     },
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "/(.*)",
       "dest": "server.js"
     }
@@ -50,10 +50,5 @@
   "github": {
     "enabled": true,
     "silent": true
-  },
-  "protection": {
-    "preview": {
-      "enabled": false
-    }
   }
 } 
