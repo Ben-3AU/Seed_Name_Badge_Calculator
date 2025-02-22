@@ -32,9 +32,61 @@ try {
     console.error('Supabase initialization error:', error);
 }
 
-// Basic health check endpoint
+// Root route - serve demo page
 app.get('/', (req, res) => {
-    res.json({ status: 'ok' });
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Terra Tag Calculator Demo</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .demo-container {
+                    margin: 40px 0;
+                }
+                pre {
+                    background: #f5f5f5;
+                    padding: 15px;
+                    border-radius: 5px;
+                    overflow-x: auto;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Terra Tag Calculator Demo</h1>
+            <p>This page demonstrates the Terra Tag Calculator widget integration.</p>
+            
+            <div class="demo-container">
+                <h2>Live Demo</h2>
+                <div id="terra-tag-calculator"></div>
+            </div>
+
+            <h2>Integration Code</h2>
+            <pre><code>&lt;div id="terra-tag-calculator"&gt;&lt;/div&gt;
+&lt;script&gt;
+window.TERRA_TAG_WIDGET_CONFIG = {
+    baseUrl: '${req.protocol}://${req.get('host')}'
+};
+&lt;/script&gt;
+&lt;script src="${req.protocol}://${req.get('host')}/widget.js"&gt;&lt;/script&gt;</code></pre>
+
+            <script>
+            window.TERRA_TAG_WIDGET_CONFIG = {
+                baseUrl: '${req.protocol}://${req.get('host')}'
+            };
+            </script>
+            <script src="${req.protocol}://${req.get('host')}/widget.js"></script>
+        </body>
+        </html>
+    `);
 });
 
 // Stripe configuration endpoint
