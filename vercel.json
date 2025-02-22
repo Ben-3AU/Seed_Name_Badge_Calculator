@@ -12,6 +12,16 @@
   ],
   "routes": [
     {
+      "src": "/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS, POST",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, x-vercel-protection-bypass",
+        "Access-Control-Max-Age": "86400"
+      },
+      "continue": true
+    },
+    {
       "handle": "filesystem"
     },
     {

@@ -34,7 +34,14 @@ try {
 
 // Root route - serve demo page
 app.get('/', (req, res) => {
-    const baseUrl = `https://${req.get('host')}`;
+    // Force HTTPS
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.get('host');
+    const baseUrl = `https://${host}`;
+    
+    // Get bypass token from environment
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
+    
     res.send(`
         <!DOCTYPE html>
         <html lang="en">
@@ -75,7 +82,7 @@ app.get('/', (req, res) => {
 &lt;script&gt;
 window.TERRA_TAG_WIDGET_CONFIG = {
     baseUrl: '${baseUrl}',
-    bypassToken: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+    bypassToken: '${bypassToken}'
 };
 &lt;/script&gt;
 &lt;script src="${baseUrl}/widget.js"&gt;&lt;/script&gt;</code></pre>
@@ -83,7 +90,7 @@ window.TERRA_TAG_WIDGET_CONFIG = {
             <script>
             window.TERRA_TAG_WIDGET_CONFIG = {
                 baseUrl: '${baseUrl}',
-                bypassToken: '${process.env.VERCEL_AUTOMATION_BYPASS_SECRET}'
+                bypassToken: '${bypassToken}'
             };
             </script>
             <script src="${baseUrl}/widget.js"></script>
