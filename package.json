@@ -4,7 +4,7 @@
   "description": "Terra Tag Name Badge Calculator Widget",
   "main": "src/components/widget.js",
   "scripts": {
-    "build": "rollup -c",
+    "build": "mkdir -p dist && rollup -c",
     "dev": "rollup -c -w",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +22,8 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "rollup": "^4.9.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
