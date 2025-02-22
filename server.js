@@ -18,7 +18,7 @@ app.use(cors({
     ].filter(Boolean),
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-vercel-protection-bypass']
 }));
 
 // Initialize Supabase client
@@ -74,14 +74,16 @@ app.get('/', (req, res) => {
             <pre><code>&lt;div id="terra-tag-calculator"&gt;&lt;/div&gt;
 &lt;script&gt;
 window.TERRA_TAG_WIDGET_CONFIG = {
-    baseUrl: '${baseUrl}'
+    baseUrl: '${baseUrl}',
+    bypassToken: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
 };
 &lt;/script&gt;
 &lt;script src="${baseUrl}/widget.js"&gt;&lt;/script&gt;</code></pre>
 
             <script>
             window.TERRA_TAG_WIDGET_CONFIG = {
-                baseUrl: '${baseUrl}'
+                baseUrl: '${baseUrl}',
+                bypassToken: '${process.env.VERCEL_AUTOMATION_BYPASS_SECRET}'
             };
             </script>
             <script src="${baseUrl}/widget.js"></script>
