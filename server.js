@@ -101,6 +101,16 @@ app.get('/test-stripe', async (req, res) => {
     }
 });
 
+// Stripe configuration endpoint
+app.get('/api/config', (req, res) => {
+    // Only return public keys and configuration
+    res.json({
+        stripePublicKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        supabaseUrl: process.env.SUPABASE_URL,
+        supabaseKey: process.env.SUPABASE_KEY
+    });
+});
+
 // Handle quote email submission
 app.post('/api/submit-quote', async (req, res) => {
     try {
