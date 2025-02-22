@@ -39,9 +39,6 @@ app.get('/', (req, res) => {
     const host = req.get('host');
     const baseUrl = `https://${host}`;
     
-    // Get bypass token from environment
-    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || '';
-    
     res.send(`
         <!DOCTYPE html>
         <html lang="en">
@@ -81,16 +78,14 @@ app.get('/', (req, res) => {
             <pre><code>&lt;div id="terra-tag-calculator"&gt;&lt;/div&gt;
 &lt;script&gt;
 window.TERRA_TAG_WIDGET_CONFIG = {
-    baseUrl: '${baseUrl}',
-    bypassToken: '${bypassToken}'
+    baseUrl: '${baseUrl}'
 };
 &lt;/script&gt;
 &lt;script src="${baseUrl}/widget.js"&gt;&lt;/script&gt;</code></pre>
 
             <script>
             window.TERRA_TAG_WIDGET_CONFIG = {
-                baseUrl: '${baseUrl}',
-                bypassToken: '${bypassToken}'
+                baseUrl: '${baseUrl}'
             };
             </script>
             <script src="${baseUrl}/widget.js"></script>
