@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "src/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "*.html",
       "use": "@vercel/static"
     },
@@ -15,10 +19,6 @@
     },
     {
       "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "src/**/*.js",
       "use": "@vercel/static"
     },
     {
@@ -49,19 +49,8 @@
       "dest": "/success.html"
     },
     {
-      "src": "/script.js",
-      "dest": "/script.js",
-      "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Content-Type": "application/javascript"
-      }
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
       "src": "/widget.js",
-      "dest": "/src/components/widget.js",
+      "dest": "src/components/widget.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -71,18 +60,6 @@
         "Expires": "0",
         "Content-Type": "application/javascript; charset=utf-8",
         "X-Content-Type-Options": "nosniff"
-      }
-    },
-    {
-      "src": "/widget-calculator.js",
-      "dest": "/widget-calculator.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
-        "Pragma": "no-cache",
-        "Expires": "0",
-        "Content-Type": "application/javascript"
       }
     },
     {
@@ -97,5 +74,12 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "public": true
 } 
