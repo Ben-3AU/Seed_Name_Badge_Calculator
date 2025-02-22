@@ -1,9 +1,12 @@
 // Terra Tag Calculator Widget
-(async function() {
+(function() {
+    console.log('Widget script loaded and executing');
+
     // Configuration
     const config = {
         BASE_URL: window.TERRA_TAG_WIDGET_CONFIG?.baseUrl || 'https://seed-name-badge-calculator.vercel.app'
     };
+    console.log('Widget configuration:', config);
 
     // Create a simple test element
     const container = document.getElementById('terra-tag-calculator');
@@ -11,15 +14,17 @@
         console.error('Terra Tag Calculator container not found');
         return;
     }
+    console.log('Widget container found');
 
     // Add a test message
     container.innerHTML = `
         <div style="padding: 20px; background: #f0f0f0; border-radius: 8px;">
             <h2>Terra Tag Calculator Widget</h2>
             <p>Loading from: ${config.BASE_URL}</p>
+            <p>Script loaded successfully!</p>
         </div>
     `;
 
     // Log success
-    console.log('Terra Tag Calculator Widget initialized');
+    console.log('Terra Tag Calculator Widget initialized successfully');
 })(); 

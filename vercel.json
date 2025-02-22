@@ -25,14 +25,6 @@
       "dest": "server.js"
     },
     {
-      "src": "/payment",
-      "dest": "/payment.html"
-    },
-    {
-      "src": "/success",
-      "dest": "/success.html"
-    },
-    {
       "src": "/widget.js",
       "dest": "/public/widget.js",
       "headers": {
@@ -47,17 +39,21 @@
       }
     },
     {
-      "src": "/styles.css",
-      "dest": "/styles.css",
-      "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Content-Type": "text/css"
-      }
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "server.js"
     }
   ],
-  "public": true
+  "public": true,
+  "github": {
+    "enabled": true,
+    "silent": true
+  },
+  "protection": {
+    "preview": {
+      "enabled": false
+    }
+  }
 } 
