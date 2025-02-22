@@ -1,95 +1,123 @@
 console.log('Debug: script.js starting to load');
 
-// Core calculation functions
-function calculateTotalQuantity() {
-    const withGuests = parseInt(document.getElementById('quantityWithGuests').value) || 0;
-    const withoutGuests = parseInt(document.getElementById('quantityWithoutGuests').value) || 0;
-    return withGuests + withoutGuests;
-}
+// Business logic - pure calculations
+const calculations = {
+    getTotalQuantity(withGuests, withoutGuests) {
+        return (withGuests || 0) + (withoutGuests || 0);
+    },
 
-function getSelectedValue(name) {
-    const selected = document.querySelector(`.option-button.selected[data-name="${name}"]`);
-    return selected ? selected.getAttribute('data-value') : null;
-}
+    getTotalPrice(values) {
+        const { withGuests, withoutGuests, size, printedSides, inkCoverage, lanyards, shipping } = values;
+        const totalQuantity = this.getTotalQuantity(withGuests, withoutGuests);
+        let totalPrice = (withGuests * 6) + (withoutGuests * 5);
 
-function calculateTotalPrice() {
-    const totalQuantity = calculateTotalQuantity();
-    const withGuests = parseInt(document.getElementById('quantityWithGuests').value) || 0;
-    const withoutGuests = parseInt(document.getElementById('quantityWithoutGuests').value) || 0;
-    let totalPrice = (withGuests * 6) + (withoutGuests * 5);
+        if (totalQuantity > 300) totalPrice -= 0.50 * totalQuantity;
 
-    if (totalQuantity > 300) totalPrice -= 0.50 * totalQuantity;
+        if (size === 'A6') totalPrice += 3 * totalQuantity;
+        if (printedSides === 'double') totalPrice += (size === 'A7' ? 0.50 : 1.00) * totalQuantity;
+        if (inkCoverage === 'over40') totalPrice += (size === 'A7' ? 0.50 : 1.00) * totalQuantity;
+        if (lanyards === 'no') totalPrice -= 0.50 * totalQuantity;
 
-    const size = getSelectedValue('size');
-    const printedSides = getSelectedValue('printedSides');
-    const inkCoverage = getSelectedValue('inkCoverage');
-    const lanyards = getSelectedValue('lanyards');
-    const shipping = getSelectedValue('shipping');
+        let shippingCost = 0;
+        if (size === 'A7') {
+            if (totalQuantity < 200) shippingCost = 20;
+            else if (totalQuantity <= 500) shippingCost = 30;
+            else shippingCost = 50;
+        } else {
+            if (totalQuantity < 200) shippingCost = 30;
+            else if (totalQuantity <= 500) shippingCost = 45;
+            else shippingCost = 75;
+        }
 
-    if (size === 'A6') totalPrice += 3 * totalQuantity;
-    if (printedSides === 'double') totalPrice += (size === 'A7' ? 0.50 : 1.00) * totalQuantity;
-    if (inkCoverage === 'over40') totalPrice += (size === 'A7' ? 0.50 : 1.00) * totalQuantity;
-    if (lanyards === 'no') totalPrice -= 0.50 * totalQuantity;
+        if (shipping === 'express') shippingCost *= 2;
+        totalPrice += shippingCost;
+        totalPrice *= 1.10;
+        totalPrice *= 1.017;
 
-    let shippingCost = 0;
-    if (size === 'A7') {
-        if (totalQuantity < 200) shippingCost = 20;
-        else if (totalQuantity <= 500) shippingCost = 30;
-        else shippingCost = 50;
-    } else {
-        if (totalQuantity < 200) shippingCost = 30;
-        else if (totalQuantity <= 500) shippingCost = 45;
-        else shippingCost = 75;
+        return totalPrice;
+    },
+
+    getGST(totalPrice) {
+        return totalPrice / 11;
+    },
+
+    getCO2Savings(totalQuantity) {
+        return totalQuantity * 0.11;
     }
+};
 
-    if (shipping === 'express') shippingCost *= 2;
-    totalPrice += shippingCost;
-    totalPrice *= 1.10;
-    totalPrice *= 1.017;
+// UI handling
+const ui = {
+    getSelectedValue(name) {
+        const selected = document.querySelector(`.option-button.selected[data-name="${name}"]`);
+        return selected ? selected.getAttribute('data-value') : null;
+    },
 
-    return totalPrice;
-}
+    getFormValues() {
+        return {
+            withGuests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
+            withoutGuests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
+            size: this.getSelectedValue('size'),
+            printedSides: this.getSelectedValue('printedSides'),
+            inkCoverage: this.getSelectedValue('inkCoverage'),
+            lanyards: this.getSelectedValue('lanyards'),
+            shipping: this.getSelectedValue('shipping')
+        };
+    },
 
-function calculateGST(totalPrice) {
-    return totalPrice / 11;
-}
+    updateDisplay() {
+        const values = this.getFormValues();
+        const totalQuantity = calculations.getTotalQuantity(values.withGuests, values.withoutGuests);
+        const warningDiv = document.getElementById('minimumQuantityWarning');
+        const totalPriceDiv = document.getElementById('totalPrice');
+        const actionButtons = document.getElementById('actionButtons');
+        const emailQuoteForm = document.getElementById('emailQuoteForm');
+        const orderForm = document.getElementById('orderForm');
 
-function calculateCO2Savings() {
-    return calculateTotalQuantity() * 0.11;
-}
+        if (totalQuantity < 75) {
+            warningDiv.style.display = 'none';
+            totalPriceDiv.style.display = 'none';
+            actionButtons.style.display = 'none';
+            emailQuoteForm.style.display = 'none';
+            orderForm.style.display = 'none';
+        } else {
+            warningDiv.style.display = 'none';
+            totalPriceDiv.style.display = 'block';
+            const totalPrice = calculations.getTotalPrice(values);
+            const gst = calculations.getGST(totalPrice);
+            const co2Savings = calculations.getCO2Savings(totalQuantity);
 
-// Display function
-function updateDisplay() {
-    const totalQuantity = calculateTotalQuantity();
-    const warningDiv = document.getElementById('minimumQuantityWarning');
-    const totalPriceDiv = document.getElementById('totalPrice');
-    const actionButtons = document.getElementById('actionButtons');
-    const emailQuoteForm = document.getElementById('emailQuoteForm');
-    const orderForm = document.getElementById('orderForm');
+            totalPriceDiv.innerHTML = `
+                <div style="background-color: #f7fafc; border-radius: 6px; color: #1b4c57; text-align: center;">
+                    <div style="font-size: 2em; font-weight: 600;">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div style="font-size: 0.9em; margin-top: 0.5rem;">GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div style="font-size: 0.9em;">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
+                </div>
+            `;
+            actionButtons.style.display = 'block';
+        }
+    },
 
-    if (totalQuantity < 75) {
-        warningDiv.style.display = 'none';
-        totalPriceDiv.style.display = 'none';
-        actionButtons.style.display = 'none';
-        emailQuoteForm.style.display = 'none';
-        orderForm.style.display = 'none';
-    } else {
-        warningDiv.style.display = 'none';
-        totalPriceDiv.style.display = 'block';
-        const totalPrice = calculateTotalPrice();
-        const gst = calculateGST(totalPrice);
-        const co2Savings = calculateCO2Savings();
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    },
 
-        totalPriceDiv.innerHTML = `
-            <div style="background-color: #f7fafc; border-radius: 6px; color: #1b4c57; text-align: center;">
-                <div style="font-size: 2em; font-weight: 600;">Total Cost: $${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                <div style="font-size: 0.9em; margin-top: 0.5rem;">GST Included: $${gst.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                <div style="font-size: 0.9em;">CO2 emissions saved: ${co2Savings.toFixed(2)} kg</div>
-            </div>
-        `;
-        actionButtons.style.display = 'block';
+    validateEmailQuoteForm() {
+        const firstName = document.getElementById('quoteFirstName').value.trim();
+        const email = document.getElementById('quoteEmail').value.trim();
+        document.getElementById('submitQuoteBtn').disabled = !(firstName && this.isValidEmail(email));
+    },
+
+    validateOrderForm() {
+        const firstName = document.getElementById('orderFirstName').value.trim();
+        const lastName = document.getElementById('orderLastName').value.trim();
+        const company = document.getElementById('orderCompany').value.trim();
+        const email = document.getElementById('orderEmail').value.trim();
+        const paperType = this.getSelectedValue('paperType');
+        document.getElementById('payNowBtn').disabled = !(firstName && lastName && company && this.isValidEmail(email) && paperType);
     }
-}
+};
 
 // Initialize everything when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -98,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', e => e.preventDefault());
 
     // Add quantity input listeners
-    document.getElementById('quantityWithGuests').addEventListener('input', updateDisplay);
-    document.getElementById('quantityWithoutGuests').addEventListener('input', updateDisplay);
+    document.getElementById('quantityWithGuests').addEventListener('input', () => ui.updateDisplay());
+    document.getElementById('quantityWithoutGuests').addEventListener('input', () => ui.updateDisplay());
 
     // Add button click listeners for all option buttons
     document.querySelectorAll('.option-button').forEach(button => {
@@ -110,10 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.remove('selected');
             });
             e.target.classList.add('selected');
-            updateDisplay();
+            ui.updateDisplay();
             // If this is a paper type button, validate the order form
             if (e.target.getAttribute('data-name') === 'paperType') {
-                validateOrderForm();
+                ui.validateOrderForm();
             }
         });
     });
@@ -123,8 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderNowBtn = document.getElementById('orderNowBtn');
     const emailQuoteForm = document.getElementById('emailQuoteForm');
     const orderForm = document.getElementById('orderForm');
-    const submitQuoteBtn = document.getElementById('submitQuoteBtn');
-    const payNowBtn = document.getElementById('payNowBtn');
 
     emailQuoteBtn.addEventListener('click', () => {
         emailQuoteForm.style.display = 'block';
@@ -142,43 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add form validation listeners
     emailQuoteForm.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', validateEmailQuoteForm);
+        input.addEventListener('input', () => ui.validateEmailQuoteForm());
     });
 
     orderForm.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', validateOrderForm);
+        input.addEventListener('input', () => ui.validateOrderForm());
     });
 
     // Add submit handlers
-    submitQuoteBtn.addEventListener('click', handleQuoteSubmission);
-    payNowBtn.addEventListener('click', handleOrderSubmission);
+    document.getElementById('submitQuoteBtn').addEventListener('click', handleQuoteSubmission);
+    document.getElementById('payNowBtn').addEventListener('click', handleOrderSubmission);
 
     // Initial display update
-    updateDisplay();
+    ui.updateDisplay();
 });
-
-// Function to validate email format
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// Function to validate email quote form
-function validateEmailQuoteForm() {
-    const firstName = document.getElementById('quoteFirstName').value.trim();
-    const email = document.getElementById('quoteEmail').value.trim();
-    submitQuoteBtn.disabled = !(firstName && isValidEmail(email));
-}
-
-// Function to validate order form
-function validateOrderForm() {
-    const firstName = document.getElementById('orderFirstName').value.trim();
-    const lastName = document.getElementById('orderLastName').value.trim();
-    const company = document.getElementById('orderCompany').value.trim();
-    const email = document.getElementById('orderEmail').value.trim();
-    const paperType = getSelectedValue('paperType');
-    payNowBtn.disabled = !(firstName && lastName && company && isValidEmail(email) && paperType);
-}
 
 // Function to save quote to Supabase
 async function saveQuote(quoteData) {
@@ -249,23 +252,23 @@ async function handleQuoteSubmission(event) {
     submitButton.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Sending...</span></div>';
     submitButton.classList.add('loading');
     
-    const totalCost = calculateTotalPrice();
-    const gstAmount = calculateGST(totalCost);
+    const totalCost = calculations.getTotalPrice(ui.getFormValues());
+    const gstAmount = calculations.getGST(totalCost);
     
     const quoteData = {
         quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
         quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
-        size: getSelectedValue('size'),
-        printed_sides: getSelectedValue('printedSides'),
-        ink_coverage: getSelectedValue('inkCoverage'),
-        lanyards: getSelectedValue('lanyards') === 'yes',
-        shipping: getSelectedValue('shipping'),
+        size: ui.getSelectedValue('size'),
+        printed_sides: ui.getSelectedValue('printedSides'),
+        ink_coverage: ui.getSelectedValue('inkCoverage'),
+        lanyards: ui.getSelectedValue('lanyards') === 'yes',
+        shipping: ui.getSelectedValue('shipping'),
         first_name: document.getElementById('quoteFirstName').value.trim(),
         email: document.getElementById('quoteEmail').value.trim(),
-        total_quantity: calculateTotalQuantity(),
+        total_quantity: calculations.getTotalQuantity(parseInt(document.getElementById('quantityWithGuests').value) || 0, parseInt(document.getElementById('quantityWithoutGuests').value) || 0),
         total_cost: Number(totalCost.toFixed(2)),
         gst_amount: Number(gstAmount.toFixed(2)),
-        co2_savings: calculateCO2Savings(),
+        co2_savings: calculations.getCO2Savings(calculations.getTotalQuantity(parseInt(document.getElementById('quantityWithGuests').value) || 0, parseInt(document.getElementById('quantityWithoutGuests').value) || 0)),
         email_sent: false
     };
 
@@ -360,26 +363,26 @@ async function handleOrderSubmission(event) {
     payNowBtn.innerHTML = '<div class="button-content"><div class="spinner"></div><span>Processing...</span></div>';
     payNowBtn.classList.add('loading');
     
-    const totalCost = calculateTotalPrice();
-    const gstAmount = calculateGST(totalCost);
+    const totalCost = calculations.getTotalPrice(ui.getFormValues());
+    const gstAmount = calculations.getGST(totalCost);
     
     const orderData = {
         quantity_with_guests: parseInt(document.getElementById('quantityWithGuests').value) || 0,
         quantity_without_guests: parseInt(document.getElementById('quantityWithoutGuests').value) || 0,
-        size: getSelectedValue('size'),
-        printed_sides: getSelectedValue('printedSides'),
-        ink_coverage: getSelectedValue('inkCoverage'),
-        lanyards: getSelectedValue('lanyards') === 'yes',
-        shipping: getSelectedValue('shipping'),
-        paper_type: getSelectedValue('paperType'),
+        size: ui.getSelectedValue('size'),
+        printed_sides: ui.getSelectedValue('printedSides'),
+        ink_coverage: ui.getSelectedValue('inkCoverage'),
+        lanyards: ui.getSelectedValue('lanyards') === 'yes',
+        shipping: ui.getSelectedValue('shipping'),
+        paper_type: ui.getSelectedValue('paperType'),
         first_name: document.getElementById('orderFirstName').value.trim(),
         last_name: document.getElementById('orderLastName').value.trim(),
         company: document.getElementById('orderCompany').value.trim(),
         email: document.getElementById('orderEmail').value.trim(),
-        total_quantity: calculateTotalQuantity(),
+        total_quantity: calculations.getTotalQuantity(parseInt(document.getElementById('quantityWithGuests').value) || 0, parseInt(document.getElementById('quantityWithoutGuests').value) || 0),
         total_cost: Number(totalCost.toFixed(2)),
         gst_amount: Number(gstAmount.toFixed(2)),
-        co2_savings: calculateCO2Savings(),
+        co2_savings: calculations.getCO2Savings(calculations.getTotalQuantity(parseInt(document.getElementById('quantityWithGuests').value) || 0, parseInt(document.getElementById('quantityWithoutGuests').value) || 0)),
         payment_status: 'pending',
         email_sent: false
     };
