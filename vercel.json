@@ -58,7 +58,6 @@
     },
     {
       "src": "/widget.js",
-      "dest": "/src/components/widget.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
@@ -67,7 +66,9 @@
         "Expires": "0",
         "Content-Type": "application/javascript; charset=utf-8",
         "X-Content-Type-Options": "nosniff"
-      }
+      },
+      "dest": "/src/components/widget.js",
+      "continue": true
     },
     {
       "src": "/widget-calculator.js",
