@@ -57,18 +57,21 @@
       }
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/widget.js",
+      "dest": "/src/components/widget.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
         "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
         "Pragma": "no-cache",
         "Expires": "0",
         "Content-Type": "application/javascript; charset=utf-8",
         "X-Content-Type-Options": "nosniff"
-      },
-      "dest": "/src/components/widget.js",
-      "continue": true
+      }
     },
     {
       "src": "/widget-calculator.js",
