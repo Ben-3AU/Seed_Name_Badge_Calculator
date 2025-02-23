@@ -46,9 +46,7 @@ app.use(express.json({
 }));
 app.use(cors({
     origin: [
-        'https://seed-name-badge-calculator-bens-projects-4af3578a.vercel.app',
-        'https://seed-name-badge-calculator-git-master-bens-projects-4af3578a.vercel.app',
-        'https://seed-name-badge-calculator.vercel.app',
+        'https://seed-name-badge.vercel.app',
         'https://www.terratag.com.au',
         'https://terratag.com.au',
         process.env.CLIENT_URL
