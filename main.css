@@ -192,10 +192,8 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 input[type="number"] {
-    /* Remove default spinner */
     appearance: textfield;
     -webkit-appearance: textfield;
-    /* Ensure consistent styling */
     padding: 0.75rem;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
@@ -346,7 +344,6 @@ input[type="email"]::-ms-input-placeholder {
     }
 }
 
-<<<<<<<< HEAD:main.css
 /* Responsive design */
 @media (max-width: 640px) {
     .container {
@@ -362,7 +359,7 @@ input[type="email"]::-ms-input-placeholder {
         width: 100%;
     }
 }
-========
+
 /* Update button styles to maintain consistent height during loading */
 button {
     min-height: 40px;
@@ -376,20 +373,6 @@ button {
     background-color: #ffffff;
     padding: 0;
     font-size: 16px;
-}
-
-/* iOS-specific overrides to prevent zoom */
-@supports (-webkit-touch-callout: none) {
-    .terra-tag-widget input[type="text"],
-    .terra-tag-widget input[type="email"],
-    .terra-tag-widget input[type="number"],
-    .terra-tag-widget input[type="tel"],
-    .terra-tag-widget input[type="url"],
-    .terra-tag-widget input[type="password"],
-    .terra-tag-widget textarea,
-    .terra-tag-widget select {
-        font-size: 16px !important;
-    }
 }
 
 /* View management */
@@ -459,13 +442,6 @@ button {
     animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .terra-tag-widget .loading .spinner {
     display: inline-block;
-} 
->>>>>>>> ae5dc5d2dd3e7db05e8687a5a17ef2734c98c94d:src/styles/main.css
+}
